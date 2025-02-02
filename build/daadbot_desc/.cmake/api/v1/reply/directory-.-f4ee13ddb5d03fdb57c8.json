@@ -230,7 +230,9 @@
 			"paths" : 
 			[
 				"meshes",
-				"urdf"
+				"urdf",
+				"launch",
+				"rviz"
 			],
 			"type" : "directory"
 		},

@@ -46,6 +46,8 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/daadbot_desc" TYPE DIRECTORY FILES
     "/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc/meshes"
     "/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc/urdf"
+    "/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc/launch"
+    "/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc/rviz"
     )
 endif()
 

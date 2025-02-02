@@ -17,6 +17,8 @@
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbot.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/four_dof.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/previous_full.urdf.xacro
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/launch/display.launch.py
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/rviz/display.rviz
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/ament_index/resource_index/package_run_dependencies/daadbot_desc
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/ament_index/resource_index/parent_prefix_path/daadbot_desc
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/environment/ament_prefix_path.sh
