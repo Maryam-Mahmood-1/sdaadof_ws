@@ -1,0 +1,30 @@
+running egg_info
+creating ../../build/some_examples_py/some_examples_py.egg-info
+writing ../../build/some_examples_py/some_examples_py.egg-info/PKG-INFO
+writing dependency_links to ../../build/some_examples_py/some_examples_py.egg-info/dependency_links.txt
+writing requirements to ../../build/some_examples_py/some_examples_py.egg-info/requires.txt
+writing top-level names to ../../build/some_examples_py/some_examples_py.egg-info/top_level.txt
+writing manifest file '../../build/some_examples_py/some_examples_py.egg-info/SOURCES.txt'
+reading manifest file '../../build/some_examples_py/some_examples_py.egg-info/SOURCES.txt'
+writing manifest file '../../build/some_examples_py/some_examples_py.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build
+creating /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build/lib
+creating /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build/lib/some_examples_py
+copying some_examples_py/__init__.py -> /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build/lib/some_examples_py
+running install
+running install_lib
+creating /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages/some_examples_py
+copying /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build/lib/some_examples_py/__init__.py -> /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages/some_examples_py
+byte-compiling /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages/some_examples_py/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/ament_index
+creating /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/ament_index/resource_index
+creating /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/ament_index/resource_index/packages
+copying resource/some_examples_py -> /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/ament_index/resource_index/packages
+copying package.xml -> /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py
+running install_egg_info
+Copying ../../build/some_examples_py/some_examples_py.egg-info to /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages/some_examples_py-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/maryam-mahmood/sdaadof_ws/build/some_examples_py/install.log'

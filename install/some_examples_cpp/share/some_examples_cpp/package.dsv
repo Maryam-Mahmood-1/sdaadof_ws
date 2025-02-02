@@ -1,0 +1,8 @@
+source;share/some_examples_cpp/hook/cmake_prefix_path.ps1
+source;share/some_examples_cpp/hook/cmake_prefix_path.dsv
+source;share/some_examples_cpp/hook/cmake_prefix_path.sh
+source;share/some_examples_cpp/local_setup.bash
+source;share/some_examples_cpp/local_setup.dsv
+source;share/some_examples_cpp/local_setup.ps1
+source;share/some_examples_cpp/local_setup.sh
+source;share/some_examples_cpp/local_setup.zsh

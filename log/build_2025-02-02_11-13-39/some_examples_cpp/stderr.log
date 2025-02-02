@@ -1,0 +1,10 @@
+[01m[K/home/maryam-mahmood/sdaadof_ws/src/some_examples_cpp/src/simple_publisher.cpp:[m[K In constructor ‘[01m[KSimplePublisher::[01;32m[KSimplePublisher[m[K()[m[K’:
+[01m[K/home/maryam-mahmood/sdaadof_ws/src/some_examples_cpp/src/simple_publisher.cpp:14:50:[m[K [01;31m[Kerror: [m[Kinvalid use of non-static member function ‘[01m[Kvoid SimplePublisher::[01;32m[Ktimer_callback[m[K()[m[K’
+   14 |         timer_ = create_wall_timer(1s, std::bind([01;31m[Ktimer_callback[m[K, this));
+      |                                                  [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/maryam-mahmood/sdaadof_ws/src/some_examples_cpp/src/simple_publisher.cpp:19:10:[m[K [01;36m[Knote: [m[Kdeclared here
+   19 |     void [01;36m[Ktimer_callback[m[K()
+      |          [01;36m[K^~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/simple_publisher.dir/build.make:76: CMakeFiles/simple_publisher.dir/src/simple_publisher.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/simple_publisher.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

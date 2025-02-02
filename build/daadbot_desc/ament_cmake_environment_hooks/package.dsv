@@ -1,0 +1,4 @@
+source;share/daadbot_desc/local_setup.bash
+source;share/daadbot_desc/local_setup.dsv
+source;share/daadbot_desc/local_setup.sh
+source;share/daadbot_desc/local_setup.zsh

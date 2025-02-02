@@ -1,0 +1,15 @@
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/ament_index/resource_index/package_run_dependencies/daadbot_desc
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/ament_index/resource_index/parent_prefix_path/daadbot_desc
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/environment/ament_prefix_path.sh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/environment/ament_prefix_path.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/environment/path.sh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/environment/path.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/local_setup.bash
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/local_setup.sh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/local_setup.zsh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/local_setup.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/ament_index/resource_index/packages/daadbot_desc
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/cmake/daadbot_descConfig.cmake
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/cmake/daadbot_descConfig-version.cmake
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.xml

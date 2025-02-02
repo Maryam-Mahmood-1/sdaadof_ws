@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="final_7dof_urdf_9oct2024">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00049737 0.00026123 0.0072038"
+        rpy="0 0 0" />
+      <mass
+        value="6.9112" />
+      <inertia
+        ixx="0.046617"
+        ixy="0.00010077"
+        ixz="5.1488E-08"
+        iyy="0.046482"
+        iyz="-1.4461E-07"
+        izz="0.092984" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.75686 0.73725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link_1">
+    <inertial>
+      <origin
+        xyz="1.4551E-05 -0.0043711 0.069929"
+        rpy="0 0 0" />
+      <mass
+        value="1.4053" />
+      <inertia
+        ixx="0.0017174"
+        ixy="6.6784E-08"
+        ixz="3.5551E-07"
+        iyy="0.002626"
+        iyz="6.0024E-06"
+        izz="0.0017063" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_1"
+    type="continuous">
+    <origin
+      xyz="0 0 0.05"
+      rpy="0 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="Link_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_2">
+    <inertial>
+      <origin
+        xyz="-6.5548E-05 0.21409 0.034291"
+        rpy="0 0 0" />
+      <mass
+        value="3.4329" />
+      <inertia
+        ixx="0.0091312"
+        ixy="-2.4753E-06"
+        ixz="8.4256E-07"
+        iyy="0.0057112"
+        iyz="5.0607E-06"
+        izz="0.0099035" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_2"
+    type="revolute">
+    <origin
+      xyz="0 -0.02999999999948 0.107500000000395"
+      rpy="1.5707963267949 0 -3.14159265358979" />
+    <parent
+      link="Link_1" />
+    <child
+      link="Link_2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.9199"
+      upper="1.9199"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_3">
+    <inertial>
+      <origin
+        xyz="-2.1655E-05 0.0044003 0.0672"
+        rpy="0 0 0" />
+      <mass
+        value="1.3788" />
+      <inertia
+        ixx="0.0016215"
+        ixy="-9.275E-08"
+        ixz="2.8899E-07"
+        iyy="0.0025027"
+        iyz="-5.4475E-06"
+        izz="0.0016785" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_3"
+    type="continuous">
+    <origin
+      xyz="0.000359289684152012 0.435033961918617 0.0294474762975983"
+      rpy="1.57079632680726 0 3.14159265358979" />
+    <parent
+      link="Link_2" />
+    <child
+      link="Link_3" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_4">
+    <inertial>
+      <origin
+        xyz="0.22054 0.00021752 -0.034312"
+        rpy="0 0 0" />
+      <mass
+        value="3.5515" />
+      <inertia
+        ixx="0.0043885"
+        ixy="2.6288E-06"
+        ixz="-3.6827E-06"
+        iyy="0.0083524"
+        iyz="-3.8569E-06"
+        izz="0.0091315" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_4"
+    type="revolute">
+    <origin
+      xyz="0 0.0299999999999995 0.102500000000001"
+      rpy="1.5707963267949 0 3.14159265358979" />
+    <parent
+      link="Link_3" />
+    <child
+      link="Link_4" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.2618"
+      upper="3.4907"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_5">
+    <inertial>
+      <origin
+        xyz="0.0058409 -0.0002627 0.054755"
+        rpy="0 0 0" />
+      <mass
+        value="1.4559" />
+      <inertia
+        ixx="0.0013388"
+        ixy="-2.389E-05"
+        ixz="-1.7038E-06"
+        iyy="0.00084376"
+        iyz="-2.3795E-07"
+        izz="0.0009966" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_5"
+    type="continuous">
+    <origin
+      xyz="0.419299903678905 0 -0.0294999999999992"
+      rpy="0 1.5707963267949 0" />
+    <parent
+      link="Link_4" />
+    <child
+      link="Link_5" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="link_6">
+    <inertial>
+      <origin
+        xyz="0.00011175 -0.056394 -0.023876"
+        rpy="0 0 0" />
+      <mass
+        value="1.4077" />
+      <inertia
+        ixx="0.00078211"
+        ixy="-9.9306E-07"
+        ixz="3.1036E-06"
+        iyy="0.0010474"
+        iyz="1.657E-06"
+        izz="0.00099212" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/link_6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/link_6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_6"
+    type="revolute">
+    <origin
+      xyz="0.0239691789943203 -0.00121612576549357 0.0675000000000011"
+      rpy="0.0506935943659278 1.5707963267949 0" />
+    <parent
+      link="Link_5" />
+    <child
+      link="link_6" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_7">
+    <inertial>
+      <origin
+        xyz="8.2711E-06 3.9121E-07 0.0087604"
+        rpy="0 0 0" />
+      <mass
+        value="0.18439" />
+      <inertia
+        ixx="8.0523E-05"
+        ixy="-8.9234E-11"
+        ixz="-4.712E-11"
+        iyy="8.0525E-05"
+        iyz="-2.2287E-12"
+        izz="0.00015908" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_7.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/Link_7.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_7"
+    type="continuous">
+    <origin
+      xyz="0 -0.0909999036788988 -0.0244999999999991"
+      rpy="-1.5707963267949 0 3.14159265358979" />
+    <parent
+      link="link_6" />
+    <child
+      link="Link_7" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="endeffector">
+    <inertial>
+      <origin
+        xyz="-0.0198 -0.019334 0.047383"
+        rpy="0 0 0" />
+      <mass
+        value="0.10291" />
+      <inertia
+        ixx="1.41E-05"
+        ixy="-4.3343E-07"
+        ixz="-9.812E-08"
+        iyy="2.056E-05"
+        iyz="-4.6453E-09"
+        izz="2.527E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/endeffector.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/endeffector.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="endeffector"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="endeffector" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="gear1">
+    <inertial>
+      <origin
+        xyz="0.00049542 -0.0057094 0.0018167"
+        rpy="0 0 0" />
+      <mass
+        value="0.0053" />
+      <inertia
+        ixx="7.5591E-07"
+        ixy="-2.1833E-08"
+        ixz="-6.9871E-09"
+        iyy="1.8107E-07"
+        iyz="3.6804E-08"
+        izz="9.2464E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gear1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0136030394768413 0.00185938617586617 0.0481789689084899"
+      rpy="-1.52010273242897 0 0" />
+    <parent
+      link="endeffector" />
+    <child
+      link="gear1" />
+    <axis
+      xyz="-0.0472460759822869 0.0506152984712181 0.997600070100712" />
+    <limit
+      lower="-0.9"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="gear1_claw">
+    <inertial>
+      <origin
+        xyz="0.0054214 -0.023631 -0.0030551"
+        rpy="0 0 0" />
+      <mass
+        value="0.0039374" />
+      <inertia
+        ixx="1.2119E-06"
+        ixy="1.6298E-07"
+        ixz="-1.0864E-08"
+        iyy="6.47E-08"
+        iyz="6.8703E-08"
+        izz="1.2627E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear1_claw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear1_claw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="claw_joint1"
+    type="revolute">
+    <origin
+      xyz="-0.000267699277291311 -0.0308336350288896 0.00405774420117622"
+      rpy="0 0 0" />
+    <parent
+      link="gear1" />
+    <child
+      link="gear1_claw" />
+    <axis
+      xyz="-0.0472460759822531 0.0506152984712519 0.997600070100712" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="0"
+      velocity="0" />
+    <mimic
+      joint="base_claw_joint1"
+      multiplier="1"
+      offset="0" />
+  </joint>
+  <link
+    name="gear2_link">
+    <inertial>
+      <origin
+        xyz="0.00014723 -0.0053735 -0.001224"
+        rpy="0 0 0" />
+      <mass
+        value="0.0057636" />
+      <inertia
+        ixx="8.0509E-07"
+        ixy="7.9758E-09"
+        ixz="-1.0182E-08"
+        iyy="2.1764E-07"
+        iyz="4.0658E-08"
+        izz="1.009E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gear2_joint"
+    type="revolute">
+    <origin
+      xyz="0.013248693908315 0.0056322384288611 0.0481789689082828"
+      rpy="-1.52010273242897 0 0" />
+    <parent
+      link="endeffector" />
+    <child
+      link="gear2_link" />
+    <axis
+      xyz="-0.0472460759822667 0.0506152984712492 0.997600070100711" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="0"
+      velocity="0" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="gear2_claw">
+    <inertial>
+      <origin
+        xyz="-0.0049965 -0.023656 -0.0035472"
+        rpy="0 0 0" />
+      <mass
+        value="0.0039374" />
+      <inertia
+        ixx="1.2119E-06"
+        ixy="-1.6326E-07"
+        ixz="5.6881E-09"
+        iyy="6.3141E-08"
+        iyz="5.3332E-08"
+        izz="1.2642E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear2_claw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/gear2_claw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="claw_joint2"
+    type="revolute">
+    <origin
+      xyz="0.000446202525255179 -0.0309558921236726 0.00159174310957538"
+      rpy="0 0 0" />
+    <parent
+      link="gear2_link" />
+    <child
+      link="gear2_claw" />
+    <axis
+      xyz="-0.0472460759823001 0.050615298471215 0.997600070100712" />
+    <limit
+      lower="-0.9"
+      upper="0"
+      effort="0"
+      velocity="0" />
+    <mimic
+      joint="base_claw_joint2"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="base_claw_link2">
+    <inertial>
+      <origin
+        xyz="0.00030048 -0.015554 -0.00070023"
+        rpy="0 0 0" />
+      <mass
+        value="0.0011042" />
+      <inertia
+        ixx="1.5464E-07"
+        ixy="2.238E-09"
+        ixz="-1.8519E-10"
+        iyy="3.5683E-09"
+        iyz="7.8475E-09"
+        izz="1.5574E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/base_claw_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/base_claw_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_claw_joint2"
+    type="revolute">
+    <origin
+      xyz="0.00500790684313079 0.00524245830200445 0.0685789689082188"
+      rpy="-1.52010273242897 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="base_claw_link2" />
+    <axis
+      xyz="-0.0472460759822792 0.0506152984712578 0.99760007010071" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="0"
+      velocity="0" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="base_claw_link1">
+    <inertial>
+      <origin
+        xyz="-1.058E-05 -0.015556 -0.00071484"
+        rpy="0 0 0" />
+      <mass
+        value="0.0011042" />
+      <inertia
+        ixx="1.5467E-07"
+        ixy="-7.9881E-10"
+        ixz="-2.9739E-11"
+        iyy="3.5247E-09"
+        iyz="7.7059E-09"
+        izz="1.5576E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/base_claw_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://final_7dof_urdf_9oct2024/meshes/base_claw_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_claw_joint1"
+    type="revolute">
+    <origin
+      xyz="-0.00548036760308535 0.0047463745042049 0.0685789689085226"
+      rpy="-1.52010273242897 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="base_claw_link1" />
+    <axis
+      xyz="0.0472460759822863 -0.0506152984712078 -0.997600070100712" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="0"
+      velocity="0" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+</robot>

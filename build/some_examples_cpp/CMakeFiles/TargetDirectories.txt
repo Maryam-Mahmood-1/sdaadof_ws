@@ -1,0 +1,10 @@
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/uninstall.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/some_examples_cpp_uninstall.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/simple_publisher.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/test.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/edit_cache.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/rebuild_cache.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/list_install_components.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/install.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/install/local.dir
+/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp/CMakeFiles/install/strip.dir
