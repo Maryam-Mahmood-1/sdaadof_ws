@@ -43,6 +43,13 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/daadbot_desc" TYPE DIRECTORY FILES
+    "/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc/meshes"
+    "/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc/urdf"
+    )
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/maryam-mahmood/sdaadof_ws/build/daadbot_desc/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/daadbot_desc")
 endif()
 
