@@ -14,9 +14,11 @@
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/meshes/gear2_claw.STL
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/meshes/endeffector.STL
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/final_7dof_urdf_9oct2024.urdf
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbotrviz.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbot.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/four_dof.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/previous_full.urdf.xacro
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/launch/gazebo.launch.py
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/launch/display.launch.py
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/rviz/display.rviz
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/ament_index/resource_index/package_run_dependencies/daadbot_desc
