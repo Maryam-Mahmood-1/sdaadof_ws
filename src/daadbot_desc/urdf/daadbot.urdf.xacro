@@ -4,8 +4,8 @@
 
   <xacro:arg name = "is_ignition" default="true"/>
 
-  <xacro:include filename = "$(find daadbot_desc/urdf/daadbot_gazebo.xacro"/>
-  <xacro:include filename = "$(find daadbot_desc/urdf/daadbot_ros2_control.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/daadbot_gazebo.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/daadbot_ros2_control.xacro"/>
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='10.0'/>
@@ -159,7 +159,7 @@
     </collision>
   </link>
   <joint
-    name="Joint_2"
+    name="joint_2"
     type="revolute">
     <origin
       xyz="0 -0.02999999999948 0.107500000000395"
@@ -217,7 +217,7 @@
     </collision>
   </link>
   <joint
-    name="Joint_3"
+    name="joint_3"
     type="continuous">
     <origin
       xyz="0.000359289684152012 0.435033961918617 0.0294474762975983"
@@ -449,7 +449,7 @@
     </collision>
   </link>
   <joint
-    name="Joint_7"
+    name="joint_7"
     type="continuous">
     <origin
       xyz="0 -0.0909999036788988 -0.0244999999999991"

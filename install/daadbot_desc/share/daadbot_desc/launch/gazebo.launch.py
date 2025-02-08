@@ -18,14 +18,24 @@ def generate_launch_description():
         description = 'Absolute path to robot urdf file'
         )
     
-    robot_description = ParameterValue(Command(["xacro ", LaunchConfiguration("model")]))
     gazebo_resource_path = SetEnvironmentVariable(
         name="GZ_SIM_RESOURCE_PATH", 
         value = [str(Path(daadbot_desc_dir).parent.resolve())]
     )
 
+    
     ros_distro = os.environ.get('ROS_DISTRO')
+    is_ignition = "True" if ros_distro == 'humble' else "False"
     physics_engine = "" if ros_distro == 'humble' else "--physics-engine gz-physics-bullet-featherstone-plugin"
+    
+    robot_description = ParameterValue(Command([
+        "xacro ", 
+        LaunchConfiguration("model"),
+        " is_ignition:=", 
+        is_ignition
+        ]),
+        value_type=str)
+    
 
 
     robot_state_publisher_node = Node(

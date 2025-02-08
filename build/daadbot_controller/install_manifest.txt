@@ -1,0 +1,16 @@
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/config/daadbot_controllers.yaml
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/package_run_dependencies/daadbot_controller
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/parent_prefix_path/daadbot_controller
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/ament_prefix_path.sh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/ament_prefix_path.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/path.sh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/path.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.bash
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.sh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.zsh
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.dsv
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/packages/daadbot_controller
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/cmake/daadbot_controllerConfig.cmake
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/cmake/daadbot_controllerConfig-version.cmake
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.xml

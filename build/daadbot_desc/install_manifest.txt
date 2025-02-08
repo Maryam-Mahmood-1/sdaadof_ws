@@ -16,6 +16,9 @@
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/final_7dof_urdf_9oct2024.urdf
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbotrviz.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbot.urdf.xacro
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/without_control.urdf.xacro
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbot_gazebo.xacro
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/daadbot_ros2_control.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/four_dof.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/urdf/previous_full.urdf.xacro
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/launch/gazebo.launch.py
