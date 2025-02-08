@@ -1,0 +1,8 @@
+source;share/daadbot_moveit/hook/cmake_prefix_path.ps1
+source;share/daadbot_moveit/hook/cmake_prefix_path.dsv
+source;share/daadbot_moveit/hook/cmake_prefix_path.sh
+source;share/daadbot_moveit/local_setup.bash
+source;share/daadbot_moveit/local_setup.dsv
+source;share/daadbot_moveit/local_setup.ps1
+source;share/daadbot_moveit/local_setup.sh
+source;share/daadbot_moveit/local_setup.zsh
