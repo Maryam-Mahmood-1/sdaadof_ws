@@ -43,7 +43,10 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/daadbot_controller" TYPE DIRECTORY FILES "/home/maryam-mahmood/sdaadof_ws/src/daadbot_controller/config")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/daadbot_controller" TYPE DIRECTORY FILES
+    "/home/maryam-mahmood/sdaadof_ws/src/daadbot_controller/config"
+    "/home/maryam-mahmood/sdaadof_ws/src/daadbot_controller/launch"
+    )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)

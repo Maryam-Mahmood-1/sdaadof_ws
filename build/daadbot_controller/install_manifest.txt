@@ -1,4 +1,5 @@
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/config/daadbot_controllers.yaml
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/launch/controller.launch.py
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/package_run_dependencies/daadbot_controller
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/parent_prefix_path/daadbot_controller
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/ament_prefix_path.sh

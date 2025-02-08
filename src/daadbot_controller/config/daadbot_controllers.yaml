@@ -7,8 +7,8 @@ controller_manager:
 
 
     gripper_controller:
-      #type: joint_trajectory_controller/JointTrajectoryController
-      type: forward_command_controller/ForwardCommandController
+      type: joint_trajectory_controller/JointTrajectoryController
+      #type: forward_command_controller/ForwardCommandController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -38,13 +38,13 @@ gripper_controller:
     joints:
       - gear1_joint
 
-    interface_name: position
+    #interface_name: position
       
-    # command_interfaces: 
-    #   - position
+    command_interfaces: 
+      - position
 
-    # state_interfaces:
-    #   - position
+    state_interfaces:
+      - position
 
-    # open_loop_control: true
-    # allow_integration_in_goal_trajectories: true
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true

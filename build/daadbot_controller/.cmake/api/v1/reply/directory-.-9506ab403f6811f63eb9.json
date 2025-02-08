@@ -229,7 +229,8 @@
 			"destination" : "share/daadbot_controller",
 			"paths" : 
 			[
-				"config"
+				"config",
+				"launch"
 			],
 			"type" : "directory"
 		},
