@@ -2,6 +2,11 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="daadbot">
 
+  <xacro:arg name = "is_ignition" default="true"/>
+
+  <xacro:include filename = "$(find daadbot_desc/urdf/daadbot_gazebo.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc/urdf/daadbot_ros2_control.xacro"/>
+ 
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='10.0'/>
   <xacro:property name='effort' value='30.0'/>
