@@ -1,2 +1,0 @@
-[console_scripts]
-simple_publisher = some_examples_py.simple_publisher:main
