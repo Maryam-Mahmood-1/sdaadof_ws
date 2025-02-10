@@ -1,8 +1,8 @@
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/daadbot.srdf
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/kinematics.yaml
+/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/pilz_cartesian_limits.yaml
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/joint_limits.yaml
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/moveit_controllers.yaml
-/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/pliz_cartesian_limits.yaml
-/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/kinematic.yaml
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/initial_positions.yaml
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/launch/moveit.launch.py
 /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/ament_index/resource_index/package_run_dependencies/daadbot_moveit

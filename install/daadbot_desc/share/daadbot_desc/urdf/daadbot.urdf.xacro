@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="daadbot">
 
-  <xacro:arg name = "is_ignition" default="true"/>
+  <xacro:arg name = "is_ignition" default="false"/>
 
   <xacro:include filename = "$(find daadbot_desc)/urdf/daadbot_gazebo.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/daadbot_ros2_control.xacro"/>
@@ -351,7 +351,7 @@
       velocity="${velocity}" />
   </joint>
   <link
-    name="link_6">
+    name="Link_6">
     <inertial>
       <origin
         xyz="0.00011175 -0.056394 -0.023876"
@@ -399,12 +399,12 @@
     <parent
       link="Link_5" />
     <child
-      link="link_6" />
+      link="Link_6" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="0"
+      lower="-3.141001"
+      upper="0.00001"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -455,7 +455,7 @@
       xyz="0 -0.0909999036788988 -0.0244999999999991"
       rpy="-1.5707963267949 0 3.14159265358979" />
     <parent
-      link="link_6" />
+      link="Link_6" />
     <child
       link="Link_7" />
     <axis

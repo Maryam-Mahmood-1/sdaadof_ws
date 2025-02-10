@@ -1,0 +1,29 @@
+[0.023s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit -- -j24 -l24
+[0.245s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit -- -j24 -l24
+[0.246s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit
+[0.259s] -- Install configuration: ""
+[0.259s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config
+[0.259s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/daadbot.srdf
+[0.259s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/kinematics.yaml
+[0.259s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/pilz_cartesian_limits.yaml
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/joint_limits.yaml
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/moveit_controllers.yaml
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/config/initial_positions.yaml
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/launch
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/launch/moveit.launch.py
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/ament_index/resource_index/package_run_dependencies/daadbot_moveit
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/ament_index/resource_index/parent_prefix_path/daadbot_moveit
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/environment/ament_prefix_path.sh
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/environment/ament_prefix_path.dsv
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/environment/path.sh
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/environment/path.dsv
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/local_setup.bash
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/local_setup.sh
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/local_setup.zsh
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/local_setup.dsv
+[0.260s] -- Installing: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.dsv
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/ament_index/resource_index/packages/daadbot_moveit
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/cmake/daadbot_moveitConfig.cmake
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/cmake/daadbot_moveitConfig-version.cmake
+[0.260s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.xml
+[0.282s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit

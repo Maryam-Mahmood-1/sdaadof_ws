@@ -1,11 +1,12 @@
 moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
 
 moveit_simple_controller_manager:
-  - arm_controller
-  - gripper_controller
+  controller_names:
+    - arm_controller
+    - gripper_controller
 
 arm_controller:
-  action_ns: follow_joint_trajectory
+  action_ns: /arm_controller/follow_joint_trajectory
   type: FollowJointTrajectory
   default: True
   joints:
@@ -18,7 +19,7 @@ arm_controller:
     - joint_7
 
 gripper_controller:
-  action_ns: follow_joint_trajectory
+  action_ns: /gripper_controller/follow_joint_trajectory
   type: FollowJointTrajectory
   default: True
   joints:

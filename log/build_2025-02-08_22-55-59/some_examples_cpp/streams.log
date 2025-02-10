@@ -1,0 +1,22 @@
+[0.020s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp -- -j24 -l24
+[0.079s] [100%] Built target simple_publisher
+[0.239s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp -- -j24 -l24
+[0.240s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp
+[0.251s] -- Install configuration: ""
+[0.252s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib/some_examples_cpp/simple_publisher
+[0.252s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/ament_index/resource_index/package_run_dependencies/some_examples_cpp
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/ament_index/resource_index/parent_prefix_path/some_examples_cpp
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/environment/ament_prefix_path.sh
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/environment/ament_prefix_path.dsv
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/environment/path.sh
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/environment/path.dsv
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/local_setup.bash
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/local_setup.sh
+[0.253s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/local_setup.zsh
+[0.254s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/local_setup.dsv
+[0.254s] -- Installing: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.dsv
+[0.254s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/ament_index/resource_index/packages/some_examples_cpp
+[0.254s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/cmake/some_examples_cppConfig.cmake
+[0.254s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/cmake/some_examples_cppConfig-version.cmake
+[0.254s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.xml
+[0.268s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp

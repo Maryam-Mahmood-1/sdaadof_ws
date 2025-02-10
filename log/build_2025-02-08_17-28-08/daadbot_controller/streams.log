@@ -1,0 +1,24 @@
+[0.019s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller -- -j24 -l24
+[0.182s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller -- -j24 -l24
+[0.183s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller
+[0.190s] -- Install configuration: ""
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/config
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/config/daadbot_controllers.yaml
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/launch
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/launch/controller.launch.py
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/package_run_dependencies/daadbot_controller
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/parent_prefix_path/daadbot_controller
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/ament_prefix_path.sh
+[0.190s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/ament_prefix_path.dsv
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/path.sh
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/environment/path.dsv
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.bash
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.sh
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.zsh
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/local_setup.dsv
+[0.191s] -- Installing: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.dsv
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/ament_index/resource_index/packages/daadbot_controller
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/cmake/daadbot_controllerConfig.cmake
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/cmake/daadbot_controllerConfig-version.cmake
+[0.191s] -- Up-to-date: /home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.xml
+[0.194s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller

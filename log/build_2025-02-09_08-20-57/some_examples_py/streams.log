@@ -1,0 +1,21 @@
+[2.538s] Invoking command in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/maryam-mahmood/sdaadof_ws/build/some_examples_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/some_examples_py build --build-base /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build install --record /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/install.log --single-version-externally-managed install_data
+[3.435s] running egg_info
+[3.483s] writing ../../build/some_examples_py/some_examples_py.egg-info/PKG-INFO
+[3.484s] writing dependency_links to ../../build/some_examples_py/some_examples_py.egg-info/dependency_links.txt
+[3.484s] writing entry points to ../../build/some_examples_py/some_examples_py.egg-info/entry_points.txt
+[3.484s] writing requirements to ../../build/some_examples_py/some_examples_py.egg-info/requires.txt
+[3.484s] writing top-level names to ../../build/some_examples_py/some_examples_py.egg-info/top_level.txt
+[3.596s] reading manifest file '../../build/some_examples_py/some_examples_py.egg-info/SOURCES.txt'
+[3.598s] writing manifest file '../../build/some_examples_py/some_examples_py.egg-info/SOURCES.txt'
+[3.599s] running build
+[3.599s] running build_py
+[3.599s] running install
+[3.617s] running install_lib
+[3.694s] running install_data
+[3.694s] running install_egg_info
+[3.752s] removing '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages/some_examples_py-0.0.0-py3.12.egg-info' (and everything under it)
+[3.752s] Copying ../../build/some_examples_py/some_examples_py.egg-info to /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages/some_examples_py-0.0.0-py3.12.egg-info
+[3.754s] running install_scripts
+[4.113s] Installing simple_publisher script to /home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/some_examples_py
+[4.113s] writing list of installed files to '/home/maryam-mahmood/sdaadof_ws/build/some_examples_py/install.log'
+[4.189s] Invoked command in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/maryam-mahmood/sdaadof_ws/build/some_examples_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/some_examples_py build --build-base /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build install --record /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/install.log --single-version-externally-managed install_data

@@ -1,0 +1,377 @@
+[0.079s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.079s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=24, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x71f7261dd940>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x71f726105a00>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x71f726105a00>>, mixin_verb=('build',))
+[0.104s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.104s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.104s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.104s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.104s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.104s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.104s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/maryam-mahmood/sdaadof_ws'
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.105s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extensions ['ignore', 'ignore_ament_install']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extension 'ignore'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extension 'ignore_ament_install'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extensions ['colcon_pkg']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extension 'colcon_pkg'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extensions ['colcon_meta']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extension 'colcon_meta'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extensions ['ros']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_controller) by extension 'ros'
+[0.125s] DEBUG:colcon.colcon_core.package_identification:Package 'src/daadbot_controller' with type 'ros.ament_cmake' and name 'daadbot_controller'
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extensions ['ignore', 'ignore_ament_install']
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extension 'ignore'
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extension 'ignore_ament_install'
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extensions ['colcon_pkg']
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extension 'colcon_pkg'
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extensions ['colcon_meta']
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extension 'colcon_meta'
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extensions ['ros']
+[0.125s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_desc) by extension 'ros'
+[0.127s] DEBUG:colcon.colcon_core.package_identification:Package 'src/daadbot_desc' with type 'ros.ament_cmake' and name 'daadbot_desc'
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extensions ['ignore', 'ignore_ament_install']
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extension 'ignore'
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extension 'ignore_ament_install'
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extensions ['colcon_pkg']
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extension 'colcon_pkg'
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extensions ['colcon_meta']
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extension 'colcon_meta'
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extensions ['ros']
+[0.127s] Level 1:colcon.colcon_core.package_identification:_identify(src/daadbot_moveit) by extension 'ros'
+[0.128s] DEBUG:colcon.colcon_core.package_identification:Package 'src/daadbot_moveit' with type 'ros.ament_cmake' and name 'daadbot_moveit'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extensions ['ignore', 'ignore_ament_install']
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extension 'ignore'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extension 'ignore_ament_install'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extensions ['colcon_pkg']
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extension 'colcon_pkg'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extensions ['colcon_meta']
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extension 'colcon_meta'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extensions ['ros']
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_cpp) by extension 'ros'
+[0.128s] DEBUG:colcon.colcon_core.package_identification:Package 'src/some_examples_cpp' with type 'ros.ament_cmake' and name 'some_examples_cpp'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extensions ['ignore', 'ignore_ament_install']
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extension 'ignore'
+[0.128s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extension 'ignore_ament_install'
+[0.129s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extensions ['colcon_pkg']
+[0.129s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extension 'colcon_pkg'
+[0.129s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extensions ['colcon_meta']
+[0.129s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extension 'colcon_meta'
+[0.129s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extensions ['ros']
+[0.129s] Level 1:colcon.colcon_core.package_identification:_identify(src/some_examples_py) by extension 'ros'
+[0.129s] DEBUG:colcon.colcon_core.package_identification:Package 'src/some_examples_py' with type 'ros.ament_python' and name 'some_examples_py'
+[0.129s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.129s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.129s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.129s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.129s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.141s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.141s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.145s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 72 installed packages in /home/maryam-mahmood/ws_moveit/install
+[0.146s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 384 installed packages in /opt/ros/jazzy
+[0.146s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'cmake_args' from command line to 'None'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'cmake_target' from command line to 'None'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'cmake_clean_cache' from command line to 'False'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'cmake_clean_first' from command line to 'False'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'cmake_force_configure' from command line to 'False'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'ament_cmake_args' from command line to 'None'
+[0.179s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'catkin_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_controller' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.180s] DEBUG:colcon.colcon_core.verb:Building package 'daadbot_controller' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller', 'merge_install': False, 'path': '/home/maryam-mahmood/sdaadof_ws/src/daadbot_controller', 'symlink_install': False, 'test_result_base': None}
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'cmake_target' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'cmake_clean_cache' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'cmake_clean_first' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'cmake_force_configure' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'ament_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'catkin_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_desc' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.180s] DEBUG:colcon.colcon_core.verb:Building package 'daadbot_desc' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/maryam-mahmood/sdaadof_ws/build/daadbot_desc', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc', 'merge_install': False, 'path': '/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc', 'symlink_install': False, 'test_result_base': None}
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'cmake_target' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'cmake_clean_cache' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'cmake_clean_first' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'cmake_force_configure' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'ament_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'catkin_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'daadbot_moveit' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.180s] DEBUG:colcon.colcon_core.verb:Building package 'daadbot_moveit' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit', 'merge_install': False, 'path': '/home/maryam-mahmood/sdaadof_ws/src/daadbot_moveit', 'symlink_install': False, 'test_result_base': None}
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'cmake_target' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'cmake_clean_cache' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'cmake_clean_first' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'cmake_force_configure' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'ament_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'catkin_cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_cpp' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.180s] DEBUG:colcon.colcon_core.verb:Building package 'some_examples_cpp' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp', 'merge_install': False, 'path': '/home/maryam-mahmood/sdaadof_ws/src/some_examples_cpp', 'symlink_install': False, 'test_result_base': None}
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'cmake_args' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'cmake_target' from command line to 'None'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'cmake_clean_cache' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'cmake_clean_first' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'cmake_force_configure' from command line to 'False'
+[0.180s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'ament_cmake_args' from command line to 'None'
+[0.181s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'catkin_cmake_args' from command line to 'None'
+[0.181s] Level 5:colcon.colcon_core.verb:set package 'some_examples_py' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.181s] DEBUG:colcon.colcon_core.verb:Building package 'some_examples_py' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/maryam-mahmood/sdaadof_ws/build/some_examples_py', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py', 'merge_install': False, 'path': '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py', 'symlink_install': False, 'test_result_base': None}
+[0.181s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.181s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.181s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/maryam-mahmood/sdaadof_ws/src/daadbot_controller' with build type 'ament_cmake'
+[0.181s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/maryam-mahmood/sdaadof_ws/src/daadbot_controller'
+[0.183s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.183s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.183s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.187s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc' with build type 'ament_cmake'
+[0.188s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/maryam-mahmood/sdaadof_ws/src/daadbot_desc'
+[0.188s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.188s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.192s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/maryam-mahmood/sdaadof_ws/src/daadbot_moveit' with build type 'ament_cmake'
+[0.192s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/maryam-mahmood/sdaadof_ws/src/daadbot_moveit'
+[0.192s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.192s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.196s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_cpp' with build type 'ament_cmake'
+[0.196s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_cpp'
+[0.196s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.196s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.201s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py' with build type 'ament_python'
+[0.201s] Level 1:colcon.colcon_core.shell:create_environment_hook('some_examples_py', 'ament_prefix_path')
+[0.201s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/hook/ament_prefix_path.ps1'
+[0.201s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/hook/ament_prefix_path.dsv'
+[0.201s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/hook/ament_prefix_path.sh'
+[0.202s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.202s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.209s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller -- -j24 -l24
+[0.211s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_desc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_desc -- -j24 -l24
+[0.212s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit -- -j24 -l24
+[0.213s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp -- -j24 -l24
+[0.389s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py'
+[0.389s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.389s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.395s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit -- -j24 -l24
+[0.405s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit
+[0.405s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller -- -j24 -l24
+[0.405s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller
+[0.406s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_desc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/daadbot_desc -- -j24 -l24
+[0.407s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_desc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_desc
+[0.407s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp -- -j24 -l24
+[0.408s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp
+[0.420s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(daadbot_moveit)
+[0.420s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_moveit
+[0.423s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit' for CMake module files
+[0.423s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit' for CMake config files
+[0.423s] Level 1:colcon.colcon_core.shell:create_environment_hook('daadbot_moveit', 'cmake_prefix_path')
+[0.424s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/hook/cmake_prefix_path.ps1'
+[0.424s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/hook/cmake_prefix_path.dsv'
+[0.424s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/hook/cmake_prefix_path.sh'
+[0.425s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/bin'
+[0.425s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/lib/pkgconfig/daadbot_moveit.pc'
+[0.425s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/lib/python3.12/site-packages'
+[0.426s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/bin'
+[0.426s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.ps1'
+[0.426s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.dsv'
+[0.427s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.sh'
+[0.427s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.bash'
+[0.428s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.zsh'
+[0.429s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/colcon-core/packages/daadbot_moveit)
+[0.429s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(daadbot_moveit)
+[0.429s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit' for CMake module files
+[0.429s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit' for CMake config files
+[0.429s] Level 1:colcon.colcon_core.shell:create_environment_hook('daadbot_moveit', 'cmake_prefix_path')
+[0.429s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/hook/cmake_prefix_path.ps1'
+[0.430s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/hook/cmake_prefix_path.dsv'
+[0.430s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/hook/cmake_prefix_path.sh'
+[0.430s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/bin'
+[0.430s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/lib/pkgconfig/daadbot_moveit.pc'
+[0.430s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/lib/python3.12/site-packages'
+[0.430s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/bin'
+[0.431s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.ps1'
+[0.431s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.dsv'
+[0.431s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.sh'
+[0.432s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.bash'
+[0.432s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/daadbot_moveit/package.zsh'
+[0.432s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/daadbot_moveit/share/colcon-core/packages/daadbot_moveit)
+[0.432s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(daadbot_desc)
+[0.432s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc' for CMake module files
+[0.433s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc' for CMake config files
+[0.433s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_desc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_desc
+[0.433s] Level 1:colcon.colcon_core.shell:create_environment_hook('daadbot_desc', 'cmake_prefix_path')
+[0.433s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/hook/cmake_prefix_path.ps1'
+[0.434s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/hook/cmake_prefix_path.dsv'
+[0.434s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/hook/cmake_prefix_path.sh'
+[0.434s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/bin'
+[0.434s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/lib/pkgconfig/daadbot_desc.pc'
+[0.434s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/lib/python3.12/site-packages'
+[0.434s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/bin'
+[0.434s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.ps1'
+[0.435s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.dsv'
+[0.435s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.sh'
+[0.435s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.bash'
+[0.435s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.zsh'
+[0.435s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/colcon-core/packages/daadbot_desc)
+[0.436s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(daadbot_desc)
+[0.436s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc' for CMake module files
+[0.436s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc' for CMake config files
+[0.436s] Level 1:colcon.colcon_core.shell:create_environment_hook('daadbot_desc', 'cmake_prefix_path')
+[0.436s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/hook/cmake_prefix_path.ps1'
+[0.436s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/hook/cmake_prefix_path.dsv'
+[0.437s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/hook/cmake_prefix_path.sh'
+[0.437s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/bin'
+[0.437s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/lib/pkgconfig/daadbot_desc.pc'
+[0.437s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/lib/python3.12/site-packages'
+[0.437s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/bin'
+[0.437s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.ps1'
+[0.438s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.dsv'
+[0.438s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.sh'
+[0.438s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.bash'
+[0.438s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/daadbot_desc/package.zsh'
+[0.438s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/daadbot_desc/share/colcon-core/packages/daadbot_desc)
+[0.439s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(daadbot_controller)
+[0.439s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller' for CMake module files
+[0.439s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller' for CMake config files
+[0.440s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/daadbot_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/daadbot_controller
+[0.440s] Level 1:colcon.colcon_core.shell:create_environment_hook('daadbot_controller', 'cmake_prefix_path')
+[0.440s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/hook/cmake_prefix_path.ps1'
+[0.440s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/hook/cmake_prefix_path.dsv'
+[0.440s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/hook/cmake_prefix_path.sh'
+[0.440s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/bin'
+[0.440s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/lib/pkgconfig/daadbot_controller.pc'
+[0.441s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/lib/python3.12/site-packages'
+[0.441s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/bin'
+[0.441s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.ps1'
+[0.441s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.dsv'
+[0.441s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.sh'
+[0.441s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.bash'
+[0.442s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.zsh'
+[0.442s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/colcon-core/packages/daadbot_controller)
+[0.442s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(daadbot_controller)
+[0.442s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller' for CMake module files
+[0.442s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller' for CMake config files
+[0.442s] Level 1:colcon.colcon_core.shell:create_environment_hook('daadbot_controller', 'cmake_prefix_path')
+[0.443s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/hook/cmake_prefix_path.ps1'
+[0.443s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/hook/cmake_prefix_path.dsv'
+[0.443s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/hook/cmake_prefix_path.sh'
+[0.443s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/bin'
+[0.443s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/lib/pkgconfig/daadbot_controller.pc'
+[0.443s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/lib/python3.12/site-packages'
+[0.444s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/bin'
+[0.444s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.ps1'
+[0.444s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.dsv'
+[0.444s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.sh'
+[0.444s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.bash'
+[0.445s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/daadbot_controller/package.zsh'
+[0.445s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/daadbot_controller/share/colcon-core/packages/daadbot_controller)
+[0.445s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(some_examples_cpp)
+[0.445s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp' for CMake module files
+[0.446s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/maryam-mahmood/ws_moveit/install/moveit_configs_utils:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/maryam-mahmood/sdaadof_ws/build/some_examples_cpp
+[0.446s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp' for CMake config files
+[0.446s] Level 1:colcon.colcon_core.shell:create_environment_hook('some_examples_cpp', 'cmake_prefix_path')
+[0.446s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/hook/cmake_prefix_path.ps1'
+[0.446s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/hook/cmake_prefix_path.dsv'
+[0.447s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/hook/cmake_prefix_path.sh'
+[0.447s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib'
+[0.447s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/bin'
+[0.447s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib/pkgconfig/some_examples_cpp.pc'
+[0.447s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib/python3.12/site-packages'
+[0.447s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/bin'
+[0.448s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.ps1'
+[0.448s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.dsv'
+[0.448s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.sh'
+[0.448s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.bash'
+[0.448s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.zsh'
+[0.448s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/colcon-core/packages/some_examples_cpp)
+[0.449s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(some_examples_cpp)
+[0.449s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp' for CMake module files
+[0.449s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp' for CMake config files
+[0.449s] Level 1:colcon.colcon_core.shell:create_environment_hook('some_examples_cpp', 'cmake_prefix_path')
+[0.449s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/hook/cmake_prefix_path.ps1'
+[0.449s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/hook/cmake_prefix_path.dsv'
+[0.450s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/hook/cmake_prefix_path.sh'
+[0.450s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib'
+[0.450s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/bin'
+[0.450s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib/pkgconfig/some_examples_cpp.pc'
+[0.450s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/lib/python3.12/site-packages'
+[0.450s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/bin'
+[0.450s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.ps1'
+[0.451s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.dsv'
+[0.451s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.sh'
+[0.451s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.bash'
+[0.451s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/some_examples_cpp/package.zsh'
+[0.451s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/some_examples_cpp/share/colcon-core/packages/some_examples_cpp)
+[0.865s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/maryam-mahmood/sdaadof_ws/build/some_examples_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/some_examples_py build --build-base /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build install --record /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/install.log --single-version-externally-managed install_data
+[1.303s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py' for CMake module files
+[1.303s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/maryam-mahmood/sdaadof_ws/src/some_examples_py' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/maryam-mahmood/sdaadof_ws/build/some_examples_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/some_examples_py build --build-base /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/build install --record /home/maryam-mahmood/sdaadof_ws/build/some_examples_py/install.log --single-version-externally-managed install_data
+[1.304s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py' for CMake config files
+[1.304s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib'
+[1.304s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/bin'
+[1.304s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/pkgconfig/some_examples_py.pc'
+[1.304s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages'
+[1.304s] Level 1:colcon.colcon_core.shell:create_environment_hook('some_examples_py', 'pythonpath')
+[1.304s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/hook/pythonpath.ps1'
+[1.305s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/hook/pythonpath.dsv'
+[1.305s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/hook/pythonpath.sh'
+[1.305s] Level 1:colcon.colcon_core.environment:checking '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/bin'
+[1.305s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(some_examples_py)
+[1.305s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/package.ps1'
+[1.306s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/package.dsv'
+[1.306s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/package.sh'
+[1.307s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/package.bash'
+[1.307s] INFO:colcon.colcon_core.shell:Creating package script '/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/some_examples_py/package.zsh'
+[1.307s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/share/colcon-core/packages/some_examples_py)
+[1.307s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.307s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.307s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.308s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.313s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.313s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.313s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.318s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.318s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/maryam-mahmood/sdaadof_ws/install/local_setup.ps1'
+[1.319s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/maryam-mahmood/sdaadof_ws/install/_local_setup_util_ps1.py'
+[1.320s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/maryam-mahmood/sdaadof_ws/install/setup.ps1'
+[1.323s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/maryam-mahmood/sdaadof_ws/install/local_setup.sh'
+[1.324s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/maryam-mahmood/sdaadof_ws/install/_local_setup_util_sh.py'
+[1.324s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/maryam-mahmood/sdaadof_ws/install/setup.sh'
+[1.326s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/maryam-mahmood/sdaadof_ws/install/local_setup.bash'
+[1.326s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/maryam-mahmood/sdaadof_ws/install/setup.bash'
+[1.328s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/maryam-mahmood/sdaadof_ws/install/local_setup.zsh'
+[1.328s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/maryam-mahmood/sdaadof_ws/install/setup.zsh'

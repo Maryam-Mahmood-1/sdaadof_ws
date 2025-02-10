@@ -25,7 +25,7 @@ def generate_launch_description():
         executable="move_group",
         output="screen",
         parameters=[moveit_config.to_dict(), {"use_sim_time": is_sim}, {"publish_robot_description_semantic": True}],
-        arguments=["--ros-args", "--log_level", "info"]
+        arguments=["--ros-args"]
     )
 
     rviz_config = os.path.join(get_package_share_directory("daadbot_moveit"), "config", "moveit.rviz")
