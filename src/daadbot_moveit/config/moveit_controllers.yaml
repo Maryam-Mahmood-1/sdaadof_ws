@@ -1,30 +1,33 @@
-moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+/**:
+  ros__parameters:
+    moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
 
-moveit_simple_controller_manager:
-  - arm_controller
-  - gripper_controller
+    moveit_simple_controller_manager:
+      controller_names:
+        - arm_controller
+        - gripper_controller
 
-arm_controller:
-  action_ns: follow_joint_trajectory
-  type: FollowJointTrajectory
-  default: True
-  joints:
-    - joint_1
-    - joint_2
-    - joint_3
-    - joint_4
-    - joint_5
-    - joint_6
-    - joint_7
+      arm_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: True
+        joints:
+          - joint_1
+          - joint_2
+          - joint_3
+          - joint_4
+          - joint_5
+          - joint_6
+          - joint_7
 
-gripper_controller:
-  action_ns: follow_joint_trajectory
-  type: FollowJointTrajectory
-  default: True
-  joints:
-    - gear1_joint
-    - base_claw_joint1
-    - base_claw_joint2
-    - claw_joint1
-    - gear2_joint
-    - claw_joint2
+      gripper_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: True
+        joints:
+          - gear1_joint
+          - base_claw_joint1
+          - base_claw_joint2
+          - claw_joint1
+          - gear2_joint
+          - claw_joint2
