@@ -16,7 +16,7 @@ def generate_launch_description():
     moveit_config = (MoveItConfigsBuilder("daadbot", package_name="daadbot_moveit")
                     .robot_description(file_path=os.path.join(get_package_share_directory("daadbot_desc"), "urdf", "daadbot.urdf.xacro"))
                     .robot_description_semantic(file_path="config/daadbot.srdf")
-                    .trajectory_execution(file_path="config/moveit_controllers.yaml")
+                    .trajectory_execution(file_path="config/moveit_controllers.yaml")  # This was missing
                     .to_moveit_configs()
     )
 
@@ -24,8 +24,14 @@ def generate_launch_description():
         package="moveit_ros_move_group",
         executable="move_group",
         output="screen",
-        parameters=[moveit_config.to_dict(), {"use_sim_time": is_sim}, {"publish_robot_description_semantic": True}],
-        arguments=["--ros-args"]
+        parameters=[
+            moveit_config.to_dict(), 
+            {"use_sim_time": is_sim}, 
+            {"publish_robot_description_semantic": True},
+            {"moveit_manage_controllers": True},  # Explicitly enable MoveIt controllers
+            os.path.join(get_package_share_directory("daadbot_moveit"), "config", "moveit_controllers.yaml")  # Explicit path
+        ],
+        arguments=["--ros-args", "--log-level", "info"]
     )
 
     rviz_config = os.path.join(get_package_share_directory("daadbot_moveit"), "config", "moveit.rviz")
@@ -34,12 +40,14 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        output="screen",
+        output="log",
         arguments=["-d", rviz_config],
-        parameters=[moveit_config.robot_description,
-                   moveit_config.robot_description_semantic,
-                   moveit_config.robot_description_kinematics,
-                   moveit_config.joint_limits]
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+            moveit_config.joint_limits
+        ]
     )
 
     return LaunchDescription([
