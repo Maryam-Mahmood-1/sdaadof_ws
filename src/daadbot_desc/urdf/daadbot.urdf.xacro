@@ -9,7 +9,7 @@
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='10.0'/>
-  <xacro:property name='effort' value='30.0'/>
+  <xacro:property name='effort' value='300.0'/>
 
   <link name="world"/>
 
