@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'simple_publisher = some_examples_py.simple_publisher:main',
+            'my_action_server = some_examples_py.my_action_server:main',
         ],
     },
 )
