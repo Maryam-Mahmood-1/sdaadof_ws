@@ -9,13 +9,29 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(daadbot_msgs REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(rclcpp_components REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
+find_package(rclcpp_lifecycle REQUIRED)
+find_package(rcl_interfaces REQUIRED)
 
 add_executable(simple_publisher src/simple_publisher.cpp)
 ament_target_dependencies(simple_publisher rclcpp std_msgs)
 
+
+
+add_executable(my_moveit_interface src/my_moveit_interface.cpp)
+ament_target_dependencies(my_moveit_interface rclcpp moveit_ros_planning_interface)
+
+
+
 install(TARGETS
   simple_publisher
-  DESTINATION lib/${PROJECT_NAME})
+  my_moveit_interface
+
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

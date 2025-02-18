@@ -7,5 +7,10 @@
         "/home/maryam-mahmood/sdaadof_ws/install/some_examples_py/lib/python3.12/site-packages",
         "/opt/ros/jazzy/lib/python3.12/site-packages"
     ],
-    "cmake.ignoreCMakeListsMissing": true
+    "cmake.ignoreCMakeListsMissing": true,
+    
+    "editor.underline": false,
+    "javascript.validate.enable": false,
+    "css.validate": false
+    
 }
