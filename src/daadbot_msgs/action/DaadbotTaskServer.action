@@ -1,0 +1,10 @@
+# Goal
+int32 task_id
+---
+
+# Result
+bool success
+---
+
+# Feedback
+int32 percentage
