@@ -101,17 +101,6 @@ private:
       target_pose_.orientation.z = 0.0;
       gripper_joint_goal_ = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     }
-    else if (goal_handle->get_goal()->task_id == 1)
-    {
-      target_pose_.position.x = 0.4;
-      target_pose_.position.y = 0.2;
-      target_pose_.position.z = 0.4;
-      target_pose_.orientation.w = 0.707;
-      target_pose_.orientation.x = 0.707;
-      target_pose_.orientation.y = 0.0;
-      target_pose_.orientation.z = 0.0;
-      gripper_joint_goal_ = {0.5, 0.5, -0.5, 0.5, 0.5, -0.5};
-    }
     else
     {
       RCLCPP_ERROR(get_logger(), "Invalid Task Number: %d", goal_handle->get_goal()->task_id);

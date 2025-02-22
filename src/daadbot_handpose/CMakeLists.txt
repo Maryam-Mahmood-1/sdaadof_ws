@@ -30,9 +30,6 @@ rclcpp_components_register_node(wrist_pose
   PLUGIN "daadbot_handpose::HandPose" 
   EXECUTABLE wrist_pose_node
 )
-
-
-
 install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
@@ -45,6 +42,4 @@ install(TARGETS
   RUNTIME DESTINATION bin
   DESTINATION lib/${PROJECT_NAME}
 )
-
-
 ament_package()

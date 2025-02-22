@@ -9,8 +9,16 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>moveit_ros_planning_interface</depend>
   <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>rclcpp_components</depend>
+  <depend>daadobot_msgs</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>rclpy</depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend condition="$ROS_DISTRO >= iron">moveit_py</exec_depend>
+  <exec_depend>daadbot_moveit</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
