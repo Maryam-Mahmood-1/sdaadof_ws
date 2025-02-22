@@ -18,7 +18,7 @@ public:
     : Node("multi_task_server", options)
   {
     RCLCPP_INFO(get_logger(), "Starting the Server");
-    action_server_ = rclcpp_action::create_server<daadbot_msgs::action::DaadbotHandPose>(
+    action_server_ = rclcpp_action::create_server<daadbot_msgs::action::DaadbotTaskServer>(
         this, "multi_task_server",
         std::bind(&HandPose::goalCallback, this, _1, _2),
         std::bind(&HandPose::cancelCallback, this, _1),
@@ -26,14 +26,14 @@ public:
   }
 
 private:
-  rclcpp_action::Server<daadbot_msgs::action::DaadbotHandPose>::SharedPtr action_server_;
+  rclcpp_action::Server<daadbot_msgs::action::DaadbotTaskServer>::SharedPtr action_server_;
   std::shared_ptr<moveit::planning_interface::MoveGroupInterface> arm_move_group_, gripper_move_group_;
   geometry_msgs::msg::Pose target_pose_;
   std::vector<double> gripper_joint_goal_;
 
   rclcpp_action::GoalResponse goalCallback(
       const rclcpp_action::GoalUUID& uuid,
-      std::shared_ptr<const daadbot_msgs::action::DaadbotHandPose::Goal> goal)
+      std::shared_ptr<const daadbot_msgs::action::DaadbotTaskServer::Goal> goal)
   {
     RCLCPP_INFO(get_logger(), "Received goal request with task id %d", goal->task_id);
     (void)uuid;
@@ -41,7 +41,7 @@ private:
   }
 
   rclcpp_action::CancelResponse cancelCallback(
-      const std::shared_ptr<rclcpp_action::ServerGoalHandle<daadbot_msgs::action::DaadbotHandPose>> goal_handle)
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<daadbot_msgs::action::DaadbotTaskServer>> goal_handle)
   {
     (void)goal_handle;
     RCLCPP_INFO(get_logger(), "Received request to cancel goal");
@@ -57,16 +57,16 @@ private:
   }
 
   void acceptedCallback(
-      const std::shared_ptr<rclcpp_action::ServerGoalHandle<daadbot_msgs::action::DaadbotHandPose>> goal_handle)
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<daadbot_msgs::action::DaadbotTaskServer>> goal_handle)
   {
     // Execute in a new thread to avoid blocking the executor
     std::thread{ std::bind(&HandPose::execute, this, _1), goal_handle }.detach();
   }
 
-  void execute(const std::shared_ptr<rclcpp_action::ServerGoalHandle<daadbot_msgs::action::DaadbotHandPose>> goal_handle)
+  void execute(const std::shared_ptr<rclcpp_action::ServerGoalHandle<daadbot_msgs::action::DaadbotTaskServer>> goal_handle)
   {
     RCLCPP_INFO(get_logger(), "Executing goal");
-    auto result = std::make_shared<daadbot_msgs::action::DaadbotHandPose::Result>();
+    auto result = std::make_shared<daadbot_msgs::action::DaadbotTaskServer::Result>();
 
     // Initialize MoveIt 2 Interface if not already
     if (!arm_move_group_)
@@ -145,6 +145,6 @@ private:
     RCLCPP_INFO(get_logger(), "Goal succeeded");
   }
 };
-}  // namespace daadbot_posegen
+}  // namespace daadbot_handpose
 
-RCLCPP_COMPONENTS_REGISTER_NODE(daadbot_posegen::HandPose)
+RCLCPP_COMPONENTS_REGISTER_NODE(daadbot_handpose::HandPose)
