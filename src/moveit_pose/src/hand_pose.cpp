@@ -28,6 +28,8 @@ private:
     arm_move_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(shared_from_this(), "arm");
     gripper_move_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(shared_from_this(), "gripper");
 
+    RCLCPP_INFO(get_logger(), "Planning frame: %s", arm_move_group_->getPlanningFrame().c_str());
+
     moveArm();
   }
 
