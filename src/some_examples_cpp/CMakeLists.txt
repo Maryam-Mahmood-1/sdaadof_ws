@@ -24,11 +24,15 @@ ament_target_dependencies(simple_publisher rclcpp std_msgs)
 add_executable(my_moveit_interface src/my_moveit_interface.cpp)
 ament_target_dependencies(my_moveit_interface rclcpp moveit_ros_planning_interface)
 
+add_executable(lifecycle_node_ex src/lifecycle_node_ex.cpp)
+ament_target_dependencies(lifecycle_node_ex rclcpp rclcpp_lifecycle std_msgs)
+
 
 
 install(TARGETS
   simple_publisher
   my_moveit_interface
+  lifecycle_node_ex
 
   DESTINATION lib/${PROJECT_NAME}
 )
