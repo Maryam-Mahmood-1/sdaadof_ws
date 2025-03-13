@@ -4,11 +4,11 @@
 
   <xacro:arg name = "is_ignition" default="false"/>
 
-  <xacro:include filename = "$(find daadbot_desc)/urdf/daadbot_gazebo.xacro"/>
-  <xacro:include filename = "$(find daadbot_desc)/urdf/daadbot_ros2_control.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_oct_effort/daadbot_gazebo.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_oct_effort/daadbot_ros2_control.xacro"/>
  
   <xacro:property name='PI' value='3.141592653589793'/>
-  <xacro:property name='velocity' value='10.0'/>
+  <xacro:property name='velocity' value='30.0'/>
   <xacro:property name='effort' value='300.0'/>
 
   <link name="world"/>
@@ -404,7 +404,7 @@
       xyz="0 0 1" />
     <limit
       lower="-${pi}"
-      upper="0.0001"
+      upper="0.001"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>

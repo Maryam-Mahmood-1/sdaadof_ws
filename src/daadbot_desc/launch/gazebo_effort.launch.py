@@ -14,7 +14,7 @@ def generate_launch_description():
 
     model_arg = DeclareLaunchArgument(
         name = "model", 
-        default_value= os.path.join(daadbot_desc_dir, 'urdf/urdf_oct/daadbot.urdf.xacro'),
+        default_value= os.path.join(daadbot_desc_dir, 'urdf/urdf_oct_effort/daadbot.urdf.xacro'),
         description = 'Absolute path to robot urdf file'
         )
     

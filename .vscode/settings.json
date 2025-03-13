@@ -11,6 +11,17 @@
     
     "editor.underline": false,
     "javascript.validate.enable": false,
-    "css.validate": false
+    "css.validate": false,
+    "files.associations": {
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "system_error": "cpp"
+    }
     
 }

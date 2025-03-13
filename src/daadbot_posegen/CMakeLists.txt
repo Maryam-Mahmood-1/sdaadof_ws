@@ -14,7 +14,9 @@ find_package(rclcpp_components REQUIRED)
 find_package(daadbot_msgs REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
+# Original TaskServer
 add_library(task_server SHARED src/task_server.cpp)
 target_include_directories(task_server PRIVATE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -32,6 +34,25 @@ rclcpp_components_register_node(task_server
   EXECUTABLE task_server_node
 )
 
+# New ArmTaskServer
+add_library(arm_task_server SHARED src/arm_task_server.cpp)
+target_include_directories(arm_task_server PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_definitions(arm_task_server
+  PRIVATE "ARM_TASK_SERVER_CPP_BUILDING_DLL")
+ament_target_dependencies(arm_task_server
+  "daadbot_msgs"
+  "rclcpp"
+  "rclcpp_action"
+  "rclcpp_components"
+  "moveit_ros_planning_interface"
+  "sensor_msgs")  # Added sensor_msgs for JointState subscription
+rclcpp_components_register_node(arm_task_server 
+  PLUGIN "daadbot_posegen::ArmTaskServer" 
+  EXECUTABLE arm_task_server_node
+)
+
 ament_python_install_package(${PROJECT_NAME})
 
 install(
@@ -41,6 +62,7 @@ install(
 
 install(TARGETS 
   task_server
+  arm_task_server  # Install the new node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin

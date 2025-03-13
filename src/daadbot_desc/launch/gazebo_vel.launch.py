@@ -14,7 +14,7 @@ def generate_launch_description():
 
     model_arg = DeclareLaunchArgument(
         name = "model", 
-        default_value= os.path.join(daadbot_desc_dir, 'urdf/urdf_oct/daadbot.urdf.xacro'),
+        default_value= os.path.join(daadbot_desc_dir, 'urdf/urdf_oct_vel/daadbot.urdf.xacro'),
         description = 'Absolute path to robot urdf file'
         )
     
@@ -45,6 +45,13 @@ def generate_launch_description():
                        "use_sim_time": True}]
         )
     
+    joint_state_publisher_gui_node = Node(
+    package='joint_state_publisher_gui',
+    executable='joint_state_publisher_gui',
+    remappings=[('/joint_states', '/slider_joint_states')]  # Publish to a different topic
+)
+
+    
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory('ros_gz_sim'), 
@@ -73,6 +80,7 @@ def generate_launch_description():
     return LaunchDescription([
         model_arg,  
         robot_state_publisher_node,
+        joint_state_publisher_gui_node,
         gazebo_resource_path,
         gazebo,
         gz_spawn_entity,

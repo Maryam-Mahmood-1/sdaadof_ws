@@ -23,9 +23,9 @@ def generate_launch_description():
     use_python = LaunchConfiguration("use_python")
     is_sim = LaunchConfiguration("is_sim")
 
-    task_server_node = Node(
+    arm_task_server_node = Node(
         package="daadbot_posegen",
-        executable="task_server_node",
+        executable="arm_task_server_node",
         condition=UnlessCondition(use_python),
         parameters=[{"use_sim_time": is_sim}]
     )
@@ -34,12 +34,12 @@ def generate_launch_description():
         MoveItConfigsBuilder("daadbot", package_name="daadbot_moveit")
         .robot_description(file_path=os.path.join(
             get_package_share_directory("daadbot_desc"),
-            "urdf/urdf_oct",
+            "urdf/urdf_oct_vel",
             "daadbot.urdf.xacro"
             )
         )
         .robot_description_semantic(file_path="config/daadbot.srdf")
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
+        .trajectory_execution(file_path="config/moveit_controllers_vel.yaml")
         .moveit_cpp(file_path="config/planning_python_api.yaml")
         .to_moveit_configs()
     )
@@ -57,6 +57,6 @@ def generate_launch_description():
     return LaunchDescription([
         use_python_arg,
         is_sim_arg,
-        task_server_node,
+        arm_task_server_node,
         task_server_node_py
     ])

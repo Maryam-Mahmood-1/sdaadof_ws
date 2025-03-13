@@ -14,9 +14,9 @@ def generate_launch_description():
 
     is_sim = LaunchConfiguration("is_sim")
     moveit_config = (MoveItConfigsBuilder("daadbot", package_name="daadbot_moveit")
-                    .robot_description(file_path=os.path.join(get_package_share_directory("daadbot_desc"), "urdf/urdf_oct", "daadbot.urdf.xacro"))
+                    .robot_description(file_path=os.path.join(get_package_share_directory("daadbot_desc"), "urdf/urdf_oct_effort", "daadbot.urdf.xacro"))
                     .robot_description_semantic(file_path="config/daadbot.srdf")
-                    .trajectory_execution(file_path="config/moveit_controllers.yaml")  # This was missing
+                    .trajectory_execution(file_path="config/moveit_controllers_effort.yaml") 
                     .to_moveit_configs()
     )
 
@@ -29,7 +29,7 @@ def generate_launch_description():
             {"use_sim_time": is_sim}, 
             {"publish_robot_description_semantic": True},
             {"moveit_manage_controllers": True},  # Explicitly enable MoveIt controllers
-            os.path.join(get_package_share_directory("daadbot_moveit"), "config", "moveit_controllers.yaml")  # Explicit path
+            os.path.join(get_package_share_directory("daadbot_moveit"), "config", "moveit_controllers_effort.yaml")  # Explicit path
         ],
         arguments=["--ros-args", "--log-level", "info"]
     )

@@ -34,7 +34,7 @@ def generate_launch_description():
         MoveItConfigsBuilder("daadbot", package_name="daadbot_moveit")
         .robot_description(file_path=os.path.join(
             get_package_share_directory("daadbot_desc"),
-            "urdf",
+            "urdf/urdf_oct",
             "daadbot.urdf.xacro"
             )
         )

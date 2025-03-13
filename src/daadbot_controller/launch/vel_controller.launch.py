@@ -11,7 +11,7 @@ def generate_launch_description():
         Command(
             [
                 "xacro ",
-                os.path.join(get_package_share_directory('daadbot_desc'), 'urdf/urdf_oct/daadbot.urdf.xacro')
+                os.path.join(get_package_share_directory('daadbot_desc'), 'urdf/urdf_oct_vel/daadbot.urdf.xacro')
             ]
         ),
         value_type = str
@@ -31,25 +31,25 @@ def generate_launch_description():
         ]
     )
 
-    arm_controller_spawner = Node(
+    vel_arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=[
-            "arm_controller",
+            "velocity_arm_controller",
         ]
     )
 
-    gripper_controller_spawner = Node(
+    vel_gripper_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=[
-            "gripper_controller",
+            "velocity_gripper_controller",
         ]
     )
 
     return LaunchDescription([
         robot_state_publisher_node,
         joint_state_broadcaster_spawner,
-        arm_controller_spawner,
-        gripper_controller_spawner
+        vel_arm_controller_spawner,
+        vel_gripper_controller_spawner
     ])
