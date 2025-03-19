@@ -2,13 +2,13 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="daadbot">
 
-  <xacro:arg name = "is_ignition" default="false"/>
+  <xacro:arg name = "is_ignition" default="true"/>
 
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_oct/daadbot_gazebo.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_oct/daadbot_ros2_control.xacro"/>
  
   <xacro:property name='PI' value='3.141592653589793'/>
-  <xacro:property name='velocity' value='10.0'/>
+  <xacro:property name='velocity' value='20.0'/>
   <xacro:property name='effort' value='300.0'/>
 
   <link name="world"/>
@@ -102,7 +102,7 @@
   </link>
   <joint
     name="joint_1"
-    type="revolute">
+    type="continuous">
     <origin
       xyz="0 0 0.05"
       rpy="0 0 3.1416" />
@@ -113,8 +113,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-${pi}"
-      upper="${pi}"
+      lower="0"
+      upper="3.14"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -218,7 +218,7 @@
   </link>
   <joint
     name="joint_3"
-    type="revolute">
+    type="continuous">
     <origin
       xyz="0.000359289684152012 0.435033961918617 0.0294474762975983"
       rpy="1.57079632680726 0 3.14159265358979" />
@@ -229,8 +229,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-${pi}"
-      upper="${pi}"
+      lower="0"
+      upper="3.14"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -334,7 +334,7 @@
   </link>
   <joint
     name="joint_5"
-    type="revolute">
+    type="continuous">
     <origin
       xyz="0.419299903678905 0 -0.0294999999999992"
       rpy="0 1.5707963267949 0" />
@@ -345,8 +345,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-${pi}"
-      upper="${pi}"
+      lower="0"
+      upper="3.14"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -403,8 +403,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-${pi}"
-      upper="0.0001"
+      lower="-3.14"
+      upper="0"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -450,7 +450,7 @@
   </link>
   <joint
     name="joint_7"
-    type="revolute">
+    type="continuous">
     <origin
       xyz="0 -0.0909999036788988 -0.0244999999999991"
       rpy="-1.5707963267949 0 3.14159265358979" />
@@ -461,8 +461,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-${pi}"
-      upper="${pi}"
+      lower="0"
+      upper="3.14"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -578,6 +578,77 @@
       velocity="${velocity}" />
   </joint>
   <link
+    name="base_claw_link1">
+    <inertial>
+      <origin
+        xyz="-1.058E-05 -0.015556 -0.00071484"
+        rpy="0 0 0" />
+      <mass
+        value="0.0011042" />
+      <inertia
+        ixx="1.5467E-07"
+        ixy="-7.9881E-10"
+        ixz="-2.9739E-11"
+        iyy="3.5247E-09"
+        iyz="7.7059E-09"
+        izz="1.5576E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/base_claw_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/base_claw_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_claw_joint1_mimic"
+    type="fixed">
+    <parent
+      link="Link_7" />
+    <child
+      link="dummy_base_claw_joint1_mimic" />
+  </joint>
+  <link name="dummy_base_claw_joint1_mimic"/>
+  <joint
+    name="base_claw_joint1"
+    type="revolute">
+    <origin
+      xyz="-0.00548036760308535 0.0047463745042049 0.0685789689085226"
+      rpy="-1.52010273242897 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="base_claw_link1" />
+    <axis
+      xyz="0.0472460759822863 -0.0506152984712078 -0.997600070100712" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="${effort}"
+      velocity="${velocity}" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
     name="gear1_claw">
     <inertial>
       <origin
@@ -617,6 +688,15 @@
       </geometry>
     </collision>
   </link>
+  <joint
+    name="claw_joint1_mimic"
+    type="fixed">
+    <parent
+      link="gear1" />
+    <child
+      link="dummy_claw_joint1_mimic" />
+  </joint>
+  <link name="dummy_claw_joint1_mimic"/>
   <joint
     name="claw_joint1"
     type="revolute">
@@ -680,6 +760,15 @@
     </collision>
   </link>
   <joint
+    name="gear2_joint_mimic"
+    type="fixed">
+    <parent
+      link="endeffector" />
+    <child
+      link="dummy_gear2_joint_mimic" />
+  </joint>
+  <link name="dummy_gear2_joint_mimic"/>
+  <joint
     name="gear2_joint"
     type="revolute">
     <origin
@@ -691,6 +780,77 @@
       link="gear2_link" />
     <axis
       xyz="-0.0472460759822667 0.0506152984712492 0.997600070100711" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="${effort}"
+      velocity="${velocity}" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="base_claw_link2">
+    <inertial>
+      <origin
+        xyz="0.00030048 -0.015554 -0.00070023"
+        rpy="0 0 0" />
+      <mass
+        value="0.0011042" />
+      <inertia
+        ixx="1.5464E-07"
+        ixy="2.238E-09"
+        ixz="-1.8519E-10"
+        iyy="3.5683E-09"
+        iyz="7.8475E-09"
+        izz="1.5574E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/base_claw_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/base_claw_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_claw_joint2_mimic"
+    type="fixed">
+    <parent
+      link="Link_7" />
+    <child
+      link="dummy_base_claw_joint2_mimic" />
+  </joint>
+  <link name="dummy_base_claw_joint2_mimic"/>
+  <joint
+    name="base_claw_joint2"
+    type="revolute">
+    <origin
+      xyz="0.00500790684313079 0.00524245830200445 0.0685789689082188"
+      rpy="-1.52010273242897 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="base_claw_link2" />
+    <axis
+      xyz="-0.0472460759822792 0.0506152984712578 0.99760007010071" />
     <limit
       lower="0"
       upper="0.9"
@@ -742,6 +902,15 @@
     </collision>
   </link>
   <joint
+    name="claw_joint2_mimic"
+    type="fixed">
+    <parent
+      link="gear2_link" />
+    <child
+      link="dummy_claw_joint2_mimic" />
+  </joint>
+  <link name="dummy_claw_joint2_mimic"/>
+  <joint
     name="claw_joint2"
     type="revolute">
     <origin
@@ -763,128 +932,6 @@
       multiplier="-1"
       offset="0" />
   </joint>
-  <link
-    name="base_claw_link2">
-    <inertial>
-      <origin
-        xyz="0.00030048 -0.015554 -0.00070023"
-        rpy="0 0 0" />
-      <mass
-        value="0.0011042" />
-      <inertia
-        ixx="1.5464E-07"
-        ixy="2.238E-09"
-        ixz="-1.8519E-10"
-        iyy="3.5683E-09"
-        iyz="7.8475E-09"
-        izz="1.5574E-07" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://daadbot_desc/meshes/base_claw_link2.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="1 1 1 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://daadbot_desc/meshes/base_claw_link2.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="base_claw_joint2"
-    type="revolute">
-    <origin
-      xyz="0.00500790684313079 0.00524245830200445 0.0685789689082188"
-      rpy="-1.52010273242897 0 0" />
-    <parent
-      link="Link_7" />
-    <child
-      link="base_claw_link2" />
-    <axis
-      xyz="-0.0472460759822792 0.0506152984712578 0.99760007010071" />
-    <limit
-      lower="0"
-      upper="0.9"
-      effort="${effort}"
-      velocity="${velocity}" />
-    <mimic
-      joint="gear1_joint"
-      multiplier="-1"
-      offset="0" />
-  </joint>
-  <link
-    name="base_claw_link1">
-    <inertial>
-      <origin
-        xyz="-1.058E-05 -0.015556 -0.00071484"
-        rpy="0 0 0" />
-      <mass
-        value="0.0011042" />
-      <inertia
-        ixx="1.5467E-07"
-        ixy="-7.9881E-10"
-        ixz="-2.9739E-11"
-        iyy="3.5247E-09"
-        iyz="7.7059E-09"
-        izz="1.5576E-07" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://daadbot_desc/meshes/base_claw_link1.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="1 1 1 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://daadbot_desc/meshes/base_claw_link1.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="base_claw_joint1"
-    type="revolute">
-    <origin
-      xyz="-0.00548036760308535 0.0047463745042049 0.0685789689085226"
-      rpy="-1.52010273242897 0 0" />
-    <parent
-      link="Link_7" />
-    <child
-      link="base_claw_link1" />
-    <axis
-      xyz="0.0472460759822863 -0.0506152984712078 -0.997600070100712" />
-    <limit
-      lower="0"
-      upper="0.9"
-      effort="${effort}"
-      velocity="${velocity}" />
-    <mimic
-      joint="gear1_joint"
-      multiplier="-1"
-      offset="0" />
-  </joint>
+  
+  
 </robot>

@@ -2,10 +2,10 @@ controller_manager:
   ros__parameters:
     update_rate: 10
 
-    velocity_arm_controller: # original controller   
+    velocity_arm_controller:   
       type: joint_trajectory_controller/JointTrajectoryController
 
-    velocity_gripper_controller: # original controller   
+    velocity_gripper_controller:  
       type: joint_trajectory_controller/JointTrajectoryController
 
     joint_state_broadcaster:

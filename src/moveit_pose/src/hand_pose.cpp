@@ -1,5 +1,5 @@
 #include <rclcpp/rclcpp.hpp>
-#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <geometry_msgs/msg/pose.hpp>
 
 class HandPose : public rclcpp::Node
@@ -36,13 +36,22 @@ private:
   void moveArm()
   {
     geometry_msgs::msg::Pose target_pose;
-    target_pose.position.x = 0.35;
-    target_pose.position.y = 0.0;
-    target_pose.position.z = 0.6;
-    target_pose.orientation.w = 0.015;
-    target_pose.orientation.x = 0.1;
-    target_pose.orientation.y = 0.01;
-    target_pose.orientation.z = 0.0;
+    // target_pose.position.x = 0.487;
+    // target_pose.position.y = -0.005;
+    // target_pose.position.z = 0.604;
+    // target_pose.orientation.w = 1.0;
+    // target_pose.orientation.x = 0.0;
+    // target_pose.orientation.y = 0.0;
+    // target_pose.orientation.z = 0.025;
+
+    target_pose.position.x = 0.487;
+    target_pose.position.y = -0.005;
+    target_pose.position.z = 0.604;
+    
+    target_pose.orientation.x = 1.0;
+    target_pose.orientation.y = 0.0;
+    target_pose.orientation.z = 0.00;
+    target_pose.orientation.w = 0.025;
 
     arm_move_group_->setPoseTarget(target_pose);
 
