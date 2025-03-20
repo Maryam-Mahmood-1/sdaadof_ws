@@ -4,7 +4,20 @@
 
 namespace daadbot_controller
 {
- 
+
+std::string compensateZeros(const int value)
+{
+  std::string compensate_zeros = "";
+  if(value < 10){
+    compensate_zeros = "00";
+  } else if(value < 100){
+    compensate_zeros = "0";
+  } else {
+    compensate_zeros = "";
+  }
+  return compensate_zeros;
+}
+  
 DaadbotInterface::DaadbotInterface()
 {
 }
@@ -41,6 +54,9 @@ CallbackReturn DaadbotInterface::on_init(const hardware_interface::HardwareInfo 
     RCLCPP_FATAL(rclcpp::get_logger("DaadbotInterface"), "No Serial Port provided! Aborting");
     return CallbackReturn::FAILURE;
   }
+  
+  RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"),
+                     "Detected Joints: " << info_.joints.size());
 
   velocity_commands_.reserve(info_.joints.size());
   velocity_states_.reserve(info_.joints.size());
