@@ -1,0 +1,10 @@
+<library path="daadbot_controller">
+    <class name="daadbot_controller/DaadbotInterface"
+      type="daadbot_controller::DaadbotInterface"
+      base_class_type="hardware_interface::SystemInterface"
+    >
+      <description>
+        Daadbot Hardware Interface
+      </description>
+    </class>
+  </library>

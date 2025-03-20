@@ -4,14 +4,83 @@
     <xacro:property name='PI' value='3.141592653589793'/>
 
     <ros2_control type="system" name="Manipulator">
-        <xacro:if value="$(arg is_ignition)">
-            <hardware>
-                <plugin>ign_ros2_control/IgnitionSystem</plugin>
-            </hardware>
+        <!-- ros2_control Gazebo -->
+        <xacro:if value="$(arg is_sim)">
+            <!-- ROS 2 Humble -->
+            <xacro:if value="$(arg is_ignition)">
+                <hardware>
+                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+                </hardware>
+            </xacro:if>
+
+            <!-- ROS 2 jazzy -->
+            <xacro:unless value="$(arg is_ignition)">
+                <hardware>
+                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+                </hardware>
+            </xacro:unless>
+
+                <joint name="base_claw_joint1">
+                
+                <param name="mimic">gear1_joint</param>
+                <param name="multiplier">-1</param>
+
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+
+            </joint>
+
+            <joint name="claw_joint1">
+
+                <param name="mimic">base_claw_joint1</param>
+                <param name="multiplier">1</param>
+
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+                
+            </joint>
+
+            <joint name="gear2_joint">
+
+                <param name="mimic">gear1_joint</param>
+                <param name="multiplier">-1</param>
+
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+        
+            </joint>
+
+            <joint name="base_claw_joint2">
+
+                <param name="mimic">gear1_joint</param>
+                <param name="multiplier">-1</param>
+
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+        
+            </joint>
+
+            <joint name="claw_joint2">
+                
+                <param name="mimic">base_claw_joint2</param>
+                <param name="multiplier">-1</param>
+
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+
+            </joint>
         </xacro:if>
-        <xacro:unless value="$(arg is_ignition)">
+
+        <!-- ros2_control Real Robot -->
+        <xacro:unless value="$(arg is_sim)">
             <hardware>
-                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+                <plugin>daadbot_controller/DaadbotInterface</plugin>
+                <param name="port">/dev/ttyUSB0</param>
             </hardware>
         </xacro:unless>
 
@@ -101,61 +170,6 @@
             <state_interface name="position"/>
             <state_interface name="velocity"/>
             <state_interface name="effort"/>
-        </joint>
-
-        <joint name="base_claw_joint1">
-            
-            <param name="mimic">gear1_joint</param>
-            <param name="multiplier">-1</param>
-
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-
-        </joint>
-
-        <joint name="claw_joint1">
-
-            <param name="mimic">base_claw_joint1</param>
-            <param name="multiplier">1</param>
-
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-             
-        </joint>
-
-        <joint name="gear2_joint">
-
-            <param name="mimic">gear1_joint</param>
-            <param name="multiplier">-1</param>
-
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-    
-        </joint>
-
-        <joint name="base_claw_joint2">
-
-            <param name="mimic">gear1_joint</param>
-            <param name="multiplier">-1</param>
-
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-    
-        </joint>
-
-        <joint name="claw_joint2">
-            
-            <param name="mimic">base_claw_joint2</param>
-            <param name="multiplier">-1</param>
-
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-
         </joint>
 
         
