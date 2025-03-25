@@ -33,8 +33,9 @@ public:
   virtual hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
 private:
-  LibSerial::SerialPort arduino_;
+  LibSerial::SerialPort esp_;
   std::string port_;
+  bool rmp_sent_ = false;
   std::vector<double> velocity_commands_;  // Changed from position_commands_
   std::vector<double> prev_velocity_commands_;  // Changed from prev_position_commands_
   std::vector<double> position_states_; // Keeping position state for tracking

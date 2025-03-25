@@ -4,17 +4,30 @@
 
 namespace daadbot_controller
 {
+
+std::string compensateZeros(const int value)
+{
+  std::string compensate_zeros = "";
+  if(value < 10){
+    compensate_zeros = "00";
+  } else if(value < 100){
+    compensate_zeros = "0";
+  } else {
+    compensate_zeros = "";
+  }
+  return compensate_zeros;
+}
   
 DaadbotInterface::DaadbotInterface()
 {
 }
 DaadbotInterface::~DaadbotInterface()
 {
-  if (esp_.IsOpen())
+  if (arduino_.IsOpen())
   {
     try
     {
-      esp_.Close();
+      arduino_.Close();
     }
     catch (...)
     {
@@ -41,7 +54,7 @@ CallbackReturn DaadbotInterface::on_init(const hardware_interface::HardwareInfo 
     RCLCPP_FATAL(rclcpp::get_logger("DaadbotInterface"), "No Serial Port provided! Aborting");
     return CallbackReturn::FAILURE;
   }
-
+  
   RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"),
                      "Detected Joints: " << info_.joints.size());
 
@@ -88,23 +101,17 @@ CallbackReturn DaadbotInterface::on_activate(const rclcpp_lifecycle::State &prev
 {
   RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Starting robot hardware ...");
 
-  velocity_commands_.assign(info_.joints.size(), 0.0);
-  prev_velocity_commands_.assign(info_.joints.size(), 0.0);
-  position_states_.assign(info_.joints.size(), 0.0);
-  velocity_states_.assign(info_.joints.size(), 0.0);
+  // Reset commands and states
+
+  velocity_commands_ = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  prev_velocity_commands_ = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  position_states_ = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  velocity_states_ = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
   try
   {
-    esp_.Open(port_);
-    esp_.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
-
-    // Send "rmp\n" only once
-    esp_.Write("rmp\n");
-    esp_.DrainWriteBuffer();
-    rmp_sent_ = true;
-
-    RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"),
-                "Sent initial rmp command, ready to take commands.");
+    arduino_.Open(port_);
+    arduino_.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
   }
   catch (...)
   {
@@ -113,19 +120,20 @@ CallbackReturn DaadbotInterface::on_activate(const rclcpp_lifecycle::State &prev
     return CallbackReturn::FAILURE;
   }
 
+  RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"),
+              "Hardware started, ready to take commands");
   return CallbackReturn::SUCCESS;
 }
-
 
 CallbackReturn DaadbotInterface::on_deactivate(const rclcpp_lifecycle::State &previous_state)
 {
   RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Stopping robot hardware ...");
 
-  if (esp_.IsOpen())
+  if (arduino_.IsOpen())
   {
     try
     {
-      esp_.Close();
+      arduino_.Close();
     }
     catch (...)
     {
@@ -139,102 +147,60 @@ CallbackReturn DaadbotInterface::on_deactivate(const rclcpp_lifecycle::State &pr
 }
 
 hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
-                                                       const rclcpp::Duration &period)
+                                                          const rclcpp::Duration &period)
 {
-  if (!esp_.IsOpen())
-  {
-    RCLCPP_ERROR(rclcpp::get_logger("DaadbotInterface"), "Serial port not open, cannot read.");
-    return hardware_interface::return_type::ERROR;
-  }
-
-  try
-  {
-    std::string response;
-    esp_.ReadLine(response, '\n', 500); // Read response with timeout
-
-    if (response.empty() || response.front() != '<' || response.back() != '>')
-    {
-      RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Invalid response: %s", response.c_str());
-      return hardware_interface::return_type::ERROR;
-    }
-
-    response = response.substr(1, response.size() - 2); // Remove < >
-    std::istringstream ss(response);
-    std::string token;
-    ss >> token;
-
-    if (token != "P")
-    {
-      RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Unexpected response format: %s", response.c_str());
-      return hardware_interface::return_type::ERROR;
-    }
-
-    size_t i = 0;
-    while (ss >> token && i < position_states_.size())
-    {
-      try
-      {
-        position_states_[i] = std::stod(token);
-      }
-      catch (...)
-      {
-        RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Invalid number format: %s", token.c_str());
-        return hardware_interface::return_type::ERROR;
-      }
-      i++;
-    }
-  }
-  catch (const std::exception &e)
-  {
-    RCLCPP_ERROR_STREAM(rclcpp::get_logger("DaadbotInterface"), "Read failed: " << e.what());
-    return hardware_interface::return_type::ERROR;
-  }
-
+  velocity_states_ = velocity_commands_;
   return hardware_interface::return_type::OK;
 }
 
-
 hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time,
-                                                        const rclcpp::Duration &period)
+                                                           const rclcpp::Duration &period)
 {
-  if (!esp_.IsOpen())
-  {
-    RCLCPP_ERROR(rclcpp::get_logger("DaadbotInterface"), "Serial port not open, cannot write.");
-    return hardware_interface::return_type::ERROR;
-  }
-
   if (velocity_commands_ == prev_velocity_commands_)
   {
+    // Nothing changed, do not send any command
     return hardware_interface::return_type::OK;
   }
 
+  std::string msg;
+  int base = static_cast<int>(((velocity_commands_.at(0) + (M_PI / 2)) * 180) / M_PI);
+  msg.append("b");
+  msg.append(compensateZeros(base));
+  msg.append(std::to_string(base));
+  msg.append(",");
+  int shoulder = 180 - static_cast<int>(((velocity_commands_.at(1) + (M_PI / 2)) * 180) / M_PI);
+  msg.append("s");
+  msg.append(compensateZeros(shoulder));
+  msg.append(std::to_string(shoulder));
+  msg.append(",");
+  int elbow = static_cast<int>(((velocity_commands_.at(2) + (M_PI / 2)) * 180) / M_PI);
+  msg.append("e");
+  msg.append(compensateZeros(elbow));
+  msg.append(std::to_string(elbow));
+  msg.append(",");
+  int gripper = static_cast<int>(((-velocity_commands_.at(3)) * 180) / (M_PI / 2));
+  msg.append("g");
+  msg.append(compensateZeros(gripper));
+  msg.append(std::to_string(gripper));
+  msg.append(",");
+
   try
   {
-    std::ostringstream msg;
-    msg << "<W";
-    for (size_t i = 0; i < velocity_commands_.size(); i++)
-    {
-      msg << " " << static_cast<int>(velocity_commands_[i]);
-    }
-    msg << ">";
-
-    std::string command = msg.str();
-    esp_.Write(command + "\n");
-    esp_.DrainWriteBuffer();
-
-    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Sent: " << command);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Sending new command " << msg);
+    arduino_.Write(msg);
   }
-  catch (const std::exception &e)
+  catch (...)
   {
-    RCLCPP_ERROR_STREAM(rclcpp::get_logger("DaadbotInterface"), "Write failed: " << e.what());
+    RCLCPP_ERROR_STREAM(rclcpp::get_logger("DaadbotInterface"),
+                        "Something went wrong while sending the message "
+                            << msg << " to the port " << port_);
     return hardware_interface::return_type::ERROR;
   }
 
   prev_velocity_commands_ = velocity_commands_;
+
   return hardware_interface::return_type::OK;
 }
-
-
 }  // namespace daadbot_controller
 
 PLUGINLIB_EXPORT_CLASS(daadbot_controller::DaadbotInterface, hardware_interface::SystemInterface)
