@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="7dof_2motor_small_rod">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00049737 0.0072038 -0.00026123"
+        rpy="0 0 0" />
+      <mass
+        value="6.9112" />
+      <inertia
+        ixx="0.046617"
+        ixy="5.1488E-08"
+        ixz="-0.00010077"
+        iyy="0.092984"
+        iyz="1.4462E-07"
+        izz="0.046482" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.25098 0.25098 0.25098 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link_1">
+    <inertial>
+      <origin
+        xyz="-3.025E-06 -1.7534E-05 0.067041"
+        rpy="0 0 0" />
+      <mass
+        value="2.1249" />
+      <inertia
+        ixx="0.0039851"
+        ixy="-1.5952E-07"
+        ixz="1.612E-07"
+        iyy="0.0027301"
+        iyz="-6.5536E-07"
+        izz="0.0035284" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_1"
+    type="continuous">
+    <origin
+      xyz="0 0.0525 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Link_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="22"
+      velocity="12.77581" />
+  </joint>
+  <link
+    name="Link_2_1">
+    <inertial>
+      <origin
+        xyz="0.1734 -0.00031023 0.040058"
+        rpy="0 0 0" />
+      <mass
+        value="2.4075" />
+      <inertia
+        ixx="0.0049351"
+        ixy="-2.4779E-06"
+        ixz="-4.4385E-06"
+        iyy="0.003639"
+        iyz="1.2339E-08"
+        izz="0.0040635" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_2_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_2_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_2_1"
+    type="revolute">
+    <origin
+      xyz="-0.049 0 0.105"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="Link_1" />
+    <child
+      link="Link_2_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.2618"
+      upper="3.5779"
+      effort="22"
+      velocity="12.77581" />
+  </joint>
+  <link
+    name="Link_3">
+    <inertial>
+      <origin
+        xyz="-0.0044003 -2.1655E-05 0.0597"
+        rpy="0 0 0" />
+      <mass
+        value="1.3788" />
+      <inertia
+        ixx="0.0025027"
+        ixy="9.275E-08"
+        ixz="5.4475E-06"
+        iyy="0.0016215"
+        iyz="2.8899E-07"
+        izz="0.0016785" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_3"
+    type="continuous">
+    <origin
+      xyz="0.2895 0 0.049"
+      rpy="0 1.5708 0" />
+    <parent
+      link="Link_2_1" />
+    <child
+      link="Link_3" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="22"
+      velocity="12.77581" />
+  </joint>
+  <link
+    name="Link_4">
+    <inertial>
+      <origin
+        xyz="-0.13892 0.00026322 0.036718"
+        rpy="0 0 0" />
+      <mass
+        value="3.1743" />
+      <inertia
+        ixx="0.0041067"
+        ixy="-3.2527E-06"
+        ixz="-3.213E-06"
+        iyy="0.0037029"
+        iyz="3.7947E-07"
+        izz="0.0044883" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_4"
+    type="revolute">
+    <origin
+      xyz="-0.0325 0 0.095"
+      rpy="0 1.5708 0" />
+    <parent
+      link="Link_3" />
+    <child
+      link="Link_4" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.9199"
+      upper="1.9199"
+      effort="22"
+      velocity="12.77581" />
+  </joint>
+  <link
+    name="Link_5">
+    <inertial>
+      <origin
+        xyz="-0.0058467 -3.3614E-05 0.052255"
+        rpy="0 0 0" />
+      <mass
+        value="1.4559" />
+      <inertia
+        ixx="0.0013399"
+        ixy="1.2832E-06"
+        ixz="1.6895E-06"
+        iyy="0.00084262"
+        iyz="3.2397E-07"
+        izz="0.0009966" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_5"
+    type="continuous">
+    <origin
+      xyz="-0.269 0 0.032"
+      rpy="3.1416 1.5708 0" />
+    <parent
+      link="Link_4" />
+    <child
+      link="Link_5" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="15"
+      velocity="19.896753" />
+  </joint>
+  <link
+    name="link_6">
+    <inertial>
+      <origin
+        xyz="-0.056394 -0.00011175 -0.026376"
+        rpy="0 0 0" />
+      <mass
+        value="1.4077" />
+      <inertia
+        ixx="0.0010474"
+        ixy="9.9306E-07"
+        ixz="1.657E-06"
+        iyy="0.00078211"
+        iyz="-3.1036E-06"
+        izz="0.00099212" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/link_6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/link_6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_6"
+    type="revolute">
+    <origin
+      xyz="-0.0265 0 0.065"
+      rpy="3.1416 1.5708 0" />
+    <parent
+      link="Link_5" />
+    <child
+      link="link_6" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="15"
+      velocity="19.896753" />
+  </joint>
+  <link
+    name="Link_7">
+    <inertial>
+      <origin
+        xyz="-1.2277E-06 1.1636E-05 -0.0039691"
+        rpy="0 0 0" />
+      <mass
+        value="0.13169" />
+      <inertia
+        ixx="6.9119E-05"
+        ixy="1.3247E-10"
+        ixz="8.854E-10"
+        iyy="6.9139E-05"
+        iyz="2.0819E-11"
+        izz="0.00013685" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_7.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.66667 0.69804 0.76863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link_7.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_7"
+    type="continuous">
+    <origin
+      xyz="-0.0935 0 -0.027"
+      rpy="0 1.5708 0" />
+    <parent
+      link="link_6" />
+    <child
+      link="Link_7" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="15"
+      velocity="19.896753" />
+  </joint>
+  <link
+    name="endeffector">
+    <inertial>
+      <origin
+        xyz="0.013818 0.013613 -0.025657"
+        rpy="0 0 0" />
+      <mass
+        value="0.15406" />
+      <inertia
+        ixx="3.1964E-05"
+        ixy="-1.0714E-07"
+        ixz="-4.3009E-12"
+        iyy="2.5364E-05"
+        iyz="-9.823E-08"
+        izz="4.738E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/endeffector.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/endeffector.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="endeffector"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.008"
+      rpy="0 0 3.1416" />
+    <parent
+      link="Link_7" />
+    <child
+      link="endeffector" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="gear1">
+    <inertial>
+      <origin
+        xyz="0.0015 0.0008943 -0.0057527"
+        rpy="0 0 0" />
+      <mass
+        value="0.0053" />
+      <inertia
+        ixx="9.2673E-07"
+        ixy="-1.3621E-21"
+        ixz="-1.1503E-21"
+        iyy="7.5598E-07"
+        iyz="1.0415E-08"
+        izz="1.787E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gear1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0025 0.0135 -0.037679"
+      rpy="0 0 -3.1416" />
+    <parent
+      link="endeffector" />
+    <child
+      link="gear1" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.9"
+      upper="0"
+      effort="5"
+      velocity="10" />
+  </joint>
+  <link
+    name="gear1_claw">
+    <inertial>
+      <origin
+        xyz="-0.00150000000000181 0.00521211726875784 -0.0234461872537791"
+        rpy="0 0 0" />
+      <mass
+        value="0.00393743096892516" />
+      <inertia
+        ixx="1.26667392866791E-06"
+        ixy="-1.71611056842971E-22"
+        ixz="-6.82470905121942E-22"
+        iyy="1.21179264435068E-06"
+        iyz="1.6338227028702E-07"
+        izz="6.07874307706149E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear1_claw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear1_claw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="claw_joint1"
+    type="revolute">
+    <origin
+      xyz="-0.0005 0.0016069 -0.030958"
+      rpy="0 0 0" />
+    <parent
+      link="gear1" />
+    <child
+      link="gear1_claw" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="5"
+      velocity="10" />
+    <mimic
+      joint="base_claw_joint1"
+      multiplier="1"
+      offset="0" />
+  </joint>
+  <link
+    name="gear2_link">
+    <inertial>
+      <origin
+        xyz="0.00199999999999628 0.000364098641852328 -0.00529262032201105"
+        rpy="0 0 0" />
+      <mass
+        value="0.00576363113945471" />
+      <inertia
+        ixx="1.01154671272607E-06"
+        ixy="-1.561833856079E-21"
+        ixz="-1.1724084558144E-21"
+        iyy="8.01979014189938E-07"
+        iyz="4.03503424029161E-08"
+        izz="2.18213145245317E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gear2_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0015 -0.0135 -0.037679"
+      rpy="0 0 -3.1416" />
+    <parent
+      link="endeffector" />
+    <child
+      link="gear2_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.9"
+      upper="0.9"
+      effort="5"
+      velocity="10" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="gear2_claw">
+    <inertial>
+      <origin
+        xyz="-0.00150000000000187 -0.00521665625212772 -0.0234451777708655"
+        rpy="0 0 0" />
+      <mass
+        value="0.00393743096892516" />
+      <inertia
+        ixx="1.26667392866791E-06"
+        ixy="-7.38022408568836E-22"
+        ixz="-3.46294572369403E-21"
+        iyy="1.2117293410008E-06"
+        iyz="-1.63605087703839E-07"
+        izz="6.08507341204995E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear2_claw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/gear2_claw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="claw_joint2"
+    type="revolute">
+    <origin
+      xyz="0.0005 0.0021276 -0.030927"
+      rpy="0 0 0" />
+    <parent
+      link="gear2_link" />
+    <child
+      link="gear2_claw" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.9"
+      upper="0"
+      effort="5"
+      velocity="10" />
+    <mimic
+      joint="base_claw_joint2"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="base_claw_link2">
+    <inertial>
+      <origin
+        xyz="0.00199999999999806 0.00106955064333081 -0.0154630547247713"
+        rpy="0 0 0" />
+      <mass
+        value="0.00110418822863696" />
+      <inertia
+        ixx="1.56149541453461E-07"
+        ixy="-4.97683470418751E-24"
+        ixz="-1.38425919546291E-22"
+        iyy="1.5394517037092E-07"
+        iyz="1.04315047707607E-08"
+        izz="3.85296137072979E-09" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/base_claw_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/base_claw_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_claw_joint2"
+    type="revolute">
+    <origin
+      xyz="0.0015 0.00525 -0.066079"
+      rpy="0 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="base_claw_link2" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="5"
+      velocity="10" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="base_claw_link1">
+    <inertial>
+      <origin
+        xyz="0.00199999999999809 0.000795718349630437 -0.015479561760767"
+        rpy="0 0 0" />
+      <mass
+        value="0.00110418822863694" />
+      <inertia
+        ixx="1.56149541453461E-07"
+        ixy="-5.10050344222314E-24"
+        ixz="-1.54094708719289E-22"
+        iyy="1.54267333956653E-07"
+        iyz="7.76905773980025E-09"
+        izz="3.53079778499678E-09" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/base_claw_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/base_claw_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_claw_joint1"
+    type="revolute">
+    <origin
+      xyz="0.0015 -0.00525 -0.066079"
+      rpy="0 0 0" />
+    <parent
+      link="Link_7" />
+    <child
+      link="base_claw_link1" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="0"
+      upper="0.9"
+      effort="5"
+      velocity="10" />
+    <mimic
+      joint="gear1_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="Link2_2">
+    <inertial>
+      <origin
+        xyz="0.00803756494020985 -2.46775506149433E-05 -0.00288193051341636"
+        rpy="0 0 0" />
+      <mass
+        value="0.468837968498249" />
+      <inertia
+        ixx="0.000410070134282236"
+        ixy="-1.73981208238582E-07"
+        ixz="4.18651946303359E-06"
+        iyy="0.000722264484879749"
+        iyz="3.33432809619567E-08"
+        izz="0.00111657059665036" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link2_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7dof_2motor_small_rod/meshes/Link2_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2_2"
+    type="revolute">
+    <origin
+      xyz="0 0 0.098"
+      rpy="0 0 0" />
+    <parent
+      link="Link_2_1" />
+    <child
+      link="Link2_2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="22"
+      velocity="12.776" />
+    <mimic
+      joint="Joint_2_1"
+      multiplier="1"
+      offset="0" />
+  </joint>
+</robot>

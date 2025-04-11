@@ -13,6 +13,7 @@ controller_manager:
 
 velocity_arm_controller:
   ros__parameters:
+    position_proportional_gain: 0.0
     joints:
       - joint_1
       - joint_2
@@ -28,52 +29,52 @@ velocity_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
     
       joint_2:  # Joint 2 PID gains
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
-        antiwindup: false     
+        antiwindup: true     
 
       joint_3:  # Joint 3 PID gains
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
-        antiwindup: false
+        antiwindup: true
 
       joint_4:  # Joint 4 PID gains
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
-        antiwindup: false
+        antiwindup: true
 
       joint_5:  # Joint 5 PID gains
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
-        antiwindup: false
+        antiwindup: true
 
       joint_6:  # Joint 6 PID gains
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
-        antiwindup: false
+        antiwindup: true
 
       joint_7:  # Joint 7 PID gains
-        p: 1.0
-        i: 0.0
-        d: 0.0
+        p: 0.5
+        i: 0.1
+        d: 0.1
         i_clamp: 0.0
-        antiwindup: false
+        antiwindup: true
 
     #allow_integration_in_goal_trajectories: true
     open_loop_control: false
@@ -94,9 +95,8 @@ velocity_gripper_controller:
     state_interfaces:
       - position
       - velocity
-
     gains:
-      gear1_joint: {p: 1.0, i: 0.0, d: 0.0, angle_wraparound: true}
+      gear1_joint: {p: 0.5, i: 0.0, d: 0.0, angle_wraparound: true}
 
     open_loop_control: false
     allow_integration_in_goal_trajectories: true
@@ -122,3 +122,4 @@ joint_state_broadcaster:
     interfaces:
       - position
       - velocity
+      - effort

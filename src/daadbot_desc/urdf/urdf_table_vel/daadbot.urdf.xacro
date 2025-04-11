@@ -14,7 +14,7 @@
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='20.0'/>
-  <xacro:property name='effort' value='300.0'/>
+  <xacro:property name='effort' value='75.0'/>
 
   <link name="world"/>
 
@@ -114,7 +114,7 @@
   </link>
   <joint
     name="joint_1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.05"
       rpy="0 0 3.1416" />
@@ -125,8 +125,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="3.14"
+      lower="-0.1"
+      upper="3.145"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -230,7 +230,7 @@
   </link>
   <joint
     name="joint_3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.000359289684152012 0.435033961918617 0.0294474762975983"
       rpy="1.57079632680726 0 3.14159265358979" />
@@ -241,8 +241,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="3.14"
+      lower="-0.1"
+      upper="3.145"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -346,7 +346,7 @@
   </link>
   <joint
     name="joint_5"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.419299903678905 0 -0.0294999999999992"
       rpy="0 1.5707963267949 0" />
@@ -357,8 +357,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="3.14"
+      lower="-0.1"
+      upper="3.145"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
@@ -462,7 +462,7 @@
   </link>
   <joint
     name="joint_7"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 -0.0909999036788988 -0.0244999999999991"
       rpy="-1.5707963267949 0 3.14159265358979" />
@@ -473,8 +473,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="3.14"
+      lower="-0.1"
+      upper="3.145"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>

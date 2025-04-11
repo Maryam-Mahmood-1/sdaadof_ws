@@ -28,13 +28,13 @@ effort_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 100.0
+        p: 1.0
         i: 0.0
         d: 0.0
         i_clamp: 0.0
     
       joint_2:  # Joint 2 PID gains
-        p: 0.0
+        p: 300.0
         i: 0.0
         d: 0.0
         i_clamp: 0.0
