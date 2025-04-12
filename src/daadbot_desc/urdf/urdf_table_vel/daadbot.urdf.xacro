@@ -14,7 +14,7 @@
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='20.0'/>
-  <xacro:property name='effort' value='75.0'/>
+  <xacro:property name='effort' value='150.0'/>
 
   <link name="world"/>
 

@@ -80,16 +80,16 @@ def generate_launch_description():
 
     # Bridge for Gazebo <--> ROS 2 Communication
     gz_ros2_bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock]'],
-        output='screen'
+        package = 'ros_gz_bridge',
+        executable = 'parameter_bridge',
+        arguments= ['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'
+                ]
     )
 
     return LaunchDescription([
         model_arg,
-        gazebo_resource_path,
         robot_state_publisher_node,
+        gazebo_resource_path,
         gazebo,
         gz_spawn_entity,
         gz_ros2_bridge

@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 10
+    update_rate: 500
 
     velocity_arm_controller:   
       type: joint_trajectory_controller/JointTrajectoryController
@@ -29,50 +29,50 @@ velocity_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
     
       joint_2:  # Joint 2 PID gains
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true     
 
       joint_3:  # Joint 3 PID gains
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
       joint_4:  # Joint 4 PID gains
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
       joint_5:  # Joint 5 PID gains
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
       joint_6:  # Joint 6 PID gains
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
       joint_7:  # Joint 7 PID gains
-        p: 0.5
+        p: 1.5
         i: 0.1
-        d: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
@@ -96,7 +96,7 @@ velocity_gripper_controller:
       - position
       - velocity
     gains:
-      gear1_joint: {p: 0.5, i: 0.0, d: 0.0, angle_wraparound: true}
+      gear1_joint: {p: 1.5, i: 0.0, d: 0.0, angle_wraparound: true}
 
     open_loop_control: false
     allow_integration_in_goal_trajectories: true

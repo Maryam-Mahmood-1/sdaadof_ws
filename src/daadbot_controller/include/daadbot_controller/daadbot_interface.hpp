@@ -40,6 +40,7 @@ private:
   std::vector<double> prev_velocity_commands_;  // Changed from prev_position_commands_
   std::vector<double> position_states_; // Keeping position state for tracking
   std::vector<double> velocity_states_; // Added velocity states for tracking
+  std::vector<double> effort_states_; // Added velocity states for tracking
 };
 
 }  // namespace daadbot_controller

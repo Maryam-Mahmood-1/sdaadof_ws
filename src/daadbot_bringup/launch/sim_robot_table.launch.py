@@ -26,7 +26,7 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory("daadbot_moveit"),
                 "launch",
-                "moveit_table.launch.pyy"
+                "moveit_table.launch.py"
             ),
             launch_arguments={"is_sim": "True"}.items()
         )
