@@ -15,13 +15,13 @@ velocity_arm_controller:
   ros__parameters:
     position_proportional_gain: 0.0
     joints:
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-      - joint_5
-      - joint_6
-      - joint_7
+      - sim_joint_1
+      - sim_joint_2
+      - sim_joint_3
+      - sim_joint_4
+      - sim_joint_5
+      - sim_joint_6
+      - sim_joint_7
     command_interfaces:
       - velocity
     state_interfaces:
@@ -105,19 +105,19 @@ joint_state_broadcaster:
   ros__parameters:
     update_rate: 100
     joints:
-      - joint_1
-      - joint_2
-      - joint_3
-      - joint_4
-      - joint_5
-      - joint_6
-      - joint_7
-      - gear1_joint
+      - sim_joint_1
+      - sim_joint_2
+      - sim_joint_3
+      - sim_joint_4
+      - sim_joint_5
+      - sim_joint_6
+      - sim_joint_7
+      - sim_gear1_joint
 
     # joints:
-    #   - joint_5
-    #   - joint_6
-    #   - joint_7
+    #   - sim_joint_5
+    #   - sim_joint_6
+    #   - sim_joint_7
     
     interfaces:
       - position

@@ -1,12 +1,12 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100
+    update_rate: 500
 
     velocity_arm_controller:   
       type: joint_trajectory_controller/JointTrajectoryController
 
-    velocity_gripper_controller:  
-      type: joint_trajectory_controller/JointTrajectoryController
+    # velocity_gripper_controller:  
+    #   type: joint_trajectory_controller/JointTrajectoryController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -56,23 +56,23 @@ velocity_arm_controller:
         antiwindup: true
 
       joint_5:  # Joint 5 PID gains
-        p: 2.5
-        i: 0.0
-        d: 0.000
+        p: 1.5
+        i: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
       joint_6:  # Joint 6 PID gains
-        p: 2.5
-        i: 0.0
-        d: 0.000
+        p: 1.5
+        i: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
       joint_7:  # Joint 7 PID gains
-        p: 2.5
-        i: 0.0
-        d: 0.000
+        p: 1.5
+        i: 0.1
+        d: 0.001
         i_clamp: 0.0
         antiwindup: true
 
@@ -86,20 +86,20 @@ velocity_arm_controller:
 
     
 
-velocity_gripper_controller:
-  ros__parameters:
-    joints:
-      - gear1_joint
-    command_interfaces: 
-      - velocity
-    state_interfaces:
-      - position
-      - velocity
-    gains:
-      gear1_joint: {p: 1.5, i: 0.0, d: 0.0, angle_wraparound: true}
+# velocity_gripper_controller:
+#   ros__parameters:
+#     joints:
+#       - gear1_joint
+#     command_interfaces: 
+#       - velocity
+#     state_interfaces:
+#       - position
+#       - velocity
+#     gains:
+#       gear1_joint: {p: 1.5, i: 0.0, d: 0.0, angle_wraparound: true}
 
-    open_loop_control: false
-    allow_integration_in_goal_trajectories: true
+#     open_loop_control: false
+#     allow_integration_in_goal_trajectories: true
 
 joint_state_broadcaster:
   ros__parameters:
@@ -112,7 +112,6 @@ joint_state_broadcaster:
       - joint_5
       - joint_6
       - joint_7
-      - gear1_joint
 
     # joints:
     #   - joint_5

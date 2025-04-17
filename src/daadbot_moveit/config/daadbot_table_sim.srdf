@@ -3,48 +3,48 @@
 <robot name="daadbot">
 
     <group name="arm">
-        <joint name="table_joint"/>
-        <joint name="base_joint"/>
+        <joint name="sim_table_joint"/>
+        <joint name="sim_base_joint"/>
 
-        <joint name="joint_1"/>
-        <joint name="joint_2"/>
-        <joint name="joint_3"/>
-        <joint name="joint_4"/>
-        <joint name="joint_5"/>
-        <joint name="joint_6"/>
-        <joint name="joint_7"/>
+        <joint name="sim_joint_1"/>
+        <joint name="sim_joint_2"/>
+        <joint name="sim_joint_3"/>
+        <joint name="sim_joint_4"/>
+        <joint name="sim_joint_5"/>
+        <joint name="sim_joint_6"/>
+        <joint name="sim_joint_7"/>
 
-        <joint name="endeffector_joint"/>
+        <joint name="sim_endeffector_joint"/>
 
     </group>
 
     <group name="gripper">
 
-        <joint name="gear1_joint"/>
-        <joint name="base_claw_joint1"/>
-        <joint name="claw_joint1"/>
-        <joint name="gear2_joint"/>
-        <joint name="base_claw_joint2"/>
-        <joint name="claw_joint2"/>
+        <joint name="sim_gear1_joint"/>
+        <joint name="sim_base_claw_joint1"/>
+        <joint name="sim_claw_joint1"/>
+        <joint name="sim_gear2_joint"/>
+        <joint name="sim_base_claw_joint2"/>
+        <joint name="sim_claw_joint2"/>
     
     </group>
 
     <group_state name="home" group="arm">
 
-        <joint name="joint_1" value="0"/>
-        <joint name="joint_2" value="1.75"/>
-        <joint name="joint_3" value="0"/>
-        <joint name="joint_4" value="0.175"/>
-        <joint name="joint_5" value="0"/>
-        <joint name="joint_6" value="-1.57"/>
-        <joint name="joint_7" value="0"/> 
+        <joint name="sim_joint_1" value="0"/>
+        <joint name="sim_joint_2" value="1.75"/>
+        <joint name="sim_joint_3" value="0"/>
+        <joint name="sim_joint_4" value="0.26"/>
+        <joint name="sim_joint_5" value="0"/>
+        <joint name="sim_joint_6" value="-1.57"/>
+        <joint name="sim_joint_7" value="0"/> 
 
     </group_state>
 
 
     <group_state name="home" group="gripper">
         
-        <joint name="gear1_joint" value="0"/>
+        <joint name="sim_gear1_joint" value="0"/>
         
     </group_state>
 

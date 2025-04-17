@@ -18,23 +18,14 @@
 
     </group>
 
-    <group name="gripper">
-
-        <joint name="gear1_joint"/>
-        <joint name="base_claw_joint1"/>
-        <joint name="claw_joint1"/>
-        <joint name="gear2_joint"/>
-        <joint name="base_claw_joint2"/>
-        <joint name="claw_joint2"/>
     
-    </group>
 
     <group_state name="home" group="arm">
 
         <joint name="joint_1" value="0"/>
         <joint name="joint_2" value="1.75"/>
         <joint name="joint_3" value="0"/>
-        <joint name="joint_4" value="0.175"/>
+        <joint name="joint_4" value="0.26"/>
         <joint name="joint_5" value="0"/>
         <joint name="joint_6" value="-1.57"/>
         <joint name="joint_7" value="0"/> 
@@ -42,11 +33,7 @@
     </group_state>
 
 
-    <group_state name="home" group="gripper">
-        
-        <joint name="gear1_joint" value="0"/>
-        
-    </group_state>
+  
 
 
     <disable_collisions link1="base_link" link2="Link_1" reason="Adjacent"/>

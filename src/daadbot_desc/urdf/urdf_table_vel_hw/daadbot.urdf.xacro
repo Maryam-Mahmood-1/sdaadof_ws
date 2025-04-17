@@ -416,7 +416,7 @@
       xyz="0 0 1" />
     <limit
       lower="-3.14"
-      upper="3.14"
+      upper="0"
       effort="${effort}"
       velocity="${velocity}" />
   </joint>

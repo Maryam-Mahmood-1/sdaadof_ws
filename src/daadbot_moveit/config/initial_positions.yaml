@@ -6,4 +6,4 @@ initial_position:
   joint_5: 0
   joint_6: -1.57
   joint_7: 0
-  gear1_joint: 0
+  #gear1_joint: 0

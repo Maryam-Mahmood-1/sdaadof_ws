@@ -7,9 +7,9 @@
 
   <xacro:arg name = "is_ignition" default="true"/>
 
-  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/daadbot_gazebo.xacro"/>
-  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/daadbot_ros2_control.xacro"/>
-  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/table.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel_sim/daadbot_gazebo.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel_sim/daadbot_ros2_control.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel_sim/table.xacro"/>
 
  
   <xacro:property name='PI' value='3.141592653589793'/>
@@ -19,14 +19,18 @@
   <link name="world"/>
 
   <!-- Attach the Table to the World -->
-  <joint name="table_joint" type="fixed">
+  <joint
+    name="sim_table_joint"
+    type="fixed">
     <parent link="world"/>
     <child link="table_top"/>
     <origin xyz="0 0 0" rpy="0 0 0"/> <!-- Adjust height of table -->
   </joint>
 
   <!-- Attach Daadbot to the Table -->
-  <joint name="base_joint" type="fixed">
+  <joint
+    name="sim_base_joint" 
+    type="fixed">
     <parent link="table_top"/>
     <child link="base_link"/>
     <origin xyz="0.3 0 0.015" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
@@ -113,7 +117,7 @@
     </collision>
   </link>
   <joint
-    name="joint_1"
+    name="sim_joint_1"
     type="revolute">
     <origin
       xyz="0 0 0.05"
@@ -171,7 +175,7 @@
     </collision>
   </link>
   <joint
-    name="joint_2"
+    name="sim_joint_2"
     type="revolute">
     <origin
       xyz="0 -0.02999999999948 0.107500000000395"
@@ -229,7 +233,7 @@
     </collision>
   </link>
   <joint
-    name="joint_3"
+    name="sim_joint_3"
     type="revolute">
     <origin
       xyz="0.000359289684152012 0.435033961918617 0.0294474762975983"
@@ -287,7 +291,7 @@
     </collision>
   </link>
   <joint
-    name="joint_4"
+    name="sim_joint_4"
     type="revolute">
     <origin
       xyz="0 0.0299999999999995 0.102500000000001"
@@ -345,7 +349,7 @@
     </collision>
   </link>
   <joint
-    name="joint_5"
+    name="sim_joint_5"
     type="revolute">
     <origin
       xyz="0.419299903678905 0 -0.0294999999999992"
@@ -403,7 +407,7 @@
     </collision>
   </link>
   <joint
-    name="joint_6"
+    name="sim_joint_6"
     type="revolute">
     <origin
       xyz="0.0239691789943203 -0.00121612576549357 0.0675000000000011"
@@ -461,7 +465,7 @@
     </collision>
   </link>
   <joint
-    name="joint_7"
+    name="sim_joint_7"
     type="revolute">
     <origin
       xyz="0 -0.0909999036788988 -0.0244999999999991"
@@ -519,7 +523,7 @@
     </collision>
   </link>
   <joint
-    name="endeffector_joint"
+    name="sim_endeffector_joint"
     type="fixed">
     <origin
       xyz="0 0 0"
@@ -572,7 +576,7 @@
     </collision>
   </link>
   <joint
-    name="gear1_joint"
+    name="sim_gear1_joint"
     type="revolute">
     <origin
       xyz="-0.0136030394768413 0.00185938617586617 0.0481789689084899"
@@ -630,7 +634,7 @@
     </collision>
   </link>
   <joint
-    name="base_claw_joint1_mimic"
+    name="sim_base_claw_joint1_mimic"
     type="fixed">
     <parent
       link="Link_7" />
@@ -639,7 +643,7 @@
   </joint>
   <link name="dummy_base_claw_joint1_mimic"/>
   <joint
-    name="base_claw_joint1"
+    name="sim_base_claw_joint1"
     type="revolute">
     <origin
       xyz="-0.00548036760308535 0.0047463745042049 0.0685789689085226"
@@ -701,7 +705,7 @@
     </collision>
   </link>
   <joint
-    name="claw_joint1_mimic"
+    name="sim_claw_joint1_mimic"
     type="fixed">
     <parent
       link="gear1" />
@@ -710,7 +714,7 @@
   </joint>
   <link name="dummy_claw_joint1_mimic"/>
   <joint
-    name="claw_joint1"
+    name="sim_claw_joint1"
     type="revolute">
     <origin
       xyz="-0.000267699277291311 -0.0308336350288896 0.00405774420117622"
@@ -772,7 +776,7 @@
     </collision>
   </link>
   <joint
-    name="gear2_joint_mimic"
+    name="sim_gear2_joint_mimic"
     type="fixed">
     <parent
       link="endeffector" />
@@ -781,7 +785,7 @@
   </joint>
   <link name="dummy_gear2_joint_mimic"/>
   <joint
-    name="gear2_joint"
+    name="sim_gear2_joint"
     type="revolute">
     <origin
       xyz="0.013248693908315 0.0056322384288611 0.0481789689082828"
@@ -843,7 +847,7 @@
     </collision>
   </link>
   <joint
-    name="base_claw_joint2_mimic"
+    name="sim_base_claw_joint2_mimic"
     type="fixed">
     <parent
       link="Link_7" />
@@ -852,7 +856,7 @@
   </joint>
   <link name="dummy_base_claw_joint2_mimic"/>
   <joint
-    name="base_claw_joint2"
+    name="sim_base_claw_joint2"
     type="revolute">
     <origin
       xyz="0.00500790684313079 0.00524245830200445 0.0685789689082188"
@@ -914,7 +918,7 @@
     </collision>
   </link>
   <joint
-    name="claw_joint2_mimic"
+    name="sim_claw_joint2_mimic"
     type="fixed">
     <parent
       link="gear2_link" />
@@ -923,7 +927,7 @@
   </joint>
   <link name="dummy_claw_joint2_mimic"/>
   <joint
-    name="claw_joint2"
+    name="sim_claw_joint2"
     type="revolute">
     <origin
       xyz="0.000446202525255179 -0.0309558921236726 0.00159174310957538"

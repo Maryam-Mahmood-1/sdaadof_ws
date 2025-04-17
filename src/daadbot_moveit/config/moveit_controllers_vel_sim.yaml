@@ -1,0 +1,40 @@
+/**:
+  ros__parameters:
+    moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+    moveit_simple_controller_manager:
+      controller_names:
+        - velocity_arm_controller
+        - velocity_gripper_controller
+
+      velocity_arm_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: True
+        joints:
+          - sim_joint_1
+          - sim_joint_2
+          - sim_joint_3
+          - sim_joint_4
+          - sim_joint_5
+          - sim_joint_6
+          - sim_joint_7
+
+      velocity_gripper_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: True
+        joints:
+          - sim_gear1_joint
+          - sim_base_claw_joint1
+          - sim_base_claw_joint2
+          - sim_claw_joint1
+          - sim_gear2_joint
+          - sim_claw_joint2
+
+    trajectory_execution:
+      allowed_execution_duration_scaling: 10.0  # Allows execution to take twice the estimated time
+      execution_duration_monitoring: true  # Must be a boolean
+      allowed_goal_duration_margin: 2.0  # Extra margin for goal completion
+
+    

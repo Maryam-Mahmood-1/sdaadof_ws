@@ -5,27 +5,34 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
+    gazebo = IncludeLaunchDescription(
+            os.path.join(
+                get_package_share_directory("daadbot_desc"),
+                "launch",
+                "gazebo_table_vel_hw.launch.py"
+            )
+        )
     
     controller = IncludeLaunchDescription(
             os.path.join(
                 get_package_share_directory("daadbot_controller"),
                 "launch",
-                "vel_controller_table.launch.py"
+                "vel_controller_table_hw.launch.py"
             ),
-            launch_arguments={"is_sim": "False"}.items()
+            launch_arguments={"is_sim": "True"}.items()
         )
     
     moveit = IncludeLaunchDescription(
             os.path.join(
                 get_package_share_directory("daadbot_moveit"),
                 "launch",
-                "moveit_table.launch.py"
+                "moveit_table_hw.launch.py"
             ),
-            launch_arguments={"is_sim": "False"}.items()
+            launch_arguments={"is_sim": "True"}.items()
         )
     
-    
     return LaunchDescription([
+        gazebo,
         controller,
         moveit,
     ])

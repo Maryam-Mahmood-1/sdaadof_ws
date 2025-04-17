@@ -1,6 +1,8 @@
 #ifndef DAADBOT_INTERFACE_H
 #define DAADBOT_INTERFACE_H
 
+
+
 #include <rclcpp/rclcpp.hpp>
 #include <hardware_interface/system_interface.hpp>
 #include <libserial/SerialPort.h>
@@ -35,10 +37,16 @@ public:
 private:
   LibSerial::SerialPort esp_;
   std::string port_;
-  bool rmp_sent_ = false;
+  bool rmp_sent_ = false;    // Flag to check if the initial position read has happened (9C vs A2)
+  bool use_dummy_data_ = false;
+  bool controllers_ready_ = false;
+  bool initial_read_ = false;
+
   std::vector<double> velocity_commands_;  // Changed from position_commands_
-  std::vector<double> prev_velocity_commands_;  // Changed from prev_position_commands_
+  std::vector<double> prev_velocity_commands_;  // Changed from prev_speed_commands_
+  std::vector<double> prev_position_states_;  // Changed from prev_position_states_
   std::vector<double> position_states_; // Keeping position state for tracking
+  std::vector<double> init_position_states_; // Keeping position state for tracking
   std::vector<double> velocity_states_; // Added velocity states for tracking
   std::vector<double> effort_states_; // Added velocity states for tracking
 };

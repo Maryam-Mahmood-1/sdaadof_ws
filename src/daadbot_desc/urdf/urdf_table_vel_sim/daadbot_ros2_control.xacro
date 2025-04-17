@@ -20,7 +20,7 @@
                 </hardware>
             </xacro:unless>
 
-                <joint name="base_claw_joint1">
+                <joint name="sim_base_claw_joint1">
                 
                 <param name="mimic">gear1_joint</param>
                 <param name="multiplier">-1</param>
@@ -32,7 +32,7 @@
 
             </joint>
 
-            <joint name="claw_joint1">
+            <joint name="sim_claw_joint1">
 
                 <param name="mimic">base_claw_joint1</param>
                 <param name="multiplier">1</param>
@@ -44,7 +44,7 @@
                 
             </joint>
 
-            <joint name="gear2_joint">
+            <joint name="sim_gear2_joint">
 
                 <param name="mimic">gear1_joint</param>
                 <param name="multiplier">-1</param>
@@ -56,7 +56,7 @@
         
             </joint>
 
-            <joint name="base_claw_joint2">
+            <joint name="sim_base_claw_joint2">
 
                 <param name="mimic">gear1_joint</param>
                 <param name="multiplier">-1</param>
@@ -68,7 +68,7 @@
         
             </joint>
 
-            <joint name="claw_joint2">
+            <joint name="sim_claw_joint2">
                 
                 <param name="mimic">base_claw_joint2</param>
                 <param name="multiplier">-1</param>
@@ -85,11 +85,11 @@
         <xacro:unless value="$(arg is_sim)">
             <hardware>
                 <plugin>daadbot_controller/DaadbotInterface</plugin>
-                <param name="port">/dev/ttyUSB0</param>
+                <param name="port">/dev/ttyACM0</param>
             </hardware>
         </xacro:unless>
 
-        <joint name="joint_1">
+        <joint name="sim_joint_1">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -101,7 +101,7 @@
             
         </joint>
 
-        <joint name="joint_2">
+        <joint name="sim_joint_2">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -113,7 +113,7 @@
             
         </joint>
 
-        <joint name="joint_3">
+        <joint name="sim_joint_3">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -125,7 +125,7 @@
             
         </joint>
 
-        <joint name="joint_4">
+        <joint name="sim_joint_4">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -137,7 +137,7 @@
             
         </joint>
 
-        <joint name="joint_5">
+        <joint name="sim_joint_5">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -149,7 +149,7 @@
             
         </joint>
 
-        <joint name="joint_6">
+        <joint name="sim_joint_6">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -161,7 +161,7 @@
             
         </joint>
 
-        <joint name="joint_7">
+        <joint name="sim_joint_7">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
@@ -173,7 +173,7 @@
             
         </joint>
 
-        <joint name="gear1_joint">
+        <joint name="sim_gear1_joint">
             <command_interface name="velocity">
                 <param name="min">-30</param>
                 <param name="max">30</param>
