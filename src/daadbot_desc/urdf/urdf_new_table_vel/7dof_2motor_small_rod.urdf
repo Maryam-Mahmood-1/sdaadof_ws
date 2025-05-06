@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
-     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
-     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
-<robot
-  name="7dof_2motor_small_rod">
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="daadbot">
+
+  <xacro:arg name="is_sim" default="true"/>
+
+  <xacro:arg name = "is_ignition" default="true"/>
+
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/daadbot_gazebo.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/daadbot_ros2_control.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/table.xacro"/>
+
+ 
+  <xacro:property name='PI' value='3.141592653589793'/>
+  <xacro:property name='velocity' value='20.0'/>
+  <xacro:property name='effort' value='300.0'/>
+
+  <link name="world"/>
+
+  <!-- Attach the Table to the World -->
+  <joint name="table_joint" type="fixed">
+    <parent link="world"/>
+    <child link="table_top"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/> <!-- Adjust height of table -->
+  </joint>
+
+  <!-- Attach Daadbot to the Table -->
+  <joint name="base_joint" type="fixed">
+    <parent link="table_top"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
+  </joint>
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="0.00049737 0.0072038 -0.00026123"
+        xyz="-0.00246645540256236 -0.00131466478904116 0.00320374562257973"
         rpy="0 0 0" />
       <mass
-        value="6.9112" />
+        value="6.91122989464636" />
       <inertia
-        ixx="0.046617"
-        ixy="5.1488E-08"
-        ixz="-0.00010077"
-        iyy="0.092984"
-        iyz="1.4462E-07"
-        izz="0.046482" />
+        ixx="0.0466171750852481"
+        ixy="0.00010076855342015"
+        ixz="5.14819747192778E-08"
+        iyy="0.0464821203083076"
+        iyz="-1.44621889265211E-07"
+        izz="0.0929840869855057" />
     </inertial>
     <visual>
       <origin
@@ -26,12 +52,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/base_link.STL" />
+          filename="package://daadbot_desc/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.25098 0.25098 0.25098 1" />
+          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
       </material>
     </visual>
     <collision>
@@ -40,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/base_link.STL" />
+          filename="package://daadbot_desc/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -48,17 +74,17 @@
     name="Link_1">
     <inertial>
       <origin
-        xyz="-3.025E-06 -1.7534E-05 0.067041"
+        xyz="0.0222146013900772 2.73568109690481E-06 0.0747841784291177"
         rpy="0 0 0" />
       <mass
-        value="2.1249" />
+        value="2.34948803406793" />
       <inertia
-        ixx="0.0039851"
-        ixy="-1.5952E-07"
-        ixz="1.612E-07"
-        iyy="0.0027301"
-        iyz="-6.5536E-07"
-        izz="0.0035284" />
+        ixx="0.00332922517000865"
+        ixy="1.64875308454708E-07"
+        ixz="-0.000433929392474112"
+        iyy="0.00524724735039028"
+        iyz="2.38505609352415E-07"
+        izz="0.00419520671173006" />
     </inertial>
     <visual>
       <origin
@@ -66,12 +92,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_1.STL" />
+          filename="package://daadbot_desc/meshes/Link_1.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.89804 0.91765 0.92941 1" />
+          rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
       </material>
     </visual>
     <collision>
@@ -80,43 +106,43 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_1.STL" />
+          filename="package://daadbot_desc/meshes/Link_1.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Joint_1"
-    type="continuous">
+    name="joint_1"
+    type="revolute">
     <origin
-      xyz="0 0.0525 0"
-      rpy="-1.5708 0 0" />
+      xyz="-0.0029638 -0.0015759 0.04796"
+      rpy="0 0 0" />
     <parent
       link="base_link" />
     <child
       link="Link_1" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit
       lower="0"
       upper="3.14"
       effort="22"
-      velocity="12.77581" />
+      velocity="12.776" />
   </joint>
   <link
-    name="Link_2_1">
+    name="Link_2">
     <inertial>
       <origin
-        xyz="0.1734 -0.00031023 0.040058"
+        xyz="0.121210588587965 0.000230649813345946 -0.049540637756618"
         rpy="0 0 0" />
       <mass
-        value="2.4075" />
+        value="2.24401700155026" />
       <inertia
-        ixx="0.0049351"
-        ixy="-2.4779E-06"
-        ixz="-4.4385E-06"
-        iyy="0.003639"
-        iyz="1.2339E-08"
-        izz="0.0040635" />
+        ixx="0.00389001580470153"
+        ixy="1.8291659115195E-06"
+        ixz="2.04233321611583E-07"
+        iyy="0.00259728697678572"
+        iyz="3.29392581309982E-08"
+        izz="0.00312685277067708" />
     </inertial>
     <visual>
       <origin
@@ -124,12 +150,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_2_1.STL" />
+          filename="package://daadbot_desc/meshes/Link_2.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.89804 0.91765 0.92941 1" />
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
     <collision>
@@ -138,43 +164,43 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_2_1.STL" />
+          filename="package://daadbot_desc/meshes/Link_2.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Joint_2_1"
+    name="joint_2"
     type="revolute">
     <origin
-      xyz="-0.049 0 0.105"
-      rpy="1.5708 0 1.5708" />
+      xyz="0.0400000000000002 -0.050000000000002 0.114463048454132"
+      rpy="1.5707963267949 0 0" />
     <parent
       link="Link_1" />
     <child
-      link="Link_2_1" />
+      link="Link_2" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit
-      lower="-0.2618"
-      upper="3.5779"
+      lower="-3.4907"
+      upper="0.5236"
       effort="22"
-      velocity="12.77581" />
+      velocity="12.776" />
   </joint>
   <link
     name="Link_3">
     <inertial>
       <origin
-        xyz="-0.0044003 -2.1655E-05 0.0597"
+        xyz="-0.00448997206818821 -2.34751712904213E-05 0.0488571768392556"
         rpy="0 0 0" />
       <mass
-        value="1.3788" />
+        value="1.2718719681393" />
       <inertia
-        ixx="0.0025027"
-        ixy="9.275E-08"
-        ixz="5.4475E-06"
-        iyy="0.0016215"
-        iyz="2.8899E-07"
-        izz="0.0016785" />
+        ixx="0.00206983011422612"
+        ixy="9.27500479472452E-08"
+        ixz="3.38378548754623E-06"
+        iyy="0.00129565231901482"
+        iyz="2.88989653562542E-07"
+        izz="0.00156994991003151" />
     </inertial>
     <visual>
       <origin
@@ -182,12 +208,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_3.STL" />
+          filename="package://daadbot_desc/meshes/Link_3.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.89804 0.91765 0.92941 1" />
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
     <collision>
@@ -196,18 +222,18 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_3.STL" />
+          filename="package://daadbot_desc/meshes/Link_3.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Joint_3"
-    type="continuous">
+    name="joint_3"
+    type="revolute">
     <origin
-      xyz="0.2895 0 0.049"
-      rpy="0 1.5708 0" />
+      xyz="0.234499999999998 0 -0.0495000000000002"
+      rpy="0 1.5707963267949 0" />
     <parent
-      link="Link_2_1" />
+      link="Link_2" />
     <child
       link="Link_3" />
     <axis
@@ -216,23 +242,23 @@
       lower="0"
       upper="3.14"
       effort="22"
-      velocity="12.77581" />
+      velocity="12.776" />
   </joint>
   <link
     name="Link_4">
     <inertial>
       <origin
-        xyz="-0.13892 0.00026322 0.036718"
+        xyz="-0.119169680650385 -0.000128811902195713 0.0378163924527294"
         rpy="0 0 0" />
       <mass
-        value="3.1743" />
+        value="2.67615775175726" />
       <inertia
-        ixx="0.0041067"
-        ixy="-3.2527E-06"
-        ixz="-3.213E-06"
-        iyy="0.0037029"
-        iyz="3.7947E-07"
-        izz="0.0044883" />
+        ixx="0.00308017562479927"
+        ixy="2.47453551729311E-06"
+        ixz="-7.09348932448939E-07"
+        iyy="0.00238129778603005"
+        iyz="-7.47320677385655E-07"
+        izz="0.00293128138362422" />
     </inertial>
     <visual>
       <origin
@@ -240,12 +266,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_4.STL" />
+          filename="package://daadbot_desc/meshes/Link_4.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.89804 0.91765 0.92941 1" />
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
     <collision>
@@ -254,7 +280,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_4.STL" />
+          filename="package://daadbot_desc/meshes/Link_4.STL" />
       </geometry>
     </collision>
   </link>
@@ -262,8 +288,8 @@
     name="joint_4"
     type="revolute">
     <origin
-      xyz="-0.0325 0 0.095"
-      rpy="0 1.5708 0" />
+      xyz="-0.0324999999999996 0 0.0750000000000004"
+      rpy="0 1.5707963267949 0" />
     <parent
       link="Link_3" />
     <child
@@ -280,17 +306,17 @@
     name="Link_5">
     <inertial>
       <origin
-        xyz="-0.0058467 -3.3614E-05 0.052255"
+        xyz="0.00685541523757274 3.79292913340323E-05 0.0488580132405974"
         rpy="0 0 0" />
       <mass
-        value="1.4559" />
+        value="1.29018300951353" />
       <inertia
-        ixx="0.0013399"
-        ixy="1.2832E-06"
-        ixz="1.6895E-06"
-        iyy="0.00084262"
-        iyz="3.2397E-07"
-        izz="0.0009966" />
+        ixx="0.00112308173661534"
+        ixy="1.28316182440177E-06"
+        ixz="-8.91005390036956E-07"
+        iyy="0.000690097277055795"
+        iyz="-3.23958303943101E-07"
+        izz="0.000815216487439054" />
     </inertial>
     <visual>
       <origin
@@ -298,12 +324,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_5.STL" />
+          filename="package://daadbot_desc/meshes/Link_5.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.89804 0.91765 0.92941 1" />
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
       </material>
     </visual>
     <collision>
@@ -312,16 +338,16 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_5.STL" />
+          filename="package://daadbot_desc/meshes/Link_5.STL" />
       </geometry>
     </collision>
   </link>
   <joint
     name="joint_5"
-    type="continuous">
+    type="revolute">
     <origin
-      xyz="-0.269 0 0.032"
-      rpy="3.1416 1.5708 0" />
+      xyz="-0.2284999036789 0 0.0330000000000004"
+      rpy="3.14159265358979 1.5707963267949 0" />
     <parent
       link="Link_4" />
     <child
@@ -338,17 +364,17 @@
     name="link_6">
     <inertial>
       <origin
-        xyz="-0.056394 -0.00011175 -0.026376"
+        xyz="-0.0534048711825299 4.35092388909042E-05 0.0268001409986631"
         rpy="0 0 0" />
       <mass
-        value="1.4077" />
+        value="1.30596061805535" />
       <inertia
-        ixx="0.0010474"
-        ixy="9.9306E-07"
-        ixz="1.657E-06"
-        iyy="0.00078211"
-        iyz="-3.1036E-06"
-        izz="0.00099212" />
+        ixx="0.000961791856097317"
+        ixy="1.00752377127578E-06"
+        ixz="-2.55794494605017E-06"
+        iyy="0.000676134530899485"
+        iyz="-2.71811927605635E-06"
+        izz="0.00084422746855334" />
     </inertial>
     <visual>
       <origin
@@ -356,234 +382,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/link_6.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.89804 0.91765 0.92941 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/link_6.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="joint_6"
-    type="revolute">
-    <origin
-      xyz="-0.0265 0 0.065"
-      rpy="3.1416 1.5708 0" />
-    <parent
-      link="Link_5" />
-    <child
-      link="link_6" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-1.5708"
-      upper="1.5708"
-      effort="15"
-      velocity="19.896753" />
-  </joint>
-  <link
-    name="Link_7">
-    <inertial>
-      <origin
-        xyz="-1.2277E-06 1.1636E-05 -0.0039691"
-        rpy="0 0 0" />
-      <mass
-        value="0.13169" />
-      <inertia
-        ixx="6.9119E-05"
-        ixy="1.3247E-10"
-        ixz="8.854E-10"
-        iyy="6.9139E-05"
-        iyz="2.0819E-11"
-        izz="0.00013685" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_7.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.66667 0.69804 0.76863 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link_7.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="Joint_7"
-    type="continuous">
-    <origin
-      xyz="-0.0935 0 -0.027"
-      rpy="0 1.5708 0" />
-    <parent
-      link="link_6" />
-    <child
-      link="Link_7" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="0"
-      upper="3.14"
-      effort="15"
-      velocity="19.896753" />
-  </joint>
-  <link
-    name="endeffector">
-    <inertial>
-      <origin
-        xyz="0.013818 0.013613 -0.025657"
-        rpy="0 0 0" />
-      <mass
-        value="0.15406" />
-      <inertia
-        ixx="3.1964E-05"
-        ixy="-1.0714E-07"
-        ixz="-4.3009E-12"
-        iyy="2.5364E-05"
-        iyz="-9.823E-08"
-        izz="4.738E-05" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/endeffector.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.89804 0.91765 0.92941 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/endeffector.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="endeffector"
-    type="fixed">
-    <origin
-      xyz="0 0 -0.008"
-      rpy="0 0 3.1416" />
-    <parent
-      link="Link_7" />
-    <child
-      link="endeffector" />
-    <axis
-      xyz="0 0 0" />
-  </joint>
-  <link
-    name="gear1">
-    <inertial>
-      <origin
-        xyz="0.0015 0.0008943 -0.0057527"
-        rpy="0 0 0" />
-      <mass
-        value="0.0053" />
-      <inertia
-        ixx="9.2673E-07"
-        ixy="-1.3621E-21"
-        ixz="-1.1503E-21"
-        iyy="7.5598E-07"
-        iyz="1.0415E-08"
-        izz="1.787E-07" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear1.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.89804 0.91765 0.92941 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear1.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="gear1_joint"
-    type="revolute">
-    <origin
-      xyz="-0.0025 0.0135 -0.037679"
-      rpy="0 0 -3.1416" />
-    <parent
-      link="endeffector" />
-    <child
-      link="gear1" />
-    <axis
-      xyz="1 0 0" />
-    <limit
-      lower="-0.9"
-      upper="0"
-      effort="5"
-      velocity="10" />
-  </joint>
-  <link
-    name="gear1_claw">
-    <inertial>
-      <origin
-        xyz="-0.00150000000000181 0.00521211726875784 -0.0234461872537791"
-        rpy="0 0 0" />
-      <mass
-        value="0.00393743096892516" />
-      <inertia
-        ixx="1.26667392866791E-06"
-        ixy="-1.71611056842971E-22"
-        ixz="-6.82470905121942E-22"
-        iyy="1.21179264435068E-06"
-        iyz="1.6338227028702E-07"
-        izz="6.07874307706149E-08" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear1_claw.STL" />
+          filename="package://daadbot_desc/meshes/link_6.STL" />
       </geometry>
       <material
         name="">
@@ -597,7 +396,234 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear1_claw.STL" />
+          filename="package://daadbot_desc/meshes/link_6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_6"
+    type="revolute">
+    <origin
+      xyz="0.0265000104908596 0 0.0575000000000075"
+      rpy="3.14159265358979 1.5707963267949 0" />
+    <parent
+      link="Link_5" />
+    <child
+      link="link_6" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="15"
+      velocity="19.897" />
+  </joint>
+  <link
+    name="Link_7">
+    <inertial>
+      <origin
+        xyz="-1.22738236721376E-06 1.16355040356286E-05 -0.00396913177271019"
+        rpy="0 0 0" />
+      <mass
+        value="0.131686510129341" />
+      <inertia
+        ixx="6.91193962095496E-05"
+        ixy="1.32697088081543E-10"
+        ixz="8.85654326869473E-10"
+        iyy="6.91388743027247E-05"
+        iyz="2.09447730326603E-11"
+        izz="0.000136853375303708" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/Link_7.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.666666666666667 0.698039215686274 0.768627450980392 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/Link_7.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_7"
+    type="revolute">
+    <origin
+      xyz="-0.0864999036793499 0 0.0280000000004628"
+      rpy="0 1.5707963267949 0" />
+    <parent
+      link="link_6" />
+    <child
+      link="Link_7" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="15"
+      velocity="19.897" />
+  </joint>
+  <link
+    name="endeffector">
+    <inertial>
+      <origin
+        xyz="0.0115230217195728 -0.0136127070797983 0.0256571894660979"
+        rpy="0 0 0" />
+      <mass
+        value="0.154057788286255" />
+      <inertia
+        ixx="3.1964247663854E-05"
+        ixy="1.07138220152465E-07"
+        ixz="4.30086683390955E-12"
+        iyy="2.53636526523542E-05"
+        iyz="-9.8230347105402E-08"
+        izz="4.73802906093003E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/endeffector.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/endeffector.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="endeffector"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.00799999999954315"
+      rpy="3.14159265357033 0 -3.14159265358979" />
+    <parent
+      link="Link_7" />
+    <child
+      link="endeffector" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="gear1">
+    <inertial>
+      <origin
+        xyz="-0.00580763486929181 0.000405747920981692 -0.00150000000000011"
+        rpy="0 0 0" />
+      <mass
+        value="0.00530003886474417" />
+      <inertia
+        ixx="1.81056909473447E-07"
+        ixy="-3.82652046422796E-08"
+        ixz="2.51961968784482E-22"
+        iyy="7.53619126673464E-07"
+        iyz="-2.84205585058754E-24"
+        izz="9.26725977849795E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/gear1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/gear1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gear1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.00375000000000747 -0.013499999998183 0.0376789689084349"
+      rpy="0 1.5707963267949 0" />
+    <parent
+      link="endeffector" />
+    <child
+      link="gear1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.9"
+      upper="0"
+      effort="5"
+      velocity="10" />
+  </joint>
+  <link
+    name="gear1_claw">
+    <inertial>
+      <origin
+        xyz="0.023445421809937 0.00521555935278548 -0.0014999999999977"
+        rpy="0 0 0" />
+      <mass
+        value="0.00393743096892517" />
+      <inertia
+        ixx="6.08354279127517E-08"
+        ixy="-1.63551242432612E-07"
+        ixz="1.2492000495084E-21"
+        iyy="1.21174464720854E-06"
+        iyz="1.75066929433463E-22"
+        izz="1.26667392866791E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/gear1_claw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes/gear1_claw.STL" />
       </geometry>
     </collision>
   </link>
@@ -605,14 +631,14 @@
     name="claw_joint1"
     type="revolute">
     <origin
-      xyz="-0.0005 0.0016069 -0.030958"
-      rpy="0 0 0" />
+      xyz="-0.0309835156221249 -0.00101082129116717 0"
+      rpy="3.14159265358979 0 3.14159265358979" />
     <parent
       link="gear1" />
     <child
       link="gear1_claw" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
       upper="0.9"
@@ -627,17 +653,17 @@
     name="gear2_link">
     <inertial>
       <origin
-        xyz="0.00199999999999628 0.000364098641852328 -0.00529262032201105"
+        xyz="-0.00530290196064154 0.000153715606715232 -0.00375000000000136"
         rpy="0 0 0" />
       <mass
-        value="0.00576363113945471" />
+        value="0.00576363113945472" />
       <inertia
-        ixx="1.01154671272607E-06"
-        ixy="-1.561833856079E-21"
-        ixz="-1.1724084558144E-21"
-        iyy="8.01979014189938E-07"
-        iyz="4.03503424029161E-08"
-        izz="2.18213145245317E-07" />
+        ixx="2.15932056711738E-07"
+        ixy="1.70682493885657E-08"
+        ixz="-3.42106080174724E-22"
+        iyy="8.04260102723523E-07"
+        iyz="-8.82852580465177E-23"
+        izz="1.01154671272608E-06" />
     </inertial>
     <visual>
       <origin
@@ -645,7 +671,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear2_link.STL" />
+          filename="package://daadbot_desc/meshes/gear2_link.STL" />
       </geometry>
       <material
         name="">
@@ -659,7 +685,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear2_link.STL" />
+          filename="package://daadbot_desc/meshes/gear2_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -667,14 +693,14 @@
     name="gear2_joint"
     type="revolute">
     <origin
-      xyz="-0.0015 -0.0135 -0.037679"
-      rpy="0 0 -3.1416" />
+      xyz="-0.00149999999999997 0.0134999999992435 0.0376789689087047"
+      rpy="0 1.5707963267949 0" />
     <parent
       link="endeffector" />
     <child
       link="gear2_link" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 -1" />
     <limit
       lower="-0.9"
       upper="0.9"
@@ -689,17 +715,17 @@
     name="gear2_claw">
     <inertial>
       <origin
-        xyz="-0.00150000000000187 -0.00521665625212772 -0.0234451777708655"
+        xyz="0.0234454486039199 -0.00521543889748319 -0.00149999999999889"
         rpy="0 0 0" />
       <mass
-        value="0.00393743096892516" />
+        value="0.00393743096892518" />
       <inertia
-        ixx="1.26667392866791E-06"
-        ixy="-7.38022408568836E-22"
-        ixz="-3.46294572369403E-21"
-        iyy="1.2117293410008E-06"
-        iyz="-1.63605087703839E-07"
-        izz="6.08507341204995E-08" />
+        ixx="6.0833747461621E-08"
+        ixy="1.63545329654284E-07"
+        ixz="1.24391026243428E-21"
+        iyy="1.21174632765968E-06"
+        iyz="-1.76544893665412E-22"
+        izz="1.26667392866792E-06" />
     </inertial>
     <visual>
       <origin
@@ -707,7 +733,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear2_claw.STL" />
+          filename="package://daadbot_desc/meshes/gear2_claw.STL" />
       </geometry>
       <material
         name="">
@@ -721,7 +747,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/gear2_claw.STL" />
+          filename="package://daadbot_desc/meshes/gear2_claw.STL" />
       </geometry>
     </collision>
   </link>
@@ -729,14 +755,14 @@
     name="claw_joint2"
     type="revolute">
     <origin
-      xyz="0.0005 0.0021276 -0.030927"
-      rpy="0 0 0" />
+      xyz="-0.0309869843208653 0.000898221965043244 -0.00225000000000025"
+      rpy="-3.14159265358979 0 -3.14159265358979" />
     <parent
       link="gear2_link" />
     <child
       link="gear2_claw" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 1" />
     <limit
       lower="-0.9"
       upper="0"
@@ -751,17 +777,17 @@
     name="base_claw_link2">
     <inertial>
       <origin
-        xyz="0.00199999999999806 0.00106955064333081 -0.0154630547247713"
+        xyz="0.0154933084655396 0.000455403986549585 0.00375000000000131"
         rpy="0 0 0" />
       <mass
-        value="0.00110418822863696" />
+        value="0.00110418822863694" />
       <inertia
-        ixx="1.56149541453461E-07"
-        ixy="-4.97683470418751E-24"
-        ixz="-1.38425919546291E-22"
-        iyy="1.5394517037092E-07"
-        iyz="1.04315047707607E-08"
-        izz="3.85296137072979E-09" />
+        ixx="3.26224455905998E-09"
+        ixy="-4.45032069336059E-09"
+        ixz="1.4396798294983E-22"
+        iyy="1.54535887182587E-07"
+        iyz="2.999466098399E-24"
+        izz="1.56149541453459E-07" />
     </inertial>
     <visual>
       <origin
@@ -769,7 +795,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/base_claw_link2.STL" />
+          filename="package://daadbot_desc/meshes/base_claw_link2.STL" />
       </geometry>
       <material
         name="">
@@ -783,7 +809,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/base_claw_link2.STL" />
+          filename="package://daadbot_desc/meshes/base_claw_link2.STL" />
       </geometry>
     </collision>
   </link>
@@ -791,14 +817,14 @@
     name="base_claw_joint2"
     type="revolute">
     <origin
-      xyz="0.0015 0.00525 -0.066079"
-      rpy="0 0 0" />
+      xyz="0.00149999999999995 0.00524999999997672 -0.066078968907985"
+      rpy="0 1.5707963267949 0" />
     <parent
       link="Link_7" />
     <child
       link="base_claw_link2" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
       upper="0.9"
@@ -813,17 +839,17 @@
     name="base_claw_link1">
     <inertial>
       <origin
-        xyz="0.00199999999999809 0.000795718349630437 -0.015479561760767"
+        xyz="0.0154915529566088 -0.000511651241238725 0.00375000000000239"
         rpy="0 0 0" />
       <mass
-        value="0.00110418822863694" />
+        value="0.00110418822863695" />
       <inertia
-        ixx="1.56149541453461E-07"
-        ixy="-5.10050344222314E-24"
-        ixz="-1.54094708719289E-22"
-        iyy="1.54267333956653E-07"
-        iyz="7.76905773980025E-09"
-        izz="3.53079778499678E-09" />
+        ixx="3.29655315677714E-09"
+        ixy="4.99941634031931E-09"
+        ixz="2.46402439239775E-22"
+        iyy="1.54501578584872E-07"
+        iyz="-9.36354721708262E-24"
+        izz="1.56149541453461E-07" />
     </inertial>
     <visual>
       <origin
@@ -831,7 +857,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/base_claw_link1.STL" />
+          filename="package://daadbot_desc/meshes/base_claw_link1.STL" />
       </geometry>
       <material
         name="">
@@ -845,7 +871,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://7dof_2motor_small_rod/meshes/base_claw_link1.STL" />
+          filename="package://daadbot_desc/meshes/base_claw_link1.STL" />
       </geometry>
     </collision>
   </link>
@@ -853,14 +879,14 @@
     name="base_claw_joint1"
     type="revolute">
     <origin
-      xyz="0.0015 -0.00525 -0.066079"
-      rpy="0 0 0" />
+      xyz="0.00149999999999995 -0.00525000000002329 -0.066078968907985"
+      rpy="0 1.5707963267949 0" />
     <parent
       link="Link_7" />
     <child
       link="base_claw_link1" />
     <axis
-      xyz="-1 0 0" />
+      xyz="0 0 -1" />
     <limit
       lower="0"
       upper="0.9"
@@ -869,68 +895,6 @@
     <mimic
       joint="gear1_joint"
       multiplier="-1"
-      offset="0" />
-  </joint>
-  <link
-    name="Link2_2">
-    <inertial>
-      <origin
-        xyz="0.00803756494020985 -2.46775506149433E-05 -0.00288193051341636"
-        rpy="0 0 0" />
-      <mass
-        value="0.468837968498249" />
-      <inertia
-        ixx="0.000410070134282236"
-        ixy="-1.73981208238582E-07"
-        ixz="4.18651946303359E-06"
-        iyy="0.000722264484879749"
-        iyz="3.33432809619567E-08"
-        izz="0.00111657059665036" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link2_2.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://7dof_2motor_small_rod/meshes/Link2_2.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="joint2_2"
-    type="revolute">
-    <origin
-      xyz="0 0 0.098"
-      rpy="0 0 0" />
-    <parent
-      link="Link_2_1" />
-    <child
-      link="Link2_2" />
-    <axis
-      xyz="0 0 -1" />
-    <limit
-      lower="0"
-      upper="0"
-      effort="22"
-      velocity="12.776" />
-    <mimic
-      joint="Joint_2_1"
-      multiplier="1"
       offset="0" />
   </joint>
 </robot>

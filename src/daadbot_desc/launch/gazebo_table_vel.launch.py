@@ -66,9 +66,9 @@ def generate_launch_description():
         arguments=[
             '-topic', 'robot_description',
             '-name', 'daadbot',
-            '-x', '0.3',  # X position
+            '-x', '0.0',  # X position
             '-y', '0.0',  # Y position
-            '-z', '1.015',  # Z position
+            '-z', '0.0',  # Z position
             '-R', '0',  # Roll
             '-P', '0',  # Pitch
             '-Y', '0'   # Yaw

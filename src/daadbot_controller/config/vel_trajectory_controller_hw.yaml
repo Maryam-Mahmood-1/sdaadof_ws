@@ -27,6 +27,7 @@ velocity_arm_controller:
     state_interfaces:
       - position
       - velocity
+      - effort
     gains:
       joint_1:
         p: 1.5

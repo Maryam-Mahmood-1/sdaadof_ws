@@ -273,15 +273,20 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                 {
                   RCLCPP_INFO_STREAM(
                     rclcpp::get_logger("DaadbotInterface"),
-                    "1 time step diff: '" << abs(prev_position_states_[joint_index] - position_states_[joint_index]) << "'"
+                    "1 time step diff: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'"
                 );
                                     // Converting degrees to radians before visualizing in Rviz (joint_states)
-                    if (abs(prev_position_states_[joint_index] - pos) > 0.02){
+                    if (abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) > 0.02){
                       position_states_[joint_index] = position_states_[joint_index];
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Prev Position: '" << prev_position_states_[joint_index] << "'");
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Currrent Position: '" << (pos - init_position_states_[joint_index]) * M_PI / 180.0 << "'");
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'");
+                      
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference is too high");
                     }
                     else{
                         position_states_[joint_index] = (pos - init_position_states_[joint_index]) * M_PI / 180.0;
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'");
                         RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference is good");
                         // RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Here after initial read and now setting position state '" << position_states_[joint_index] << "'");
                     }

@@ -188,6 +188,7 @@
       effort="${effort}"
       velocity="${velocity}" />
   </joint>
+  
   <link
     name="Link_3">
     <inertial>
