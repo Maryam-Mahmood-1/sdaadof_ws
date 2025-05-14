@@ -8,22 +8,27 @@
 
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/daadbot_gazebo.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/daadbot_ros2_control.xacro"/>
-  
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_table_vel/table.xacro"/>
+
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='20.0'/>
-  <xacro:property name='effort' value='300.0'/>
+  <xacro:property name='effort' value='200.0'/>
 
   <link name="world"/>
 
   <!-- Attach the Table to the World -->
-  
+  <joint name="table_joint" type="fixed">
+    <parent link="world"/>
+    <child link="table_top"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/> <!-- Adjust height of table -->
+  </joint>
 
   <!-- Attach Daadbot to the Table -->
   <joint name="base_joint" type="fixed">
-    <parent link="world"/>
+    <parent link="table_top"/>
     <child link="base_link"/>
-    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
+    <origin xyz="0.30 0 1.017" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
   </joint>
   <link
     name="base_link">
@@ -181,6 +186,7 @@
       effort="${effort}"
       velocity="12.776" />
   </joint>
+  
   <link
     name="Link_3">
     <inertial>
@@ -399,8 +405,8 @@
     name="joint_6"
     type="revolute">
     <origin
-      xyz="0.0265000104908596 0 0.0575000000000075"
-      rpy="3.14159265358979 1.5707963267949 0" />
+      xyz="-0.0265000104908596 0 0.0575000000000075"
+      rpy="-1.57 0 -1.57" />
     <parent
       link="Link_5" />
     <child

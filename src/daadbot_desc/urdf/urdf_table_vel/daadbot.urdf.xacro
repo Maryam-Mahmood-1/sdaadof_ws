@@ -28,7 +28,7 @@
   <joint name="base_joint" type="fixed">
     <parent link="table_top"/>
     <child link="base_link"/>
-    <origin xyz="0.3 0 1.017" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
+    <origin xyz="0.30 0 1.017" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
   </joint>
   <link
     name="base_link">

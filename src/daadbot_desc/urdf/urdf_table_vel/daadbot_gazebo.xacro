@@ -11,6 +11,7 @@
             <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
                 <parameters>$(find daadbot_controller)/config/vel_trajectory_controller.yaml</parameters>
             </plugin>
+            
         </xacro:unless>
     </gazebo>
 
