@@ -228,8 +228,8 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
         std::string token;
 
 
-        size_t joint_index = 4;
-        while (ss >> token && joint_index <= 6)
+        size_t joint_index = 0;
+        while (ss >> token && joint_index <= 0)
         {
             try
             {
@@ -303,7 +303,7 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                       effort_states_[joint_index] = effort_states_[joint_index];
                     }
                     else{
-                      effort_states_[joint_index] = effort_states_[joint_index] = eff * 0.88;
+                      effort_states_[joint_index] = effort_states_[joint_index] = eff;
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "effort after torque constant: '" << effort_states_[joint_index] << "'");
                     }
 
@@ -318,7 +318,7 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                 // RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Here after initial read and now setting position state '" << position_states_[joint_index] << "'");
 
                 velocity_states_[joint_index] = vel * M_PI / 180.0; // Converting dps to rad/s
-                effort_states_[joint_index] = eff * 0.88;
+                effort_states_[joint_index] = eff;
                 prev_position_states_[joint_index] = position_states_[joint_index];
             }
             catch (const std::exception &e)
@@ -360,7 +360,7 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
 
   bool any_change = false;
 
-  for (size_t i = 4; i <= 6; i++)
+  for (size_t i = 0; i <= 0; i++)
   {
     // Converting radians to degrees before sending to hardware (speeds in 0.01 dsp)
     float value_to_send = initial_read_ ? velocity_commands_[i] * (180.0f / M_PI) : 0.0f;
