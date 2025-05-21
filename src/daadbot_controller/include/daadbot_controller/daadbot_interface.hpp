@@ -41,6 +41,8 @@ private:
   bool use_dummy_data_ = false;
   bool controllers_ready_ = false;
   bool initial_read_ = false;
+  bool power_ = false;
+
 
   std::vector<double> velocity_commands_;  // Changed from position_commands_
   std::vector<double> prev_velocity_commands_;  // Changed from prev_speed_commands_

@@ -57,7 +57,7 @@
       <material
         name="">
         <color
-          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -97,7 +97,7 @@
       <material
         name="">
         <color
-          rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -128,6 +128,17 @@
       effort="${effort}"
       velocity="12.776" />
   </joint>
+  <gazebo reference="joint_1">
+  <sensor name="ft_sensor_joint_1" type="force_torque">
+    <always_on>true</always_on>
+    <update_rate>1000</update_rate>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <pose>0 0 0 0 0 0</pose>
+  </sensor>
+</gazebo>
   <link
     name="Link_2">
     <inertial>
@@ -155,7 +166,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -185,6 +196,9 @@
       upper="0.5236"
       effort="${effort}"
       velocity="12.776" />
+    <sensor name="force_torque" type="force_torque">
+          <update_rate>30</update_rate>
+    </sensor>
   </joint>
   
   <link
@@ -214,7 +228,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -272,7 +286,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -330,7 +344,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -388,7 +402,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -504,7 +518,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -557,7 +571,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -615,7 +629,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -677,7 +691,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -739,7 +753,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -801,7 +815,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -863,7 +877,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>

@@ -169,14 +169,6 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
 {
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Position States ...");
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "position_states_ size: %zu", position_states_.size());
-    // for (size_t i = 0; i < position_states_.size(); ++i)
-    // {
-    //     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "position_states_[%zu]: %f", i, position_states_[i]);
-    // }
-    // for (const auto &pos : position_states_) {
-    //   std::cout << pos << " ";
-    // }
-    // std::cout << std::endl;
   
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Reading ...");
 
@@ -191,7 +183,6 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
             velocity_states_[i] = std::cos(dummy_angle + i);
             effort_states_[i] = 0.1 * std::sin(dummy_angle + i);
         }
-
         return hardware_interface::return_type::OK;
     }
 
@@ -226,8 +217,6 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
         // RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Here after checking < > and 'R' prefix");
         std::istringstream ss(response.substr(1)); // Skip the 'R'
         std::string token;
-
-
         size_t joint_index = 4;
         while (ss >> token && joint_index <= 6)
         {
@@ -276,7 +265,7 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                     "1 time step diff: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'"
                 );
                                     // Converting degrees to radians before visualizing in Rviz (joint_states)
-                    if (abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) > 0.02){
+                    if (abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) > 0.2){
                       position_states_[joint_index] = position_states_[joint_index];
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Prev Position: '" << prev_position_states_[joint_index] << "'");
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Currrent Position: '" << (pos - init_position_states_[joint_index]) * M_PI / 180.0 << "'");

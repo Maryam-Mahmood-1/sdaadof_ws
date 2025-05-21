@@ -29,8 +29,8 @@ velocity_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 1.5
-        i: 0.1
+        p: 2.5
+        i: 1.5
         d: 0.001
         i_clamp: 0.0
     
