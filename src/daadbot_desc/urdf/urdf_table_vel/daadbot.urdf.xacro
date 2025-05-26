@@ -57,7 +57,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -128,6 +129,17 @@
       effort="${effort}"
       velocity="12.776" />
   </joint>
+  <gazebo reference="joint_1">
+  <sensor name="ft_sensor_joint_1" type="force_torque">
+    <always_on>true</always_on>
+    <update_rate>1000</update_rate>
+    <force_torque>
+      <frame>child</frame>
+      <measure_direction>child_to_parent</measure_direction>
+    </force_torque>
+    <pose>0 0 0 0 0 0</pose>
+  </sensor>
+</gazebo>
   <link
     name="Link_2">
     <inertial>
@@ -155,7 +167,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -185,6 +198,9 @@
       upper="0.5236"
       effort="${effort}"
       velocity="12.776" />
+    <sensor name="force_torque" type="force_torque">
+          <update_rate>30</update_rate>
+    </sensor>
   </joint>
   
   <link
@@ -272,7 +288,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -388,7 +405,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -446,7 +464,7 @@
       <material
         name="">
         <color
-          rgba="0.666666666666667 0.698039215686274 0.768627450980392 1" />
+          rgba="0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -504,7 +522,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -615,7 +634,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -739,7 +759,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
@@ -863,7 +884,8 @@
       <material
         name="">
         <color
-          rgba= "0.329 0.322 0.302 1" />
+          rgba= "1 1 1 1" />
+
       </material>
     </visual>
     <collision>
