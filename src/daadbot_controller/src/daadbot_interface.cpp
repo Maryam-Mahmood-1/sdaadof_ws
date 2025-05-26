@@ -167,6 +167,8 @@ CallbackReturn DaadbotInterface::on_deactivate(const rclcpp_lifecycle::State &pr
 hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                                                        const rclcpp::Duration &period)
 {
+  if (any_change){
+    // any_change = false;
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Position States ...");
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "position_states_ size: %zu", position_states_.size());
     // for (size_t i = 0; i < position_states_.size(); ++i)
@@ -200,7 +202,7 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
         RCLCPP_ERROR(rclcpp::get_logger("DaadbotInterface"), "Serial port not open, cannot read.");
         return hardware_interface::return_type::ERROR;
     }
-
+    
     try
     {
         std::string response;
@@ -290,21 +292,31 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                         RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference is good");
                         // RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Here after initial read and now setting position state '" << position_states_[joint_index] << "'");
                     }
+
+                    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Velocity diff: " << abs(velocity_states_[joint_index] - (vel * M_PI / 180.0)));
+                    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Current velocity: " << velocity_states_[joint_index]);
+                    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "New velocity: " << vel * M_PI / 180.0);
                     
-                    if (abs(velocity_states_[joint_index] - vel) > 0.2){
-                      velocity_states_[joint_index] = velocity_states_[joint_index];
-                    }
-                    else{
+                    if (std::abs(velocity_states_[joint_index] - (vel * M_PI / 180.0)) <= 0.4)
+                    {
                         velocity_states_[joint_index] = vel * M_PI / 180.0;
                         
                     }
-
-                    if (abs(effort_states_[joint_index] - eff) > 2){
-                      effort_states_[joint_index] = effort_states_[joint_index];
+                    else {
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference too high for velocity, ignoring update");
+                      
                     }
-                    else{
-                      effort_states_[joint_index] = effort_states_[joint_index] = eff * 0.88;
-                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "effort after torque constant: '" << effort_states_[joint_index] << "'");
+
+                    if (std::abs(effort_states_[joint_index] - (eff*0.88)) <= 2)
+                    {
+                        effort_states_[joint_index] = eff * 0.88;
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Effort diff: " << abs(effort_states_[joint_index] - eff));
+                    }
+                    else
+                    {
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference too high for effort, ignoring update");
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Current effort: " << effort_states_[joint_index]);
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "New effort: " << eff * 0.88);
                     }
 
                 }
@@ -317,8 +329,8 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                 }
                 // RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Here after initial read and now setting position state '" << position_states_[joint_index] << "'");
 
-                velocity_states_[joint_index] = vel * M_PI / 180.0; // Converting dps to rad/s
-                effort_states_[joint_index] = eff * 0.88;
+                // velocity_states_[joint_index] = vel * M_PI / 180.0; // Converting dps to rad/s
+                // effort_states_[joint_index] = eff;
                 prev_position_states_[joint_index] = position_states_[joint_index];
             }
             catch (const std::exception &e)
@@ -341,14 +353,24 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
         initial_read_ = true;
         RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Initial read completed.");
     }
-
+    if (initial_write_)
+    {
+      any_change = false;
+    }
+    
     return hardware_interface::return_type::OK;
+  }
+  else{
+    RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "No change in velocity states, skipping read.");
+    return hardware_interface::return_type::OK;
+  }
 }
 
 
 hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time,
                                                         const rclcpp::Duration &period)
 {
+  RCLCPP_ERROR(rclcpp::get_logger("DaadbotInterface"), "In write func.");
   if (!esp_.IsOpen())
   {
     RCLCPP_ERROR(rclcpp::get_logger("DaadbotInterface"), "Serial port not open, cannot write.");
@@ -358,31 +380,47 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
   std::ostringstream msg;
   msg << "<W";
 
-  bool any_change = false;
 
   for (size_t i = 4; i <= 6; i++)
   {
     // Converting radians to degrees before sending to hardware (speeds in 0.01 dsp)
     float value_to_send = initial_read_ ? velocity_commands_[i] * (180.0f / M_PI) : 0.0f;
 
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Joint: " << i);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Previous Velocity command: " << prev_velocity_commands_[i]);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Current Velocity command: " << velocity_commands_[i]);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: " << std::abs(velocity_commands_[i] - prev_velocity_commands_[i]));
+
     // Change detection (only matters if initial_read_ is true)
-    if (initial_read_ && velocity_commands_[i] != prev_velocity_commands_[i])
+    if ((initial_read_ && std::abs(velocity_commands_[i] - prev_velocity_commands_[i]) > 0.005) && std::abs(velocity_commands_[i]) >= 0.002)
     {
       any_change = true;
+      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Joint: " << i);
+      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Previous Velocity command: " << prev_velocity_commands_[i]);
+      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Current Velocity command: " << velocity_commands_[i]);
+      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: " << std::abs(velocity_commands_[i] - prev_velocity_commands_[i]));
     }
+    
 
+      //Skip serial write if nothing changed (only relevant during initial_read_)
+    
+    
+    
     msg << std::fixed << std::setprecision(2) << " " << value_to_send;
-    prev_velocity_commands_[i] = value_to_send;
+    prev_velocity_commands_[i] = value_to_send * (M_PI / 180.0f);
   }
+
+  if (initial_read_ && !any_change && initial_write_)
+  {
+    RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "No change in velocity commands, skipping write.");
+    return hardware_interface::return_type::OK;
+  }
+  
 
   msg << ">";
   std::string command = msg.str();
 
-  //Skip serial write if nothing changed (only relevant during initial_read_)
-  // if (initial_read_ && !any_change)
-  // {
-  //   return hardware_interface::return_type::OK;
-  // }
+  
 
   try
   {
@@ -395,7 +433,10 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
     RCLCPP_ERROR_STREAM(rclcpp::get_logger("DaadbotInterface"), "Write failed: " << e.what());
     return hardware_interface::return_type::ERROR;
   }
-
+  if (!initial_write_)
+  {
+    initial_write_ = true;
+  }
   return hardware_interface::return_type::OK;
 }
 

@@ -57,7 +57,7 @@
       <material
         name="">
         <color
-          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -97,7 +97,7 @@
       <material
         name="">
         <color
-          rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -155,7 +155,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -214,7 +214,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -272,7 +272,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -330,7 +330,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -388,7 +388,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -504,7 +504,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -557,7 +557,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -615,7 +615,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -677,7 +677,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -739,7 +739,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -801,7 +801,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
@@ -863,7 +863,7 @@
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba= "0.329 0.322 0.302 1" />
       </material>
     </visual>
     <collision>
