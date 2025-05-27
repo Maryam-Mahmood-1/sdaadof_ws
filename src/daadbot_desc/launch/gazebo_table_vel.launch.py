@@ -19,7 +19,7 @@ def generate_launch_description():
         description='Absolute path to robot urdf.xacro file'
     )
 
-    world_path = os.path.join(daadbot_desc_dir, "worlds", "table_world.sdf")
+    world_path = os.path.join(daadbot_desc_dir, "worlds", "empty.sdf")
 
     # Set Gazebo resource path
     gazebo_resource_path = SetEnvironmentVariable(
@@ -51,13 +51,16 @@ def generate_launch_description():
     )
 
     # Launch Gazebo Sim with `table_world`
+    gz_args_str = f"-v 4 -r {world_path}"
     gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('ros_gz_sim'),
-            'launch'
-        ), '/gz_sim.launch.py']),
-        launch_arguments=[("gz_args", [" -v 4 -r empty.sdf ", physics_engine])]
+        PythonLaunchDescriptionSource([
+            os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
+        ]),
+        launch_arguments={
+            "gz_args": gz_args_str
+        }.items()
     )
+
 
     # Spawn DaadBot in the world
     gz_spawn_entity = Node(
