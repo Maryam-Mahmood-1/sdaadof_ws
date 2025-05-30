@@ -56,14 +56,14 @@ velocity_arm_controller:
         antiwindup: true
 
       joint_5:  # Joint 5 PID gains
-        p: 1.0
+        p: 1.5
         i: 0.0
         d: 0.030
         i_clamp: 0.0
         antiwindup: true
 
       joint_6:  # Joint 6 PID gains
-        p: 0.7
+        p: 1.65
         i: 0.0
         d: 0.000
         i_clamp: 0.0

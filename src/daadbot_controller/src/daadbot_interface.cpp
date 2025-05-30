@@ -57,6 +57,9 @@ CallbackReturn DaadbotInterface::on_init(const hardware_interface::HardwareInfo 
   init_position_states_.reserve(info_.joints.size());
   prev_velocity_commands_.reserve(info_.joints.size());
   prev_position_states_.reserve(info_.joints.size());
+  unfil_pos_states_.reserve(info_.joints.size());
+  unfil_vel_states_.reserve(info_.joints.size());
+  unfil_effort_states_.reserve(info_.joints.size());
 
   return CallbackReturn::SUCCESS;
 }
@@ -115,6 +118,9 @@ CallbackReturn DaadbotInterface::on_activate(const rclcpp_lifecycle::State &prev
   init_position_states_.assign(info_.joints.size(), 0.0);
   velocity_states_.assign(info_.joints.size(), 0.0);
   effort_states_.assign(info_.joints.size(), 0.0);
+  unfil_pos_states_.assign(info_.joints.size(), 0.0);
+  unfil_vel_states_.assign(info_.joints.size(), 0.0);
+  unfil_effort_states_.assign(info_.joints.size(), 0.0);
 
   try
   {
@@ -167,7 +173,7 @@ CallbackReturn DaadbotInterface::on_deactivate(const rclcpp_lifecycle::State &pr
 hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                                                        const rclcpp::Duration &period)
 {
-  if (any_change){
+  if (true){
     // any_change = false;
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Position States ...");
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "position_states_ size: %zu", position_states_.size());
@@ -278,18 +284,23 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                     "1 time step diff: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'"
                 );
                                     // Converting degrees to radians before visualizing in Rviz (joint_states)
-                    if (abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) > 0.02){
+                    if (abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) > 0.30){
                       position_states_[joint_index] = position_states_[joint_index];
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Prev Position: '" << prev_position_states_[joint_index] << "'");
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Currrent Position: '" << (pos - init_position_states_[joint_index]) * M_PI / 180.0 << "'");
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Current Position being written: '" << position_states_[joint_index] << "'");
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'");
+                      RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Position diff filtered: " << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0 )));
                       
                       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference is too high");
                     }
                     else{
-                        position_states_[joint_index] = (pos - init_position_states_[joint_index]) * M_PI / 180.0;
+                        unfil_pos_states_[joint_index] = (pos - init_position_states_[joint_index]) * M_PI / 180.0;
+                        position_states_[joint_index] = unfil_pos_states_[joint_index]*exp_coeff_ + prev_position_states_[joint_index]*(1-exp_coeff_);
                         RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: '" << abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) << "'");
                         RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference is good");
+                        // RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Position diff filtered: " << abs(prev_position_states_[joint_index] - position_states_[joint_index]));
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "New Position filtered updated: " << position_states_[joint_index]);
                         // RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Here after initial read and now setting position state '" << position_states_[joint_index] << "'");
                     }
 
@@ -299,7 +310,10 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                     
                     if (std::abs(velocity_states_[joint_index] - (vel * M_PI / 180.0)) <= 0.4)
                     {
-                        velocity_states_[joint_index] = vel * M_PI / 180.0;
+                        unfil_vel_states_[joint_index] = vel * M_PI / 180.0;
+                        velocity_states_[joint_index] = unfil_vel_states_[joint_index]*(exp_coeff_) + prev_velocity_commands_[joint_index]*(1-exp_coeff_);
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Velocity diff filtered: " << abs(velocity_states_[joint_index] - (vel * M_PI / 180.0)));
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "New Velocity filtered updated: " << velocity_states_[joint_index]);
                         
                     }
                     else {
@@ -309,8 +323,10 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
 
                     if (std::abs(effort_states_[joint_index] - (eff*0.88)) <= 2)
                     {
-                        effort_states_[joint_index] = eff * 0.88;
-                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Effort diff: " << abs(effort_states_[joint_index] - eff));
+                        unfil_effort_states_[joint_index] = eff * 0.88;
+                        effort_states_[joint_index] = unfil_effort_states_[joint_index]*exp_coeff_ + effort_states_[joint_index]*(1-exp_coeff_);
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Effort diff filtered: " << abs(effort_states_[joint_index] - eff));
+                        RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "New Effort filtered updated: " << effort_states_[joint_index]);
                     }
                     else
                     {
@@ -392,7 +408,7 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
     RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Difference: " << std::abs(velocity_commands_[i] - prev_velocity_commands_[i]));
 
     // Change detection (only matters if initial_read_ is true)
-    if ((initial_read_ && std::abs(velocity_commands_[i] - prev_velocity_commands_[i]) > 0.005) && std::abs(velocity_commands_[i]) >= 0.002)
+    if (true)
     {
       any_change = true;
       RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Joint: " << i);
@@ -413,6 +429,7 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
   if (initial_read_ && !any_change && initial_write_)
   {
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "No change in velocity commands, skipping write.");
+    esp_.Write("rmp\n");
     return hardware_interface::return_type::OK;
   }
   

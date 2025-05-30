@@ -51,6 +51,7 @@ private:
   bool initial_write_ = false;
 
   double previous_voltage_ = -1.0;
+  double exp_coeff_ = 0.081;
 
   std::vector<double> velocity_commands_;
   std::vector<double> prev_velocity_commands_;
@@ -59,6 +60,10 @@ private:
   std::vector<double> init_position_states_;
   std::vector<double> velocity_states_;
   std::vector<double> effort_states_;
+  std::vector<double> unfil_pos_states_;
+  std::vector<double> unfil_vel_states_;
+  std::vector<double> unfil_effort_states_;
+  
 
 
   std::thread voltage_thread_;               // <-- Thread for polling
