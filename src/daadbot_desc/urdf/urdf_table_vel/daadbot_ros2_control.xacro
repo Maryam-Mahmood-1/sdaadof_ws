@@ -9,7 +9,7 @@
             <!-- ROS 2 Humble -->
             <xacro:if value="$(arg is_ignition)">
                 <hardware>
-                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
                 </hardware>
             </xacro:if>
 

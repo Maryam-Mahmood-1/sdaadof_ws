@@ -83,11 +83,21 @@ def generate_launch_description():
 
     # Bridge for Gazebo <--> ROS 2 Communication
     gz_ros2_bridge = Node(
-        package = 'ros_gz_bridge',
-        executable = 'parameter_bridge',
-        arguments= ['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'
-                ]
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=[
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            '/world/empty/model/daadbot/joint/joint_1/sensor/tcp_fts_sensor_joint_1/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+            '/world/empty/model/daadbot/joint/joint_2/sensor/tcp_fts_sensor_joint_2/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+            '/world/empty/model/daadbot/joint/joint_3/sensor/tcp_fts_sensor_joint_3/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+            '/world/empty/model/daadbot/joint/joint_4/sensor/tcp_fts_sensor_joint_4/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+            '/world/empty/model/daadbot/joint/joint_5/sensor/tcp_fts_sensor_joint_5/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+            '/world/empty/model/daadbot/joint/joint_6/sensor/tcp_fts_sensor_joint_6/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+            '/world/empty/model/daadbot/joint/joint_7/sensor/tcp_fts_sensor_joint_7/forcetorque@geometry_msgs/msg/WrenchStamped[gz.msgs.Wrench',
+        ],
+        output='screen'
     )
+
 
     return LaunchDescription([
         model_arg,

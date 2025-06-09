@@ -34,13 +34,13 @@
         <collision name="base_link">
             <origin xyz="0.002964 0.001576 0.004000" rpy="-3.141593 3.141593 -3.141593" />
             <geometry>
-                <mesh filename="package://daadbot_desc/meshes/base_link.STL" />
+                <mesh filename="/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/dae/final_7dof_assemblyLatest2_base_link_visual_vis_1.dae" />
             </geometry>
         </collision>
         <visual name="base_link_visual">
             <origin xyz="0.002964 0.001576 0.004000" rpy="-3.141593 3.141593 -3.141593" />
             <geometry>
-                <mesh filename="package://daadbot_desc/meshes/base_link.STL" />
+                <mesh filename="/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/dae/final_7dof_assemblyLatest2_base_link_visual_vis_1.dae" />
             </geometry>
             <material name="">
                 <color rgba="0.776470 0.756860 0.737250 1.0" />

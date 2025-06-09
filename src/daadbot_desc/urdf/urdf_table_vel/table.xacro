@@ -25,6 +25,25 @@
     </inertial>
   </link>
 
+  <!-- Make table static in Gazebo and improve contact -->
+  <gazebo reference="table_top">
+    <static>true</static>
+    <surface>
+      <contact>
+        <ode>
+          <kp>100000.0</kp>
+          <kd>1000.0</kd>
+        </ode>
+      </contact>
+      <friction>
+        <ode>
+          <mu>1.0</mu>
+          <mu2>1.0</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+
   <!-- Table Legs Macro -->
   <xacro:macro name="table_leg" params="leg_name x y">
     <link name="${leg_name}">

@@ -149,12 +149,13 @@
       <mass
         value="2.24401700155026" />
       <inertia
-        ixx="0.00389001580470153"
-        ixy="1.8291659115195E-06"
-        ixz="2.04233321611583E-07"
-        iyy="0.00259728697678572"
-        iyz="3.29392581309982E-08"
-        izz="0.00312685277067708" />
+        ixx="0.00250860362"
+        ixy="-1.95804141e-05"
+        ixz="1.06350024e-06"
+        iyy="0.00852523380"
+        iyz="4.22077320e-07"
+        izz="0.00807927033" />
+
     </inertial>
     <visual>
       <origin
@@ -213,6 +214,13 @@
       <pose>0 0 0 0 0 0</pose>
     </sensor>
   </gazebo>
+  <!-- <gazebo>
+   <plugin
+        name="gz::sim::systems::ApplyJointForce"
+        filename="ignition-gazebo-apply-joint-force-system">
+      <joint_name>joint_2</joint_name>
+    </plugin>
+  </gazebo> -->
   
   <link
     name="Link_3">
@@ -272,6 +280,18 @@
       effort="${effort}"
       velocity="12.776" />
   </joint>
+  <gazebo reference="joint_3">
+    <sensor name="tcp_fts_sensor_joint_3" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
   <link
     name="Link_4">
     <inertial>
@@ -330,6 +350,18 @@
       effort="${effort}"
       velocity="12.77581" />
   </joint>
+  <gazebo reference="joint_4">
+    <sensor name="tcp_fts_sensor_joint_4" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
   <link
     name="Link_5">
     <inertial>
@@ -388,6 +420,18 @@
       effort="15"
       velocity="19.896753" />
   </joint>
+  <gazebo reference="joint_5">
+    <sensor name="tcp_fts_sensor_joint_5" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
   <link
     name="Link_6">
     <inertial>
@@ -446,6 +490,18 @@
       effort="15"
       velocity="19.897" />
   </joint>
+  <gazebo reference="joint_6">
+    <sensor name="tcp_fts_sensor_joint_6" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
   <link
     name="Link_7">
     <inertial>
@@ -504,6 +560,18 @@
       effort="15"
       velocity="19.897" />
   </joint>
+  <gazebo reference="joint_7">
+    <sensor name="tcp_fts_sensor_joint_7" type="force_torque">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
   <link
     name="endeffector">
     <inertial>
