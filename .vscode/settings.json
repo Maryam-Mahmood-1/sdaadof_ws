@@ -110,7 +110,10 @@
         "stdfloat": "cpp",
         "syncstream": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "attributedispatchers": "cpp",
+        "mixinvector": "cpp",
+        "ref_ptr": "cpp"
     }
     
 }

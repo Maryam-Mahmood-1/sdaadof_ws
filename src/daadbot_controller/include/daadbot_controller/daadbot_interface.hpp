@@ -40,6 +40,8 @@ private:
   LibSerial::SerialPort esp_;
   std::string port_;
 
+  std::vector<size_t> joint_indices_ = {4, 5, 6};
+  
   // --- Motor state tracking ---
   bool rmp_sent_ = false;
   bool use_dummy_data_ = false;
@@ -64,6 +66,7 @@ private:
   std::vector<double> unfil_vel_states_;
   std::vector<double> unfil_effort_states_;
   
+  std::chrono::steady_clock::time_point write_sent_;
 
 
   std::thread voltage_thread_;               // <-- Thread for polling

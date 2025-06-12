@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 75
+    update_rate: 100
 
     velocity_arm_controller:   
       type: joint_trajectory_controller/JointTrajectoryController
@@ -29,8 +29,8 @@ velocity_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 2.5
-        i: 1.5
+        p: 1.5
+        i: 0.0
         d: 0.001
         i_clamp: 0.0
     
@@ -63,15 +63,15 @@ velocity_arm_controller:
         antiwindup: true
 
       joint_6:  # Joint 6 PID gains
-        p: 1.65
-        i: 0.0
-        d: 0.000
+        p: 1.5
+        i: 0.09
+        d: 0.00
         i_clamp: 0.0
         antiwindup: true
 
       joint_7:  # Joint 7 PID gains
         p: 1.25
-        i: 0.0
+        i: 0.01
         d: 0.030
         i_clamp: 0.0
         antiwindup: true
