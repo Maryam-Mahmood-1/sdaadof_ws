@@ -61,6 +61,7 @@ CallbackReturn DaadbotInterface::on_init(const hardware_interface::HardwareInfo 
   init_position_states_.reserve(info_.joints.size());
   prev_velocity_commands_.reserve(info_.joints.size());
   prev_position_states_.reserve(info_.joints.size());
+  prev_velocity_states_.reserve(info_.joints.size());
   unfil_pos_states_.reserve(info_.joints.size());
   unfil_vel_states_.reserve(info_.joints.size());
   unfil_effort_states_.reserve(info_.joints.size());
@@ -117,6 +118,7 @@ CallbackReturn DaadbotInterface::on_activate(const rclcpp_lifecycle::State &prev
   velocity_commands_.assign(info_.joints.size(), 0.0);
   prev_velocity_commands_.assign(info_.joints.size(), 0.0);
   prev_position_states_.assign(info_.joints.size(), 0.0);
+  prev_velocity_states_.assign(info_.joints.size(), 0.0);
   position_states_.assign(info_.joints.size(), 0.0);
   init_position_states_.assign(info_.joints.size(), 0.0);
   velocity_states_.assign(info_.joints.size(), 0.0);
@@ -176,55 +178,48 @@ CallbackReturn DaadbotInterface::on_deactivate(const rclcpp_lifecycle::State &pr
 hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
                                                        const rclcpp::Duration &period)
 {
+  auto start_total = std::chrono::steady_clock::now();
   static bool csv_initialized = false;
   static std::ofstream rtiming_csv_;
   static std::ofstream comm_log;
   static std::ofstream roundtrip_log;
+  static std::chrono::steady_clock::time_point last_read_start;
 
+  auto current_read_start = std::chrono::steady_clock::now();
+  long delta_since_last_read_us = 0;
+
+  if (last_read_start.time_since_epoch().count() != 0) {
+    delta_since_last_read_us = std::chrono::duration_cast<std::chrono::microseconds>(current_read_start - last_read_start).count();
+  }
+  last_read_start = current_read_start;
   if (!csv_initialized) {
     auto now = std::chrono::system_clock::now();
     auto now_time_t = std::chrono::system_clock::to_time_t(now);
     std::stringstream filename_ss;
-
-    // Format: YYYYMMDD_HHMMSS
     filename_ss << std::put_time(std::localtime(&now_time_t), "%Y%m%d_%H%M%S");
-
-    // Set the output directory
     std::string output_dir = "/home/maryam-mahmood/udaadbot_ws/robot_logs";
-
-    // Create directory if it doesn't exist
     if (!std::filesystem::exists(output_dir)) {
       std::filesystem::create_directories(output_dir);
     }
     std::string readt_path = output_dir + "/read_timings_" + filename_ss.str() + ".csv";
     std::string comm_path = output_dir + "/comm_timing_" + filename_ss.str() + ".csv";
     std::string roundtripath = output_dir + "/write_to_read_timing_" + filename_ss.str() + ".csv";
-
-
-    // Open log files
     rtiming_csv_.open(readt_path);
     comm_log.open(comm_path);
     roundtrip_log.open(roundtripath);
-
     if (rtiming_csv_.is_open()) {
-      rtiming_csv_ << "timestamp_us,serial_us,parse_us,total_us\n";
+      rtiming_csv_ << "timestamp_us,serial_us,parse_us,total_us,delta_since_last_read_us\n";
     }
     csv_initialized = true;
   }
-
-  auto start_total = std::chrono::steady_clock::now();
-
   RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Position States ...");
   RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "position_states_ size: %zu", position_states_.size());
   RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Reading ...");
-
   if (!esp_.IsOpen()) {
     RCLCPP_ERROR(rclcpp::get_logger("DaadbotInterface"), "Serial port not open, cannot read.");
     return hardware_interface::return_type::ERROR;
   }
-
   try {
-    // SERIAL READ
     auto serial_start = std::chrono::steady_clock::now();
 
     std::string response;
@@ -232,15 +227,12 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
 
     auto serial_end = std::chrono::steady_clock::now();
     auto serial_us = std::chrono::duration_cast<std::chrono::microseconds>(serial_end - serial_start).count();
-
     response = response.substr(response.find_first_not_of(" \t\n\r"), response.find_last_not_of(" \t\n\r") + 1);
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Trimmed response: '%s'", response.c_str());
-
     if (response.empty() || response.front() != '<' || response.back() != '>') {
       RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Invalid response: '%s'", response.c_str());
       return hardware_interface::return_type::ERROR;
     }
-
     auto read_start = std::chrono::steady_clock::now();
     double communication_time_ = std::chrono::duration<double, std::milli>(read_start - write_sent_).count();
     RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"),
@@ -248,21 +240,16 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
 
     comm_log << rclcpp::Time(read_start.time_since_epoch().count()).seconds()
              << "," << communication_time_ << std::endl;
-
-    // PARSING
     auto parse_start = std::chrono::steady_clock::now();
-
-    response = response.substr(1, response.size() - 2); // remove < >
+    response = response.substr(1, response.size() - 2);
     if (response.empty() || response.front() != 'R') {
       RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Unexpected response format: '%s'", response.c_str());
       return hardware_interface::return_type::ERROR;
     }
-
     std::istringstream ss(response.substr(1));
     std::string token;
-    std::vector<size_t> joint_indices = {4, 5, 6};
+    std::vector<size_t> joint_indices = {3, 5, 6};
     size_t token_index = 0;
-
     while (ss >> token && token_index < joint_indices.size()) {
       size_t joint_index = joint_indices[token_index];
       try {
@@ -284,82 +271,110 @@ hardware_interface::return_type DaadbotInterface::read(const rclcpp::Time &time,
           }
           return std::stod(str);
         };
-
         double pos = parse_or_zero(pos_str, "position", joint_index);
         double vel = parse_or_zero(vel_str, "velocity", joint_index);
         double eff = parse_or_zero(eff_str, "effort", joint_index);
-
+        double current_pos_rad = (pos - init_position_states_[joint_index]) * M_PI / 180.0; 
+        double jump = prev_position_states_[joint_index] - current_pos_rad;
         if (initial_read_) {
-          if (abs(prev_position_states_[joint_index] - ((pos - init_position_states_[joint_index]) * M_PI / 180.0)) > 0.30) {
-            RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Position jump too large, ignoring.");
+          if (abs(prev_position_states_[joint_index] - (current_pos_rad)) > 0.30) {
+            RCLCPP_INFO_STREAM(
+              rclcpp::get_logger("DaadbotInterface"),
+              "Position jump too large, ignoring. Prev: " << prev_position_states_[joint_index]
+              << ", Current: " << current_pos_rad
+              << ", Jump: " << jump
+            );
           } else {
-            unfil_pos_states_[joint_index] = (pos - init_position_states_[joint_index]) * M_PI / 180.0;
-            position_states_[joint_index] = unfil_pos_states_[joint_index]*exp_coeff_ + prev_position_states_[joint_index]*(1 - exp_coeff_);
+            if (abs(jump) < 0.0174533) { // 1 degree in radians
+              unfil_pos_states_[joint_index] = prev_position_states_[joint_index] + velocity_commands_[joint_index] * 0.0118;
+              position_states_[joint_index] = unfil_pos_states_[joint_index];
+            }
+            else{
+              unfil_pos_states_[joint_index] = current_pos_rad;
+              unfil_pos_states_[joint_index] = current_pos_rad * 0.55 +
+                                               (prev_position_states_[joint_index] + velocity_commands_[joint_index] * 0.0108) * (1 - 0.55);              
+              position_states_[joint_index] = unfil_pos_states_[joint_index] * exp_coeff_ +
+                                            prev_position_states_[joint_index] * (1 - exp_coeff_);
+            }
+            RCLCPP_INFO_STREAM(
+              rclcpp::get_logger("DaadbotInterface"),
+              "Position jump good. Prev: " << prev_position_states_[joint_index]
+              << ", Current: " << unfil_pos_states_[joint_index]
+              << ", Filtered: " << position_states_[joint_index]
+              << ", Jump: " << jump
+            );
           }
-
-          if (std::abs(velocity_states_[joint_index] - (vel * M_PI / 180.0)) <= 0.4) {
-            unfil_vel_states_[joint_index] = vel * M_PI / 180.0;
-            velocity_states_[joint_index] = unfil_vel_states_[joint_index]*exp_coeff_ + prev_velocity_commands_[joint_index]*(1 - exp_coeff_);
+          double current_vel_rad = vel * M_PI / 180.0;
+          if (std::abs(velocity_states_[joint_index] - current_vel_rad) <= 0.4) {
+            unfil_vel_states_[joint_index] = current_vel_rad;
+            velocity_states_[joint_index] = unfil_vel_states_[joint_index] * 0.3 +
+                                            prev_velocity_commands_[joint_index] * (1 - 0.3);
+            double jump = prev_velocity_states_[joint_index] - current_vel_rad;
+            RCLCPP_INFO_STREAM(
+              rclcpp::get_logger("DaadbotInterface"),
+              "Velocity jump good. Prev: " << prev_velocity_states_[joint_index]
+              << ", Current: " << unfil_vel_states_[joint_index]
+              << ", Filtered: " << velocity_states_[joint_index]
+              << ", Jump: " << jump
+            );
+          } else {
+            double jump = prev_velocity_states_[joint_index] - current_vel_rad;
+            RCLCPP_INFO_STREAM(
+              rclcpp::get_logger("DaadbotInterface"),
+              "Velocity jump too large, ignoring. Prev: " << velocity_states_[joint_index]
+              << ", Current: " << current_vel_rad
+              << ", Jump: " << jump
+            );
           }
-
           if (std::abs(effort_states_[joint_index] - (eff * 0.88)) <= 2) {
             unfil_effort_states_[joint_index] = eff * 0.88;
-            effort_states_[joint_index] = unfil_effort_states_[joint_index]*exp_coeff_ + effort_states_[joint_index]*(1 - exp_coeff_);
+            effort_states_[joint_index] = unfil_effort_states_[joint_index]*exp_coeff_ + effort_states_[joint_index]*(1 - exp_coeff_);           
           }
         } else {
           init_position_states_[joint_index] = pos;
         }
-
         prev_position_states_[joint_index] = position_states_[joint_index];
+        prev_velocity_states_[joint_index] = velocity_states_[joint_index];
       } catch (const std::exception &e) {
         RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Invalid token format: '%s'", token.c_str());
         return hardware_interface::return_type::ERROR;
       }
-
       token_index++;
     }
-
     auto read_end = std::chrono::steady_clock::now();
     double write_to_read_ms = std::chrono::duration<double, std::milli>(read_end - write_sent_).count();
     RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"),
                        "Time from write sent to read end: " << write_to_read_ms << " ms");
-
     roundtrip_log << rclcpp::Time(read_start.time_since_epoch().count()).seconds()
                   << "," << write_to_read_ms << std::endl;
-
     auto parse_end = std::chrono::steady_clock::now();
     auto parse_us = std::chrono::duration_cast<std::chrono::microseconds>(parse_end - parse_start).count();
-
-    // END
     auto end_total = std::chrono::steady_clock::now();
     auto total_us = std::chrono::duration_cast<std::chrono::microseconds>(end_total - start_total).count();
-
-    // LOGGING
-    RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "[TIMING] Serial: %ld µs | Parse: %ld µs | Total: %ld µs",
-                serial_us, parse_us, total_us);
-
+    RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"),
+                "[TIMING] Serial: %ld µs | Parse: %ld µs | Total: %ld µs | Δ Read: %ld µs",
+                serial_us, parse_us, total_us, delta_since_last_read_us);
     if (rtiming_csv_.is_open()) {
       auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
           std::chrono::steady_clock::now().time_since_epoch()).count();
-      rtiming_csv_ << now_us << "," << serial_us << "," << parse_us << "," << total_us << "\n";
+      rtiming_csv_ << now_us << "," << serial_us << "," << parse_us << "," << total_us
+                   << "," << delta_since_last_read_us << "\n";
     }
-
   } catch (const std::exception &e) {
     RCLCPP_ERROR_STREAM(rclcpp::get_logger("DaadbotInterface"), "Read failed: " << e.what());
     return hardware_interface::return_type::ERROR;
   }
-
   if (!initial_read_) {
     initial_read_ = true;
+    // auto now = std::chrono::steady_clock::now();
     RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"), "Initial read completed.");
   }
-
   if (initial_write_) {
     any_change = false;
   }
-
   return hardware_interface::return_type::OK;
 }
+
 
 
 
@@ -373,20 +388,21 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
   static std::ofstream write_csv_;
   static std::string folder_path = "/home/maryam-mahmood/udaadbot_ws/robot_logs";
 
+  static high_resolution_clock::time_point last_write_start_time;
+  static bool first_write_call = true;
+
   if (!csv_initialized) {
-    // Create directory if not exists
     std::filesystem::create_directories(folder_path);
 
     auto now = std::chrono::system_clock::now();
     auto now_time_t = std::chrono::system_clock::to_time_t(now);
     std::stringstream filename_ss;
-
     filename_ss << std::put_time(std::localtime(&now_time_t), "%Y%m%d_%H%M%S");
-    std::string full_path = folder_path + "/write_timing_" + filename_ss.str() + ".csv";
 
+    std::string full_path = folder_path + "/write_timing_" + filename_ss.str() + ".csv";
     write_csv_.open(full_path);
     if (write_csv_.is_open()) {
-      write_csv_ << "timestamp_us,computation_us,communication_us,misc_us,total_us\n";
+      write_csv_ << "timestamp_us,computation_us,communication_us,misc_us,total_us,delta_write_us\n";
     }
 
     csv_initialized = true;
@@ -404,12 +420,12 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
   std::ostringstream msg;
   msg << "<W";
 
-  std::vector<size_t> joint_indices = {4, 5, 6};
+  std::vector<size_t> joint_indices = {3, 5, 6};  // Updated indices
   bool any_change = false;
 
   for (size_t i : joint_indices)
   {
-    float value_to_send = initial_read_ ? velocity_commands_[i] * (180.0f / M_PI) : 0.0f;
+    float value_to_send = initial_read_ ? (velocity_commands_[i] * (180.0f / M_PI) * 0.95) : 0.0f;
 
     RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Joint: " << i);
     RCLCPP_INFO_STREAM(rclcpp::get_logger("DaadbotInterface"), "Previous Velocity command: " << prev_velocity_commands_[i]);
@@ -459,16 +475,25 @@ hardware_interface::return_type DaadbotInterface::write(const rclcpp::Time &time
   auto communication_us = duration_cast<microseconds>(communication_end - communication_start).count();
   auto misc_us = total_us - computation_us - communication_us;
 
+  // ---- WRITE DELTA TIME ----
+  uint64_t delta_write_us = 0;
+  if (!first_write_call) {
+    delta_write_us = duration_cast<microseconds>(total_start - last_write_start_time).count();
+  } else {
+    first_write_call = false;
+  }
+  last_write_start_time = total_start;
+
   RCLCPP_INFO(rclcpp::get_logger("DaadbotInterface"),
-              "WRITE TIMING (us): computation= %ld, communication= %ld, misc= %ld, total= %ld",
-              computation_us, communication_us, misc_us, total_us);
+              "WRITE TIMING (us): computation= %ld, communication= %ld, misc= %ld, total= %ld, delta_write= %ld",
+              computation_us, communication_us, misc_us, total_us, delta_write_us);
 
   // ---- CSV Logging ----
   try {
     if (write_csv_.is_open()) {
       uint64_t timestamp_us = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
       write_csv_ << timestamp_us << "," << computation_us << "," << communication_us << ","
-                 << misc_us << "," << total_us << "\n";
+                 << misc_us << "," << total_us << "," << delta_write_us << "\n";
     }
   } catch (...) {
     RCLCPP_WARN(rclcpp::get_logger("DaadbotInterface"), "Failed to write to CSV log.");

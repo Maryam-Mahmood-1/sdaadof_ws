@@ -113,7 +113,8 @@
         "variant": "cpp",
         "attributedispatchers": "cpp",
         "mixinvector": "cpp",
-        "ref_ptr": "cpp"
+        "ref_ptr": "cpp",
+        "notify": "cpp"
     }
     
 }

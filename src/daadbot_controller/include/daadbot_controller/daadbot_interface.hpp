@@ -12,6 +12,12 @@
 #include <atomic>        // <-- Optional: for thread-safe voltage variable
 #include <vector>
 #include <string>
+#include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/empty.hpp"
+#include "std_msgs/msg/int8.hpp"
+
+
+
 
 namespace daadbot_controller
 {
@@ -53,11 +59,12 @@ private:
   bool initial_write_ = false;
 
   double previous_voltage_ = -1.0;
-  double exp_coeff_ = 0.081;
+  double exp_coeff_ = 0.1;
 
   std::vector<double> velocity_commands_;
   std::vector<double> prev_velocity_commands_;
   std::vector<double> prev_position_states_;
+  std::vector<double> prev_velocity_states_;
   std::vector<double> position_states_;
   std::vector<double> init_position_states_;
   std::vector<double> velocity_states_;
@@ -77,8 +84,8 @@ private:
 
   rclcpp::Publisher<geometry_msgs::msg::Vector3>::SharedPtr raw_state_pub_;
   rclcpp::Node::SharedPtr node_;
-
-
+  // rclcpp::Publisher<std_msgs::msg::String>::SharedPtr write_command_pub_;
+  // rclcpp::Publisher<daadbot_msgs::msg::ImpulseStamped>::SharedPtr write_impulse_pub_;
 
 };
 

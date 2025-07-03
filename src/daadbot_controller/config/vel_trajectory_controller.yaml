@@ -1,8 +1,13 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100
+    update_rate: 90
 
-    velocity_arm_controller:   
+    # Arm on CAN interface
+    velocity_arm_can_controller:   
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    # Arm on Serial (USB) interface
+    velocity_arm_serial_controller:   
       type: joint_trajectory_controller/JointTrajectoryController
 
     velocity_gripper_controller:  
@@ -11,13 +16,30 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-velocity_arm_controller:
+
+# === CAN Controller ===
+velocity_arm_can_controller:
   ros__parameters:
-    position_proportional_gain: 0.0
     joints:
       - joint_1
       - joint_2
       - joint_3
+    command_interfaces:
+      - velocity
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      joint_1: {p: 1.2, i: 0.0, d: 0.00, i_clamp: 0.0}
+      joint_2: {p: 1.2, i: 0.0, d: 0.00, i_clamp: 0.0, antiwindup: true}
+      joint_3: {p: 1.5, i: 0.0, d: 0.00, i_clamp: 0.0, antiwindup: true}
+    open_loop_control: false
+
+
+# === Serial (ESP) Controller ===
+velocity_arm_serial_controller:
+  ros__parameters:
+    joints:
       - joint_4
       - joint_5
       - joint_6
@@ -28,64 +50,14 @@ velocity_arm_controller:
       - position
       - velocity
     gains:
-      joint_1:
-        p: 1.5
-        i: 0.0
-        d: 0.001
-        i_clamp: 0.0
-    
-      joint_2:  # Joint 2 PID gains
-        p: 1.5
-        i: 0.1
-        d: 0.001
-        i_clamp: 0.0
-        antiwindup: true     
-
-      joint_3:  # Joint 3 PID gains
-        p: 1.5
-        i: 0.1
-        d: 0.001
-        i_clamp: 0.0
-        antiwindup: true
-
-      joint_4:  # Joint 4 PID gains
-        p: 1.5
-        i: 0.1
-        d: 0.001
-        i_clamp: 0.0
-        antiwindup: true
-
-      joint_5:  # Joint 5 PID gains
-        p: 1.5
-        i: 0.0
-        d: 0.030
-        i_clamp: 0.0
-        antiwindup: true
-
-      joint_6:  # Joint 6 PID gains
-        p: 1.5
-        i: 0.09
-        d: 0.00
-        i_clamp: 0.0
-        antiwindup: true
-
-      joint_7:  # Joint 7 PID gains
-        p: 1.25
-        i: 0.01
-        d: 0.030
-        i_clamp: 0.0
-        antiwindup: true
-
-    #allow_integration_in_goal_trajectories: true
+      joint_4: {p: 1.0, i: 0.0, d: 0.00, i_clamp: 0.0, antiwindup: true}
+      joint_5: {p: 1.5, i: 0.0, d: 0.03, i_clamp: 0.0, antiwindup: true}
+      joint_6: {p: 1.75, i: 0.0, d: 0.00, i_clamp: 0.0, antiwindup: true}
+      joint_7: {p: 2.25, i: 0.0, d: 0.00, i_clamp: 0.0, antiwindup: true}
     open_loop_control: false
 
-    constraints:
-      #goal_time: 10.0  # Wait up to 2 seconds for goal completion
-      stopped_velocity_tolerance: 0.001  # Robot should stop within this velocity range
-      #goal_tolerance: 0.01  # How close the joints should get to the target before MoveIt! accepts success
 
-    
-
+# === Gripper Controller ===
 velocity_gripper_controller:
   ros__parameters:
     joints:
@@ -97,10 +69,11 @@ velocity_gripper_controller:
       - velocity
     gains:
       gear1_joint: {p: 1.5, i: 0.0, d: 0.0, angle_wraparound: true}
-
     open_loop_control: false
     allow_integration_in_goal_trajectories: true
 
+
+# === Joint State Broadcaster ===
 joint_state_broadcaster:
   ros__parameters:
     update_rate: 100
@@ -113,12 +86,6 @@ joint_state_broadcaster:
       - joint_6
       - joint_7
       - gear1_joint
-
-    # joints:
-    #   - joint_5
-    #   - joint_6
-    #   - joint_7
-    
     interfaces:
       - position
       - velocity
