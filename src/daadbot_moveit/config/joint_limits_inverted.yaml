@@ -1,0 +1,70 @@
+default_velocity_scaling_factor: 1.0
+default_acceleration_scaling_factor: 1.0
+
+joint_limits:
+  joint_1:
+    has_velocity_limits: true
+    max_velocity: 0.88
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  joint_2:
+    has_velocity_limits: true
+    max_velocity: 0.52
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  joint_3:
+    has_velocity_limits: true
+    max_velocity: 0.88
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  joint_4:
+    has_velocity_limits: true
+    max_velocity: 0.81
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  joint_5:
+    has_velocity_limits: true
+    max_velocity: 0.88
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  joint_6:
+    has_velocity_limits: true
+    max_velocity: 0.88
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  joint_7:
+    has_velocity_limits: true
+    max_velocity: 0.88
+    has_acceleration_limits: true
+    max_acceleration: 0.25
+
+  gear1_joint:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  base_claw_joint1:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  claw_joint1:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  gear2_joint:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  base_claw_joint2:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: true
+    max_acceleration: 5.23
+  claw_joint2:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: true
+    max_acceleration: 5.23

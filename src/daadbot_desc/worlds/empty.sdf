@@ -1,0 +1,60 @@
+<sdf version="1.6">
+  <world name="empty">
+
+    <!-- physics and plugins -->
+    <physics name="my_physics" type="gz-physics-bullet-featherstone-plugin">
+      <max_step_size>0.002</max_step_size>    <!-- 0.002 = 500 Hz -->
+    <real_time_update_rate>200</real_time_update_rate> <!-- or 200 -->
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+
+    <!-- Sun -->
+    <light type="directional" name="sun">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Table -->
+    <include>
+        <uri>file:///home/maryam-mahmood/udaadbot_ws/src/daadbot_desc/worlds/table.sdf</uri>
+        <name>table</name>
+        <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Bottle -->
+    <include>
+        <uri>file:///home/maryam-mahmood/udaadbot_ws/src/daadbot_desc/worlds/bottle.sdf</uri>
+        <name>bottle</name>
+        <pose>0.28 -0.30 0.86 0 0 0</pose> <!-- place on top of table -->
+    </include>
+
+  </world>
+</sdf>

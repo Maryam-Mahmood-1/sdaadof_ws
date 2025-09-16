@@ -29,29 +29,29 @@ velocity_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 1.5
+        p: 1.2
         i: 0.0
-        d: 0.001
+        d: 0.00
         i_clamp: 0.0
     
       joint_2:  # Joint 2 PID gains
-        p: 1.5
-        i: 0.1
-        d: 0.001
+        p: 1.2
+        i: 0.0
+        d: 0.00
         i_clamp: 0.0
         antiwindup: true     
 
       joint_3:  # Joint 3 PID gains
         p: 1.5
-        i: 0.1
-        d: 0.001
+        i: 0.0
+        d: 0.000
         i_clamp: 0.0
         antiwindup: true
 
       joint_4:  # Joint 4 PID gains
-        p: 1.5
-        i: 0.1
-        d: 0.001
+        p: 1.0
+        i: 0.0
+        d: 0.00
         i_clamp: 0.0
         antiwindup: true
 
@@ -63,16 +63,16 @@ velocity_arm_controller:
         antiwindup: true
 
       joint_6:  # Joint 6 PID gains
-        p: 1.5
-        i: 0.09
+        p: 1.75
+        i: 0.00
         d: 0.00
         i_clamp: 0.0
         antiwindup: true
 
       joint_7:  # Joint 7 PID gains
-        p: 1.25
-        i: 0.01
-        d: 0.030
+        p: 2.25
+        i: 0.00
+        d: 0.000
         i_clamp: 0.0
         antiwindup: true
 

@@ -15,7 +15,7 @@ def generate_launch_description():
     # Declare Xacro model path
     model_arg = DeclareLaunchArgument(
         name="model",
-        default_value=os.path.join(daadbot_desc_dir, 'urdf/urdf_new_table_vel/daadbot.urdf.xacro'),
+        default_value=os.path.join(daadbot_desc_dir, 'urdf/urdf_no_table_table_vel/daadbot.urdf.xacro'),
         description='Absolute path to robot urdf.xacro file'
     )
 

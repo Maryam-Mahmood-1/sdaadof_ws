@@ -114,6 +114,7 @@
         "attributedispatchers": "cpp",
         "mixinvector": "cpp",
         "ref_ptr": "cpp"
-    }
+    },
+    "github.copilot.chat.codeGeneration.useInstructionFiles": true
     
 }

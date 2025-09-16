@@ -20,7 +20,7 @@ def generate_launch_description():
         Command(
             [
                 "xacro ",
-                os.path.join(get_package_share_directory('daadbot_desc'), 'urdf/urdf_new_table_vel/daadbot.urdf.xacro'),
+                os.path.join(get_package_share_directory('daadbot_desc'), 'urdf/urdf_no_table_table_vel/daadbot.urdf.xacro'),
                 " is_sim:=False"
             ]
         ),

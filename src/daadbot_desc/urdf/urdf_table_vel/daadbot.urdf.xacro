@@ -123,7 +123,7 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-0.1"
+      lower="-3.1"
       upper="3.2"
       effort="${effort}"
       velocity="12.776" />
@@ -173,7 +173,7 @@
     type="revolute">
     <origin
       xyz="0.0400000000000002 -0.050000000000002 0.114463048454132"
-      rpy="1.5707963267949 0 0" />
+      rpy="1.5707963267949 -1.83 0" />
     <parent
       link="Link_1" />
     <child
@@ -182,7 +182,7 @@
       xyz="0 0 -1" />
     <limit
       lower="-3.4907"
-      upper="0.5236"
+      upper="3.5236"
       effort="${effort}"
       velocity="12.776" />
   </joint>
@@ -240,10 +240,10 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-0.1"
+      lower="-3.1"
       upper="3.2"
       effort="${effort}"
-      velocity="12.776" />
+      velocity="1.0" />
   </joint>
   <link
     name="Link_4">
@@ -290,18 +290,18 @@
     type="revolute">
     <origin
       xyz="-0.0324999999999996 0 0.0750000000000004"
-      rpy="0 1.5707963267949 0" />
+      rpy="-1.57 0 -1.57" />
     <parent
       link="Link_3" />
     <child
       link="Link_4" />
     <axis
-      xyz="0 0 -1" />
+      xyz="0 0 1" />
     <limit
       lower="-1.9199"
       upper="1.9199"
       effort="${effort}"
-      velocity="12.77581" />
+      velocity="1.0" />
   </joint>
   <link
     name="Link_5">
@@ -348,7 +348,7 @@
     type="revolute">
     <origin
       xyz="-0.2284999036789 0 0.0330000000000004"
-      rpy="3.14159265358979 1.5707963267949 0" />
+      rpy="3.14159265358979 -1.5707963267949 3.14159" />
     <parent
       link="Link_4" />
     <child
@@ -406,7 +406,7 @@
     type="revolute">
     <origin
       xyz="-0.0265000104908596 0 0.0575000000000075"
-      rpy="-1.57 0 -1.57" />
+      rpy="-1.57 0.0 -1.57" />
     <parent
       link="Link_5" />
     <child
@@ -470,10 +470,10 @@
     <child
       link="Link_7" />
     <axis
-      xyz="0 0 -1" />
+      xyz="0 0 1" />
     <limit
       lower="-0.1"
-      upper="3.14"
+      upper="3.4"
       effort="15"
       velocity="19.897" />
   </joint>

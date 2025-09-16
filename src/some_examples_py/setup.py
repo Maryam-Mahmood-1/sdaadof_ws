@@ -23,6 +23,10 @@ setup(
             'simple_publisher = some_examples_py.simple_publisher:main',
             'my_action_server = some_examples_py.my_action_server:main',
             'mpipe = some_examples_py.mpipe:main',
+            'gui_trajectory = some_examples_py.gui_trajectory:main',
+            'gui_trajectory_2 = some_examples_py.gui_trajectory_2:main',
+            'sim_driver = some_examples_py.sim_driver:main',
+            'gui_trajectory_3 = some_examples_py.gui_trajectory_3:main',
         ],
     },
 )
