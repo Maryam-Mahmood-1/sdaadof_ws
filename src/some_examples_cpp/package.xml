@@ -2,24 +2,38 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>some_examples_cpp</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="maryam-mahmood@todo.todo">maryam-mahmood</maintainer>
-  <license>TODO: License declaration</license>
+  <version>0.0.1</version>
+  <description>Example ROS 2 C++ nodes for DAADBot, including MoveIt integration and custom messages.</description>
 
+  <!-- Maintainer info -->
+  <maintainer email="maryam-mahmood@example.com">Maryam Mahmood</maintainer>
+
+  <!-- License -->
+  <license>BSD-3-Clause</license>
+
+  <!-- Build system -->
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Core dependencies for C++ -->
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>daadbot_msgs</depend>
   <depend>rclcpp_action</depend>
   <depend>rclcpp_components</depend>
-  <depend>moveit_ros_planning_interface</depend>
   <depend>rclcpp_lifecycle</depend>
   <depend>rcl_interfaces</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>sensor_msgs</depend>
+  <depend>trajectory_msgs</depend>
 
+  <!-- Dependencies for Python script -->
+  <exec_depend>rclpy</exec_depend>
+
+  <!-- Testing dependencies -->
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
+  <!-- Export build type -->
   <export>
     <build_type>ament_cmake</build_type>
   </export>
