@@ -139,6 +139,7 @@
         "vec4us": "cpp",
         "viewport": "cpp",
         "guieventadapter": "cpp"
-    }
+    },
+    "ros.distro": "humble"
     
 }

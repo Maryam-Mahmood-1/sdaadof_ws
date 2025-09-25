@@ -1,4 +1,7 @@
-build/
-log/
-install/
-dhenv/
+# ignore everything
+/*
+
+# but include src and everything inside it
+!/src/
+!/src/**
+!.gitignore
