@@ -50,7 +50,7 @@ def generate_launch_description():
         parameters=[{"robot_description": robot_description, "use_sim_time": True}]
     )
 
-    # Launch Gazebo Sim with `table_world`
+    # Launch Gazebo Sim with table_world
     gz_args_str = f"-v 4 -r {world_path}"
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -78,8 +78,6 @@ def generate_launch_description():
         ],
         output='screen'
     )
-
-
 
     # Bridge for Gazebo <--> ROS 2 Communication
     gz_ros2_bridge = Node(

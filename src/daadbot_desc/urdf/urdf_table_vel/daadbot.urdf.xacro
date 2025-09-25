@@ -24,11 +24,27 @@
     <origin xyz="0 0 0" rpy="0 0 0"/> <!-- Adjust height of table -->
   </joint>
 
+  <link name="camera_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+      <material name=""/>
+    </visual>
+  </link>
+
+  <!-- Fixed joint from base_link to camera_link -->
+  <joint name="camera_joint" type="fixed">
+    <parent link="table_top"/>  <!-- Replace with actual mount link -->
+    <child link="camera_link"/>
+    <origin xyz="1.5 0.0 1.27" rpy="0 0 0"/>
+  </joint>
+
   <!-- Attach Daadbot to the Table -->
   <joint name="base_joint" type="fixed">
     <parent link="table_top"/>
     <child link="base_link"/>
-    <origin xyz="0.30 0 1.017" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
+    <origin xyz="0.55 0 1.017" rpy="0 0 0"/> <!-- Adjust position of the robot on the table -->
   </joint>
   <link
     name="base_link">
@@ -128,6 +144,13 @@
       effort="${effort}"
       velocity="12.776" />
   </joint>
+  <link name="daadbot/joint_1/tcp_fts_sensor_joint_1"/>
+  <joint name="tcp_fts_joint_1" type="fixed">
+    <parent link="base_link"/>
+    <child link="daadbot/joint_1/tcp_fts_sensor_joint_1"/>
+    <origin xyz="-0.0029638 -0.0015759 0.04796" rpy="0 0 0"/>
+  </joint>
+
   <gazebo reference="joint_1">
   <sensor name="tcp_fts_sensor_joint_1" type="force_torque">
     <always_on>true</always_on>
@@ -202,11 +225,18 @@
           <update_rate>30</update_rate>
     </sensor>
   </joint>
+  <link name="daadbot/joint_2/tcp_fts_sensor_joint_2"/>
+  <joint name="tcp_fts_joint_2" type="fixed">
+    <parent link="Link_1"/>
+    <child link="daadbot/joint_2/tcp_fts_sensor_joint_2"/>
+    <origin xyz="0.04 -0.05 0.114463048454132" rpy="1.5707963267949 0 0"/>
+  </joint>
+
   <gazebo reference="joint_2">
     <sensor name="tcp_fts_sensor_joint_2" type="force_torque">
       <always_on>true</always_on>
-      <update_rate>1000</update_rate>
-      <visualize>true</visualize>
+      <update_rate>100</update_rate>
+      <visualize>false</visualize>
       <force_torque>
         <frame>child</frame>
         <measure_direction>child_to_parent</measure_direction>
@@ -214,6 +244,7 @@
       <pose>0 0 0 0 0 0</pose>
     </sensor>
   </gazebo>
+  
   <!-- <gazebo>
    <plugin
         name="gz::sim::systems::ApplyJointForce"
@@ -279,6 +310,12 @@
       upper="3.2"
       effort="${effort}"
       velocity="12.776" />
+  </joint>
+  <link name="daadbot/joint_3/tcp_fts_sensor_joint_3"/>
+  <joint name="tcp_fts_joint_3" type="fixed">
+    <parent link="Link_2"/>
+    <child link="daadbot/joint_3/tcp_fts_sensor_joint_3"/>
+    <origin xyz="0.234499999999998 0 -0.04950000000000022" rpy="0 1.5707963267949 0"/>
   </joint>
   <gazebo reference="joint_3">
     <sensor name="tcp_fts_sensor_joint_3" type="force_torque">
@@ -350,6 +387,12 @@
       effort="${effort}"
       velocity="12.77581" />
   </joint>
+  <link name="daadbot/joint_4/tcp_fts_sensor_joint_4"/>
+  <joint name="tcp_fts_joint_4" type="fixed">
+    <parent link="Link_3"/>
+    <child link="daadbot/joint_4/tcp_fts_sensor_joint_4"/>
+    <origin xyz="-0.0324999999999996 0 0.0750000000000004" rpy="0 1.5707963267949 0"/>
+  </joint>
   <gazebo reference="joint_4">
     <sensor name="tcp_fts_sensor_joint_4" type="force_torque">
       <always_on>true</always_on>
@@ -419,6 +462,12 @@
       upper="3.4"
       effort="15"
       velocity="19.896753" />
+  </joint>
+  <link name="daadbot/joint_5/tcp_fts_sensor_joint_5"/>
+  <joint name="tcp_fts_joint_5" type="fixed">
+    <parent link="Link_4"/>
+    <child link="daadbot/joint_5/tcp_fts_sensor_joint_5"/>
+    <origin xyz="-0.2284999036789 0 0.0330000000000004" rpy="3.14159265358979 1.5707963267949 0"/>
   </joint>
   <gazebo reference="joint_5">
     <sensor name="tcp_fts_sensor_joint_5" type="force_torque">
@@ -490,6 +539,12 @@
       effort="15"
       velocity="19.897" />
   </joint>
+  <link name="daadbot/joint_6/tcp_fts_sensor_joint_6"/>
+  <joint name="tcp_fts_joint_6" type="fixed">
+    <parent link="Link_5"/>
+    <child link="daadbot/joint_6/tcp_fts_sensor_joint_6"/>
+    <origin xyz="-0.0265000104908596 0 0.0575000000000075" rpy="-1.57 0 -1.57"/>
+  </joint>
   <gazebo reference="joint_6">
     <sensor name="tcp_fts_sensor_joint_6" type="force_torque">
       <always_on>true</always_on>
@@ -559,6 +614,12 @@
       upper="3.14"
       effort="15"
       velocity="19.897" />
+  </joint>
+  <link name="daadbot/joint_7/tcp_fts_sensor_joint_7"/>
+  <joint name="tcp_fts_joint_7" type="fixed">
+    <parent link="Link_6"/>
+    <child link="daadbot/joint_7/tcp_fts_sensor_joint_7"/>
+    <origin xyz="-0.0864999036793499 0 0.0280000000004628" rpy="0 1.5707963267949 0"/>
   </joint>
   <gazebo reference="joint_7">
     <sensor name="tcp_fts_sensor_joint_7" type="force_torque">

@@ -1,10 +1,9 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
-
 
 def generate_launch_description():
     gazebo = IncludeLaunchDescription(
@@ -33,7 +32,7 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory("daadbot_moveit"),
                 "launch",
-                "moveit_table.launch.py"
+                "moveit_table_sim.launch.py"
             )
         ),
         launch_arguments={"is_sim": "True"}.items()
@@ -46,9 +45,28 @@ def generate_launch_description():
         output="screen"
     )
 
+    rviz_torque_text = Node(
+        package="some_examples_py",
+        executable="rviz_torque_text",
+        name="rviz_torque_text",
+        output="screen"
+    )
+
+    # Delay torque-related nodes by 3 seconds
+    z_torque_aggregator_delayed = TimerAction(
+        period=0.0,
+        actions=[z_torque_aggregator]
+    )
+
+    rviz_torque_text_delayed = TimerAction(
+        period=0.0,
+        actions=[rviz_torque_text]
+    )
+
     return LaunchDescription([
         gazebo,
         controller,
         moveit,
-        z_torque_aggregator,  # ✅ New node added
+        z_torque_aggregator_delayed,
+        rviz_torque_text_delayed,
     ])

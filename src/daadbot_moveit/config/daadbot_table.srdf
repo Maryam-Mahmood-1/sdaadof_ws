@@ -4,6 +4,7 @@
 
     <group name="arm">
         <joint name="table_joint"/>
+        
         <joint name="base_joint"/>
 
         <joint name="joint_1"/>
