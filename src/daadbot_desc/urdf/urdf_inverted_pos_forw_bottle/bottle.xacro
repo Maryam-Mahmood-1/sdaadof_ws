@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot name="bottle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Parameters -->
+  <xacro:property name="bottle_height" value="0.22"/>   <!-- meters -->
+  <xacro:property name="bottle_radius" value="0.035"/>  <!-- meters -->
+  <xacro:property name="bottle_mass" value="0.5"/>      <!-- kg -->
+
+  <link name="bottle_link">
+    <!-- Inertia -->
+    <inertial>
+      <origin xyz="0 0 ${bottle_height/2.0}" rpy="0 0 0"/>
+      <mass value="${bottle_mass}"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.0002"/>
+    </inertial>
+
+    <!-- Visual -->
+    <visual>
+      <origin xyz="0 0 ${bottle_height/2.0}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${bottle_radius}" length="${bottle_height}"/>
+      </geometry>
+      <material name="plastic_clear">
+        <color rgba="0.6 0.8 1.0 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision -->
+    <collision>
+      <origin xyz="0 0 ${bottle_height/2.0}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${bottle_radius}" length="${bottle_height}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Gazebo physics -->
+  <gazebo reference="bottle_link">
+    <mu1>0.8</mu1>       <!-- friction coefficient -->
+    <mu2>0.8</mu2>
+    <kp>100000.0</kp>    <!-- contact stiffness -->
+    <kd>10.0</kd>        <!-- contact damping -->
+    <minDepth>0.001</minDepth>
+  </gazebo>
+
+</robot>

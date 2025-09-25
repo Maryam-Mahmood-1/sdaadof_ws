@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot name="bottle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Parameters -->
+  <xacro:property name="bottle_height" value="0.22"/>   <!-- meters -->
+  <xacro:property name="bottle_radius" value="0.035"/>
+  <xacro:property name="bottle_mass" value="0.5"/>
+  <!-- Position relative to world/table -->
+  <xacro:property name="bottle_x" value="0.0"/>
+  <xacro:property name="bottle_y" value="0.0"/>
+  <xacro:property name="bottle_z" value="${bottle_height/2.0}"/>
+
+  <link name="bottle_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${bottle_mass}"/>
+      <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.0002"/>
+    </inertial>
+
+    <!-- Approximation with stacked cylinders -->
+    <!-- Body -->
+    <visual>
+      <origin xyz="0 0 ${bottle_height/2.0}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${bottle_radius}" length="${bottle_height}"/>
+      </geometry>
+      <material name="plastic_clear">
+        <color rgba="0.6 0.8 1.0 0.81"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 ${bottle_height/2.0}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${bottle_radius}" length="${bottle_height}"/>
+      </geometry>
+    </collision>
+  </link>
+
+</robot>
