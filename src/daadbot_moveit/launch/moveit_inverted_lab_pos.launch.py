@@ -18,7 +18,7 @@ def generate_launch_description():
         .robot_description(file_path=os.path.join(get_package_share_directory("daadbot_desc"), "urdf/urdf_inverted_pos", "daadbot.urdf.xacro"))
         .robot_description_semantic(file_path="config/daadbot_inverted.srdf")
         .trajectory_execution(file_path="config/moveit_controllers_pos.yaml")
-        .joint_limits(file_path="config/joint_limits_inverted.yaml")  # ✅ add here if you have such a file
+        .joint_limits(file_path="config/joint_limits_inverted.yaml")  
         .to_moveit_configs()
     )
 
