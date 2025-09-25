@@ -42,7 +42,7 @@ def generate_launch_description():
     rviz_config = os.path.join(
         get_package_share_directory("daadbot_moveit"),
         "config",
-        "moveit8.rviz"
+        "moveit9.rviz"
     )
 
     rviz_node = Node(
