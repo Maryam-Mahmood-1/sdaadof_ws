@@ -63,10 +63,25 @@ def generate_launch_description():
         actions=[rviz_torque_text]
     )
 
+    tf_visualizer = Node(
+        package="some_examples_py",
+        executable="tf_visualizer",
+        name="tf_visualizer",
+        output="screen"
+    )
+
+    tf_visualizer_delayed = TimerAction(
+        period=3.0,
+        actions=[tf_visualizer]
+    )
+
+
+
     return LaunchDescription([
         gazebo,
         controller,
         moveit,
         z_torque_aggregator_delayed,
         rviz_torque_text_delayed,
+        tf_visualizer_delayed,
     ])
