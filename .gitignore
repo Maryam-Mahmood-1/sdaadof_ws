@@ -1,8 +1,11 @@
-# ignore everything
-/*
+# Ignore everything
+*
 
-# but include src and everything inside it
-!/src/
+# Include all files inside src/
 !/src/**
+
+# Include specific file at repo root
 !/MyCommands2.odt
+
+# Keep .gitignore
 !.gitignore
