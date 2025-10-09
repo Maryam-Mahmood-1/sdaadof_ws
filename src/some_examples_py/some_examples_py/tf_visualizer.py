@@ -11,7 +11,7 @@ class TFVisualizer(Node):
         super().__init__('tf_visualizer')
 
         # Frames of interest
-        self.parent_frame = 'world'
+        self.parent_frame = 'base_link'
         self.child_frame = 'endeffector'
 
         # TF buffer/listener
