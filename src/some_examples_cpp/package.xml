@@ -15,6 +15,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <!-- Core dependencies for C++ -->
+
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>daadbot_msgs</depend>
@@ -25,6 +26,11 @@
   <depend>moveit_ros_planning_interface</depend>
   <depend>sensor_msgs</depend>
   <depend>trajectory_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf2_eigen</depend>
+  <depend>moveit_core</depend>
+  <depend>Eigen3</depend>
 
   <!-- Dependencies for Python script -->
   <exec_depend>rclpy</exec_depend>

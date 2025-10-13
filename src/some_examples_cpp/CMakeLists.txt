@@ -18,6 +18,18 @@ find_package(rcl_interfaces REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 
+# MoveIt core + Eigen (needed for workspace node)
+find_package(moveit_core REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(Eigen3 REQUIRED)
+
+find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(moveit_core REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(visualization_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+
 # C++ executables
 add_executable(simple_publisher src/simple_publisher.cpp)
 ament_target_dependencies(simple_publisher rclcpp std_msgs)
@@ -75,6 +87,15 @@ ament_target_dependencies(can_driver
   sensor_msgs
 )
 
+add_executable(reachability_ws src/reachability_ws.cpp)
+ament_target_dependencies(reachability_ws
+  rclcpp
+  moveit_ros_planning
+  moveit_core
+  tf2_eigen
+  geometry_msgs
+  visualization_msgs
+)
 
 # Install C++ executables
 install(TARGETS
@@ -90,6 +111,7 @@ install(TARGETS
   executor_pick_place
   executor_pick_place_2
   can_driver
+  reachability_ws
   DESTINATION lib/${PROJECT_NAME}
 )
 

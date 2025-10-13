@@ -15,14 +15,27 @@ def generate_launch_description():
 
     is_sim = LaunchConfiguration("is_sim")
 
-    moveit_config = (MoveItConfigsBuilder("daadbot", package_name="daadbot_moveit")
-                    .robot_description(file_path=os.path.join(
-                        get_package_share_directory("daadbot_desc"),
-                        "urdf/urdf_table_vel",
-                        "daadbot.urdf.xacro"))
-                    .robot_description_semantic(file_path="config/daadbot_table.srdf")
-                    .trajectory_execution(file_path="config/moveit_controllers_vel.yaml")
-                    .to_moveit_configs()
+
+    moveit_config = (
+        MoveItConfigsBuilder("daadbot", package_name="daadbot_moveit")
+        .robot_description(
+            file_path=os.path.join(
+                get_package_share_directory("daadbot_desc"),
+                "urdf/urdf_table_vel",
+                "daadbot.urdf.xacro"
+            )
+        )
+        .robot_description_semantic(file_path="config/daadbot_table.srdf")
+        .trajectory_execution(file_path="config/moveit_controllers_vel.yaml")
+        .robot_description_kinematics(
+            file_path=os.path.join(
+                get_package_share_directory("daadbot_moveit"),
+                "config",
+                "kinematics.yaml"
+            )
+        )
+        .planning_pipelines("ompl")
+        .to_moveit_configs()
     )
 
     move_group_node = Node(
@@ -42,7 +55,7 @@ def generate_launch_description():
     rviz_config = os.path.join(
         get_package_share_directory("daadbot_moveit"),
         "config",
-        "moveit9.rviz"
+        "moveit10.rviz"
     )
 
     rviz_node = Node(
@@ -56,7 +69,7 @@ def generate_launch_description():
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
             moveit_config.joint_limits,
-            {"use_sim_time": is_sim}  # 👈 added
+            {"use_sim_time": is_sim}  
         ]
     )
 
@@ -78,13 +91,26 @@ def generate_launch_description():
             "disparity_filter.enable": "true",
             "hole_filling_filter.enable": "true",
             "hdr_merge.enable": "true",
-            "use_sim_time": is_sim  # 👈 added for realsense stack too
+            "use_sim_time": is_sim  
         }.items()
+    )
+
+    reachability_node = Node(
+        package="some_examples_cpp",                  # ✅ your package name
+        executable="reachability_ws",                 # ✅ your node name
+        name="ik_workspace_visualizer",
+        output="screen",
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+        ],
     )
 
     return LaunchDescription([
         is_sim_arg,
         move_group_node,
         rviz_node,
-        realsense_launch
+        realsense_launch,
+        reachability_node
     ])

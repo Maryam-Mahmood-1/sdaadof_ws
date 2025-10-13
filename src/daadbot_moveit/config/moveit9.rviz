@@ -17,7 +17,6 @@ Panels:
         - /TF1/Frames1
         - /Pose1
         - /Marker1
-        - /Marker1/Status1
       Splitter Ratio: 0.5
     Tree Height: 554
   - Class: rviz_common/Selection
@@ -961,10 +960,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4653972387313843
+      Pitch: 0.14539656043052673
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.3753955364227295
+      Yaw: 1.0053926706314087
     Saved: ~
 Window Geometry:
   Displays:
