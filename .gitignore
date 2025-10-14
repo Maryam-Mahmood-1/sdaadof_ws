@@ -2,6 +2,7 @@
 *
 
 # Include all files inside src/
+!/src
 !/src/**
 
 # Include specific file at repo root

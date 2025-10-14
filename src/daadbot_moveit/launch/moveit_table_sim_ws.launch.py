@@ -55,7 +55,7 @@ def generate_launch_description():
     rviz_config = os.path.join(
         get_package_share_directory("daadbot_moveit"),
         "config",
-        "moveit9.rviz"
+        "moveit10.rviz"
     )
 
     rviz_node = Node(
@@ -95,11 +95,22 @@ def generate_launch_description():
         }.items()
     )
 
-    
+    reachability_node = Node(
+        package="some_examples_cpp",                  # ✅ your package name
+        executable="reachability_ws",                 # ✅ your node name
+        name="ik_workspace_visualizer",
+        output="screen",
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+        ],
+    )
 
     return LaunchDescription([
         is_sim_arg,
         move_group_node,
         rviz_node,
         realsense_launch,
+        reachability_node
     ])
