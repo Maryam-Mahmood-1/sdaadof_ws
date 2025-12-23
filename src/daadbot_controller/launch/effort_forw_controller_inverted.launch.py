@@ -44,7 +44,7 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory("daadbot_controller"),
                 "config",
-                "effort_trajectory_controller.yaml",
+                "effort_command_controller.yaml",
             ),
         ],
         condition=UnlessCondition(is_sim),
