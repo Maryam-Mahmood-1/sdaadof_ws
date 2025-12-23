@@ -6,16 +6,15 @@
 
   <xacro:arg name = "is_ignition" default="true"/>
 
-  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted/daadbot_gazebo.xacro"/>
-  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted/daadbot_ros2_control.xacro"/>
-  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted/table_inv.xacro"/>
-  <!-- <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted/lab_table.xacro"/> -->
-
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/daadbot_gazebo.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/daadbot_ros2_control.xacro"/>
+  <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/table_inv.xacro"/>
+  <!-- <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/lab_table.xacro"/> -->
 
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='20.0'/>
-  <xacro:property name='effort' value='200.0'/>
+  <xacro:property name='effort' value='180.0'/>
 
   <link name="world"/>
 
@@ -128,7 +127,7 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-0.1"
+      lower="-3.2"
       upper="3.2"
       effort="${effort}"
       velocity="12.776" />
@@ -259,7 +258,7 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-0.1"
+      lower="-3.2"
       upper="3.2"
       effort="${effort}"
       velocity="12.776" />
@@ -317,8 +316,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-1.9199"
-      upper="1.9199"
+      lower="-3.14"
+      upper="3.14"
       effort="${effort}"
       velocity="12.77581" />
   </joint>
@@ -375,7 +374,7 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-0.1"
+      lower="-3.2"
       upper="3.4"
       effort="15"
       velocity="19.896753" />
@@ -433,8 +432,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-1.5708"
-      upper="1.5708"
+      lower="-3.2"
+      upper="3.2"
       effort="15"
       velocity="19.897" />
   </joint>
@@ -491,8 +490,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="3.14"
+      lower="-3.2"
+      upper="3.2"
       effort="15"
       velocity="19.897" />
   </joint>

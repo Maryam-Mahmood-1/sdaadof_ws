@@ -32,4 +32,8 @@
           - gear2_joint
           - claw_joint2
 
+      trajectory_execution:
+        allowed_execution_duration_scaling: 10.0  # Allows execution to take twice the estimated time
+        execution_duration_monitoring: true  # Must be a boolean
+        allowed_goal_duration_margin: 2.0  # Extra margin for goal completion
     

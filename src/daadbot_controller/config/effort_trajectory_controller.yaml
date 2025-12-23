@@ -30,47 +30,65 @@ effort_arm_controller:
       - velocity
     gains:
       joint_1:
-        p: 10.0
+        p: 300.0
         i: 0.0
         d: 1.000
         i_clamp: 0.0
     
       joint_2:  # Joint 2 PID gains
-        p: 333.0
+        # p: 333.0
+        # i: 0.0
+        # d: 20.500
+        p: 0.0
         i: 0.0
-        d: 20.500
+        d: 0.0
         i_clamp: 0.0
         antiwindup: true     
 
       joint_3:  # Joint 3 PID gains
-        p: 10.0
+        # p: 300.0
+        # i: 0.0
+        # d: 1.000
+        p: 0.0
         i: 0.0
-        d: 1.000
+        d: 0.000
         i_clamp: 0.0
         antiwindup: true
 
       joint_4:  # Joint 4 PID gains
-        p: 108.0
+        # p: 108.0
+        # i: 0.0
+        # d: 2.800
+        p: 0.0
         i: 0.0
-        d: 2.800
+        d: 0.000
         i_clamp: 0.0
         antiwindup: true
 
       joint_5:  # Joint 4 PID gains
-        p: 0.3
+        # p: 0.3
+        # i: 0.0
+        # d: 0.000
+        p: 0.0
         i: 0.0
         d: 0.000
         i_clamp: 0.0
         antiwindup: true
       
       joint_6:  # Joint 4 PID gains
-        p: 0.3
+        # p: 0.3
+        # i: 0.0
+        # d: 0.000
+        p: 0.0
         i: 0.0
         d: 0.000
         i_clamp: 0.0
         antiwindup: true
 
       joint_7:  # Joint 4 PID gains
+        # p: 0.1
+        # i: 0.0
+        # d: 0.000
         p: 0.1
         i: 0.0
         d: 0.000
