@@ -31,6 +31,7 @@
     <parent link="table_top"/>
     <child link="base_link"/>
     <origin xyz="0.000 0.0 1.285" rpy="0 3.14 0"/> <!-- Adjust position of the robot on the table -->
+    <!-- <origin xyz="0.005 0.1725 1.24" rpy="0 3.14 1.57"/>-->
     <!-- For inverted - I have changed rpy to 0 3.14 0 from rpy = 0 0 0 -->
   </joint>
 
