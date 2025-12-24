@@ -4,7 +4,24 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="daadbot">
-  
+  <!-- <gazebo>
+        <xacro:if value="$(arg is_ignition)">
+            <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+                <parameters>$(find daadbot_controller)/config/effort_trajectory_controller.yaml</parameters>
+            </plugin>
+        </xacro:if>
+        <xacro:unless value="$(arg is_ignition)">
+            <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(find daadbot_controller)/config/effort_trajectory_controller.yaml</parameters>
+            </plugin>
+            
+        </xacro:unless>
+    </gazebo> -->
+  <gazebo>
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>/home/maryammahmood/xdaadbot_ws/install/daadbot_controller/share/daadbot_controller/config/effort_command_controller.yaml</parameters>
+    </plugin>
+  </gazebo>
   <ros2_control name="Manipulator" type="system">
     <hardware>
       <plugin>ign_ros2_control/IgnitionSystem</plugin>
@@ -55,8 +72,8 @@
     </joint>
     <joint name="joint_2">
       <command_interface name="effort">
-        <param name="min">-45</param>
-        <param name="max">45</param>
+        <param name="min">-39</param>
+        <param name="max">39</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -224,7 +241,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/base_link.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/base_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -233,7 +250,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/base_link.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/base_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -246,7 +263,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_1.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_1.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -255,7 +272,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_1.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_1.STL"/>
       </geometry>
     </collision>
   </link>
@@ -264,7 +281,7 @@
     <parent link="base_link"/>
     <child link="Link_1"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="35.0" lower="-3.2" upper="3.2" velocity="12.776"/>
+    <limit effort="40.0" lower="-3.2" upper="3.2" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
   </joint>
   <gazebo reference="joint_1">
@@ -287,7 +304,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_2.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_2.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -296,7 +313,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_2.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_2.STL"/>
       </geometry>
     </collision>
   </link>
@@ -305,7 +322,7 @@
     <parent link="Link_1"/>
     <child link="Link_2"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="35.0" lower="-3.4907" upper="3.5236" velocity="12.776"/>
+    <limit effort="40.0" lower="-1.745" upper="1.745" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
     <sensor name="force_torque" type="force_torque">
       <update_rate>30</update_rate>
@@ -320,7 +337,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_3.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_3.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -329,7 +346,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_3.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_3.STL"/>
       </geometry>
     </collision>
   </link>
@@ -338,7 +355,7 @@
     <parent link="Link_2"/>
     <child link="Link_3"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="35.0" lower="-3.2" upper="3.2" velocity="12.776"/>
+    <limit effort="40.0" lower="-3.2" upper="3.2" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
   </joint>
   <link name="Link_4">
@@ -350,7 +367,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_4.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_4.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -359,7 +376,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_4.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_4.STL"/>
       </geometry>
     </collision>
   </link>
@@ -368,7 +385,7 @@
     <parent link="Link_3"/>
     <child link="Link_4"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="35.0" lower="-3.14" upper="3.14" velocity="12.77581"/>
+    <limit effort="40.0" lower="-1.745" upper="1.745" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
   </joint>
   <link name="Link_5">
@@ -380,7 +397,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_5.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_5.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -389,7 +406,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_5.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_5.STL"/>
       </geometry>
     </collision>
   </link>
@@ -398,7 +415,7 @@
     <parent link="Link_4"/>
     <child link="Link_5"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="15" lower="-3.2" upper="3.4" velocity="9.896753"/>
+    <limit effort="15" lower="-3.2" upper="3.4" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
   </joint>
   <link name="Link_6">
@@ -410,7 +427,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/link_6.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/link_6.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -419,7 +436,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/link_6.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/link_6.STL"/>
       </geometry>
     </collision>
   </link>
@@ -428,7 +445,7 @@
     <parent link="Link_5"/>
     <child link="Link_6"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="15" lower="-3.2" upper="3.2" velocity="9.897"/>
+    <limit effort="15" lower="-1.57" upper="1.57" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
   </joint>
   <link name="Link_7">
@@ -440,7 +457,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_7.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_7.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -449,7 +466,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/Link_7.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/Link_7.STL"/>
       </geometry>
     </collision>
   </link>
@@ -458,7 +475,7 @@
     <parent link="Link_6"/>
     <child link="Link_7"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="15" lower="-3.2" upper="3.2" velocity="0.0"/>
+    <limit effort="15" lower="-3.2" upper="3.2" velocity="1.2"/>
     <dynamics damping="0.3" friction="0.0"/>
   </joint>
   <link name="endeffector">
@@ -470,7 +487,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/endeffector.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/endeffector.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -479,7 +496,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/endeffector.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/endeffector.STL"/>
       </geometry>
     </collision>
   </link>
@@ -498,7 +515,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear1.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear1.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -507,7 +524,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear1.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear1.STL"/>
       </geometry>
     </collision>
   </link>
@@ -528,7 +545,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear1_claw.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear1_claw.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -537,7 +554,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear1_claw.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear1_claw.STL"/>
       </geometry>
     </collision>
   </link>
@@ -558,7 +575,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear2_link.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear2_link.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -567,7 +584,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear2_link.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear2_link.STL"/>
       </geometry>
     </collision>
   </link>
@@ -588,7 +605,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear2_claw.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear2_claw.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -597,7 +614,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/gear2_claw.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/gear2_claw.STL"/>
       </geometry>
     </collision>
   </link>
@@ -618,7 +635,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/base_claw_link2.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/base_claw_link2.STL"/>
       </geometry>
       <material name="">
         <color rgba="0.329 0.322 0.302 1"/>
@@ -627,7 +644,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/base_claw_link2.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/base_claw_link2.STL"/>
       </geometry>
     </collision>
   </link>
@@ -648,7 +665,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/base_claw_link1.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/base_claw_link1.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 1 1 1"/>
@@ -657,7 +674,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file:///home/maryammahmood/xdaadbot_ws/src/daadbot_desc/meshes/base_claw_link1.STL"/>
+        <mesh filename="package://daadbot_desc/meshes/base_claw_link1.STL"/>
       </geometry>
     </collision>
   </link>

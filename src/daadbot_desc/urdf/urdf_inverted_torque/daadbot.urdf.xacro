@@ -13,8 +13,8 @@
 
  
   <xacro:property name='PI' value='3.141592653589793'/>
-  <xacro:property name='velocity' value='20.0'/>
-  <xacro:property name='effort' value='35.0'/>
+  <xacro:property name='velocity' value='1.2'/>
+  <xacro:property name='effort' value='40.0'/>
 
   <link name="world"/>
 
@@ -131,7 +131,7 @@
       lower="-3.2"
       upper="3.2"
       effort="${effort}"
-      velocity="12.776" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
   </joint>
@@ -199,10 +199,10 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-3.4907"
-      upper="3.5236"
+      lower="-1.745"
+      upper="1.745"
       effort="${effort}"
-      velocity="12.776" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
     <sensor name="force_torque" type="force_torque">
@@ -266,7 +266,7 @@
       lower="-3.2"
       upper="3.2"
       effort="${effort}"
-      velocity="12.776" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
   </joint>
@@ -323,10 +323,10 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-1.745"
+      upper="1.745"
       effort="${effort}"
-      velocity="12.77581" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
   </joint>
@@ -386,7 +386,7 @@
       lower="-3.2"
       upper="3.4"
       effort="15"
-      velocity="9.896753" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
   </joint>
@@ -443,10 +443,10 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-3.2"
-      upper="3.2"
+      lower="-1.57"
+      upper="1.57"
       effort="15"
-      velocity="9.897" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
   </joint>
@@ -506,7 +506,7 @@
       lower="-3.2"
       upper="3.2"
       effort="15"
-      velocity="0.0" />
+      velocity="${velocity}" />
       <dynamics damping="0.3" friction="0.0"/>
 
   </joint>
