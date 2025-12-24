@@ -32,6 +32,7 @@ setup(
             'tf_visualizer = some_examples_py.tf_visualizer:main',
             'ctc_controller = some_examples_py.ctc_controller:main',
             'ctc_gui_ros = some_examples_py.ctc_gui_ros:main',
+            'collect_data = some_examples_py.collect_data:main',
         ],
     },
 )
