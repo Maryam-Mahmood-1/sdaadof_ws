@@ -30,6 +30,7 @@ setup(
             'z_torque_aggregator = some_examples_py.z_torque_aggregator:main',
             'rviz_torque_text = some_examples_py.rviz_torque_text:main', 
             'tf_visualizer = some_examples_py.tf_visualizer:main',
+            'ctc_controller = some_examples_py.ctc_controller:main',
         ],
     },
 )
