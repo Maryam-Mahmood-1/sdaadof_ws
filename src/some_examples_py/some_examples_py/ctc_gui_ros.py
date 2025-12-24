@@ -9,6 +9,7 @@ import tkinter as tk
 from tkinter import ttk
 
 # --- 1. CONDA + ROS FIX ---
+# Necessary if running from the 'pinocchio_robotics' Conda env
 sys.path.append('/opt/ros/humble/lib/python3.10/site-packages')
 sys.path.append('/opt/ros/humble/local/lib/python3.10/dist-packages')
 
@@ -19,7 +20,7 @@ from std_msgs.msg import Float64MultiArray
 import pinocchio as pin
 
 # --- 2. CONFIGURATION ---
-URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot_2.urdf"
+URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
 COMMAND_TOPIC = '/effort_arm_controller/commands' 
 
 # IMPORTANT: Must match your controllers.yaml
@@ -44,10 +45,7 @@ class PinocchioRosNode(Node):
         self.state_received = False
 
         # C. Control Targets (Set by GUI)
-        # Initialize target to "Neutral" or "Zero"
-        self.q_gui_target = np.zeros(self.nq) 
-        self.trajectory_active = False
-        self.traj_start_time = 0.0
+        self.q_target = np.zeros(self.nq) 
 
         # D. Joint Mapping (Controller -> Pinocchio)
         self.output_map = []
@@ -92,31 +90,20 @@ class PinocchioRosNode(Node):
         if not self.state_received:
             return
 
-        # 1. Determine Desired State (q_des, v_des, a_des)
-        q_des = self.q_gui_target.copy()
+        # 1. Determine Desired State (Static Regulation to Target)
+        q_des = self.q_target
         v_des = np.zeros(self.nv)
-        a_des = np.zeros(self.nv)
-
-        if self.trajectory_active:
-            # Sine Wave Logic
-            t = time.time() - self.traj_start_time
-            omega = 1.0  # rad/s
-            amp = 0.5    # rad
-            
-            for i in range(self.nq):
-                phase = i * 0.5
-                # Center oscillation around the slider position
-                q_des[i] += amp * math.sin(omega * t + phase)
-                v_des[i] = amp * omega * math.cos(omega * t + phase)
-                a_des[i] = -amp * (omega**2) * math.sin(omega * t + phase)
+        a_des = np.zeros(self.nv) # Desired acceleration is 0
 
         # 2. Computed Torque Control Law
+        # u = a_des + Kp(e) + Kd(e_dot)
         error_q = pin.difference(self.model, self.q_current, q_des)
         error_v = v_des - self.v_current
         
         u = a_des + self.kp * error_q + self.kd * error_v
         
         # 3. Inverse Dynamics (RNEA)
+        # tau = M(q)u + C(q,v)v + g(q)
         tau = pin.rnea(self.model, self.data, self.q_current, self.v_current, u)
         
         # 4. Map & Publish
@@ -131,20 +118,21 @@ class PinocchioRosNode(Node):
 def run_gui(node):
     root = tk.Tk()
     root.title(f"ROS 2 Control: {node.model.name}")
-    root.geometry("400x700")
+    root.geometry("400x600")
 
     ttk.Label(root, text="GAZEBO TORQUE CONTROL", font=("Arial", 12, "bold")).pack(pady=10)
 
     # Sliders
     sliders = []
     
-    def on_slider_update(val=None):
-        # Update the ROS Node's target variable in real-time
+    def on_submit():
+        # Update the ROS Node's target variable when button is pressed
         new_q = np.zeros(node.nq)
         for i in range(node.nq):
             deg = sliders[i].get()
             new_q[i] = np.deg2rad(deg)
-        node.q_gui_target = new_q
+        node.q_target = new_q
+        print(f"Moving to: {np.round(new_q, 2)}")
 
     # Create a slider for each joint
     for i in range(node.nq):
@@ -152,28 +140,15 @@ def run_gui(node):
         joint_name = node.model.names[i+1] if i+1 < len(node.model.names) else f"Joint {i}"
         
         lbl = ttk.Label(root, text=f"{joint_name} (deg)")
-        lbl.pack(pady=2)
+        lbl.pack(pady=5)
         
-        scale = tk.Scale(root, from_=-180, to=180, orient=tk.HORIZONTAL, length=300, command=on_slider_update)
+        scale = tk.Scale(root, from_=-180, to=180, orient=tk.HORIZONTAL, length=300)
         scale.set(0)
         scale.pack()
         sliders.append(scale)
 
-    # Button Logic
-    def toggle_trajectory():
-        if not node.trajectory_active:
-            node.traj_start_time = time.time()
-            node.trajectory_active = True
-            btn.config(text="STOP SINE WAVE (Return to Sliders)")
-        else:
-            node.trajectory_active = False
-            btn.config(text="START SINE WAVE (Dance!)")
-
-    ttk.Separator(root, orient='horizontal').pack(fill='x', pady=20)
-    btn = ttk.Button(root, text="START SINE WAVE (Dance!)", command=toggle_trajectory)
-    btn.pack(pady=10, ipady=10)
-
-    ttk.Label(root, text="Note: Sine wave centers around\ncurrent slider positions.", justify=tk.CENTER).pack()
+    btn = ttk.Button(root, text="MOVE ROBOT", command=on_submit)
+    btn.pack(pady=20)
 
     # Start GUI Loop
     root.mainloop()
