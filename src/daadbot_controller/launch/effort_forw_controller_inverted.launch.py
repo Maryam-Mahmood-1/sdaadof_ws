@@ -86,3 +86,4 @@ def generate_launch_description():
         arm_controller_spawner,
         gripper_controller_spawner
     ])
+

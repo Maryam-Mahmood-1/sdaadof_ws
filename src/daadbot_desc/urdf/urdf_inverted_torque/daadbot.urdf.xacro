@@ -9,12 +9,12 @@
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/daadbot_gazebo.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/daadbot_ros2_control.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/table_inv.xacro"/>
-  <!-- <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/lab_table.xacro"/> -->
+  <!-- <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted/lab_table.xacro"/> -->
 
  
   <xacro:property name='PI' value='3.141592653589793'/>
   <xacro:property name='velocity' value='20.0'/>
-  <xacro:property name='effort' value='180.0'/>
+  <xacro:property name='effort' value='35.0'/>
 
   <link name="world"/>
 
@@ -132,6 +132,8 @@
       upper="3.2"
       effort="${effort}"
       velocity="12.776" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <gazebo reference="joint_1">
   <sensor name="ft_sensor_joint_1" type="force_torque">
@@ -201,6 +203,8 @@
       upper="3.5236"
       effort="${effort}"
       velocity="12.776" />
+      <dynamics damping="0.3" friction="0.0"/>
+
     <sensor name="force_torque" type="force_torque">
           <update_rate>30</update_rate>
     </sensor>
@@ -263,6 +267,8 @@
       upper="3.2"
       effort="${effort}"
       velocity="12.776" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <link
     name="Link_4">
@@ -321,6 +327,8 @@
       upper="3.14"
       effort="${effort}"
       velocity="12.77581" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <link
     name="Link_5">
@@ -378,7 +386,9 @@
       lower="-3.2"
       upper="3.4"
       effort="15"
-      velocity="19.896753" />
+      velocity="9.896753" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <link
     name="Link_6">
@@ -436,7 +446,9 @@
       lower="-3.2"
       upper="3.2"
       effort="15"
-      velocity="19.897" />
+      velocity="9.897" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <link
     name="Link_7">
@@ -494,7 +506,9 @@
       lower="-3.2"
       upper="3.2"
       effort="15"
-      velocity="19.897" />
+      velocity="0.0" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <link
     name="endeffector">
@@ -605,7 +619,9 @@
       lower="-0.9"
       upper="0"
       effort="5"
-      velocity="10" />
+      velocity="0.0" />
+      <dynamics damping="0.3" friction="0.0"/>
+
   </joint>
   <link
     name="gear1_claw">
