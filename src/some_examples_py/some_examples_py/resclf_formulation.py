@@ -17,8 +17,8 @@ class RESCLF_Formulation:
         self.G[dim:, :] = np.eye(dim)
         
         # Weights for ARE (Eq 13)
-        self.Q = np.eye(2*dim) * 1000.0 
-        self.R = np.eye(dim) * 0.1
+        self.Q = np.eye(2*dim) * 300.0 
+        self.R = np.eye(dim) * 1.0
         
         # Solve ARE: F.T*P + P*F - P*G*R_inv*G.T*P + Q = 0
         self.P = solve_continuous_are(self.F, self.G, self.Q, self.R)
