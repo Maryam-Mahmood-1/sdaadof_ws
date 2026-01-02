@@ -52,6 +52,7 @@ setup(
             # 'crclf_formulation = some_examples_py.CRCLF_CRCBF_traj.crclf_formulation:main',
             # 'crcbf_formulation = some_examples_py.CRCLF_CRCBF_traj.crcbf_formulation:main',
             # 'crqp_solver = some_examples_py.CRCLF_CRCBF_traj.crqp_solver:main',
+            'collect_calibration_data = some_examples_py.CRCLF_CRCBF_traj.collect_calibration_data:main',
 
         ],
     },

@@ -37,23 +37,33 @@ class RobotDynamics:
         Computes matrices for Eq (3): 
         Returns M, nle (C+G), position (x), velocity (x_dot), Jacobian (J), Drift (dJ*dq)
         """
+        # 1. Dynamics (Mass Matrix & NLE)
+        # computeAllTerms is good, but expensive. 
+        # It computes M and nle correctly.
         pin.computeAllTerms(self.model, self.data, self.q, self.dq)
-        pin.updateFramePlacements(self.model, self.data)
         
-        M = self.data.M # Mass Matrix (Eq 1)
-        nle = self.data.nle # Coriolis + Gravity (Eq 1)
+        M = self.data.M
+        nle = self.data.nle
+        
+        # 2. Kinematics & Drift
+        # To get strictly J_dot*q_dot, we propagate kinematics with ddq=0.
+        # This updates position, velocity, AND acceleration (data.a) of frames.
+        pin.forwardKinematics(self.model, self.data, self.q, self.dq, np.zeros(self.model.nv))
+        pin.updateFramePlacements(self.model, self.data)
         
         # Operational Space State
         ee_pose = self.data.oMf[self.ee_frame_id]
         p = ee_pose.translation
         
         # Jacobian (Eq 2)
+        # We use LOCAL_WORLD_ALIGNED to get world-oriented Jacobian
         J_full = pin.computeFrameJacobian(self.model, self.data, self.q, self.ee_frame_id, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)
-        J_linear = J_full[:3, :] # Controlling Position (XYZ) only
+        J_linear = J_full[:3, :] 
         
         v = (J_full @ self.dq)[:3]
         
         # Drift Acceleration dJ * dq (Eq 3)
+        # Since we ran forwardKinematics with ddq=0, the resulting frame accel is purely drift.
         drift = pin.getFrameClassicalAcceleration(self.model, self.data, self.ee_frame_id, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)
         dJ_dq = drift.linear
         
