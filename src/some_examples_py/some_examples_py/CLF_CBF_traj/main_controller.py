@@ -11,10 +11,10 @@ from matplotlib.widgets import Slider, CheckButtons # Import UI Widgets
 from matplotlib.patches import Rectangle # For drawing the Safe Set
 
 # IMPORT MODULES
-from some_examples_py.robot_dynamics import RobotDynamics
-from some_examples_py.resclf_formulation import RESCLF_Formulation
-from some_examples_py.cbf_formulation import CBF_SuperEllipsoid # <--- NEW MODULE
-from some_examples_py.qp_solver import solve_qp
+from some_examples_py.CLF_CBF_traj.robot_dynamics import RobotDynamics
+from some_examples_py.CLF_CBF_traj.resclf_formulation import RESCLF_Formulation
+from some_examples_py.CLF_CBF_traj.cbf_formulation import CBF_SuperEllipsoid 
+from some_examples_py.CLF_CBF_traj.qp_solver import solve_qp
 
 # --- CONFIGURATION ---
 URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
