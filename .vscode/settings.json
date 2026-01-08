@@ -141,6 +141,7 @@
         "guieventadapter": "cpp"
     },
     "ros.distro": "humble",
-    "github.copilot.chat.codeGeneration.useInstructionFiles": true
+    "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+    "ROS2.distro": "humble"
     
 }

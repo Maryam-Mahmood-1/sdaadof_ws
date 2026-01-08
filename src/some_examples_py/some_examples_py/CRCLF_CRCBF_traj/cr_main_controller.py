@@ -12,7 +12,7 @@ from matplotlib.patches import Rectangle
 
 # --- IMPORT NEW ROBUST MODULES ---
 # 1. Robot Dynamics (Shared, unchanged)
-from some_examples_py.CLF_CBF_traj.robot_dynamics import RobotDynamics
+from some_examples_py.CRCLF_CRCBF_traj.robot_dynamics import RobotDynamics
 
 # 2. CR-CLF (Stability with Robustness Term)
 from some_examples_py.CRCLF_CRCBF_traj.crclf_formulation import CRCLF_Formulation
@@ -35,21 +35,17 @@ class CR_Controller_Node(Node):
         super().__init__('cr_modular_node')
         
         # --- 1. CONFORMAL QUANTILE ---
-        # PASTE YOUR CALCULATED VALUE HERE!
-        # This is the "Safety Margin" derived from your calibration data.
-        self.q_cp = 0.29861  # <--- REPLACE THIS WITH YOUR VALUE FROM compute_quantile.py
+        self.q_cp = 0.29861  # <--- YOUR QUANTILE
 
         print(f"Initializing CR-Controller with Quantile (q_cp): {self.q_cp}")
 
         # --- 2. Initialize Dynamics ---
         self.robot = RobotDynamics(URDF_PATH, 'endeffector', TARGET_JOINTS)
         
-        # [cite_start]--- 3. Initialize CR-CLF (Stability) [cite: 50] ---
-        # We pass q_cp so it can calculate ||LgV|| * q
+        # --- 3. Initialize CR-CLF (Stability) ---
         self.crclf = CRCLF_Formulation(dim=3, q_cp=self.q_cp)
         
-        # [cite_start]--- 4. Initialize CR-CBF (Safety) [cite: 50, 168] ---
-        # We pass q_cp so it can calculate ||grad_h|| * q and tighten the constraint
+        # --- 4. Initialize CR-CBF (Safety) ---
         self.crcbf = CRCBF_Formulation(
             center=[0.0, 0.0, 0.72], 
             lengths=[0.2, 0.2, 0.4], 
@@ -77,6 +73,9 @@ class CR_Controller_Node(Node):
         # Data Logging
         self.log_target = {'x':[], 'y':[]}
         self.log_actual = {'x':[], 'y':[]}
+        # NEW: Log h(x) and time
+        self.log_h = []
+        self.log_t = []
 
     def cb_joints(self, msg):
         msg_map = {name: i for i, name in enumerate(msg.name)}
@@ -127,39 +126,39 @@ class CR_Controller_Node(Node):
         else:
             pd, vd, ad = self.get_trajectory(t - 5.0)
 
-        # Log Data
+        # 3. Logging
         self.log_actual['x'].append(p[0])
         self.log_actual['y'].append(p[1])
         self.log_target['x'].append(pd[0])
         self.log_target['y'].append(pd[1])
+        
+        # --- NEW: Calculate and Log h(x) ---
+        h_val = self.crcbf.get_h(p)
+        self.log_h.append(h_val)
+        self.log_t.append(t)
 
-        # 3. Formulate Errors
+        # 4. Formulate Errors
         e = p - pd
         de = v - vd
         
-        # --- 4. Get Stability Constraints (CR-CLF) ---
-        #[cite_start]# [cite: 145] "Robustify the standard CLF using quantified uncertainty"
-        # Returns robust_term which accounts for q_cp
+        # --- 5. Get Stability Constraints (CR-CLF) ---
         LfV, LgV, V_val, gamma, robust_term = self.crclf.get_qp_constraints(e, de)
         
-        # --- 5. Get Safety Constraints (CR-CBF) ---
+        # --- 6. Get Safety Constraints (CR-CBF) ---
         cbf_L, cbf_b = None, None
         
         if self.cbf_active:
-            #[cite_start]# [cite: 170] Returns constraints where b is already tightened by q_cp
             cbf_L, cbf_b = self.crcbf.get_constraints(p, v, ad)
         
-        # --- 6. Solve Unified QP ---
-        # We pass robust_term so the solver can tighten the CLF bound
+        # --- 7. Solve Unified QP ---
         mu = solve_qp(LfV, LgV, V_val, gamma, e, de, cbf_L, cbf_b, robust_term)
         
-        # 7. Compute Torque
+        # 8. Compute Torque
         J_pinv = np.linalg.pinv(J)
         x_ddot_command = ad + mu
         q_ddot_command = J_pinv @ (x_ddot_command - dJ_dq)
         tau = (M @ q_ddot_command) + nle
         
-        # Safety Clip (using URDF limits ideally, or hardcoded for now)
         tau = np.clip(tau[self.robot.v_indices], -45.0, 45.0)
         
         msg = Float64MultiArray()
@@ -178,45 +177,54 @@ def main(args=None):
     t.start()
     
     # --- PLOTTING SETUP ---
-    fig, ax = plt.subplots(figsize=(8, 10))
-    plt.subplots_adjust(bottom=0.20) 
+    # Create two subplots: Left (Trajectory), Right (h vs Time)
+    fig, (ax_traj, ax_h) = plt.subplots(1, 2, figsize=(14, 8))
+    plt.subplots_adjust(bottom=0.25) # Make room for widgets
     
-    ln_t, = ax.plot([],[], 'b--', label='Target')
-    ln_a, = ax.plot([],[], 'r-', label='Actual (Robust)')
+    # === Subplot 1: Trajectory ===
+    ln_t, = ax_traj.plot([],[], 'b--', label='Target')
+    ln_a, = ax_traj.plot([],[], 'r-', label='Actual')
     
-    # Draw Safe Set (Using dimensions from CR-CBF)
+    # Draw Safe Set
     rx = node.crcbf.dims[0]
     ry = node.crcbf.dims[1]
-    
-    anchor_x = -ry
-    anchor_y = -rx
-    width = 2 * ry
-    height = 2 * rx
-    
     safe_rect = Rectangle(
-        (anchor_x, anchor_y), width, height, 
+        (-ry, -rx), 2*ry, 2*rx, 
         linewidth=2, edgecolor='g', facecolor='none', 
-        linestyle='-', label='Safe Set (CR-CBF)'
+        linestyle='-', label='Safe Set'
     )
-    ax.add_patch(safe_rect)
+    ax_traj.add_patch(safe_rect)
     
     limit_pad = 0.1
-    ax.set_xlim(-(ry + limit_pad), (ry + limit_pad))
-    ax.set_ylim(-(rx + limit_pad), (rx + limit_pad)) 
+    ax_traj.set_xlim(-(ry + limit_pad), (ry + limit_pad))
+    ax_traj.set_ylim(-(rx + limit_pad), (rx + limit_pad)) 
+    ax_traj.set_aspect('equal')
+    ax_traj.set_xlabel('Y [m]') 
+    ax_traj.set_ylabel('X [m]')  
+    ax_traj.set_title('Trajectory Tracking')
+    ax_traj.legend(loc='upper right')
+    ax_traj.grid(True)
+
+    # === Subplot 2: Barrier Function h(x) ===
+    ln_h, = ax_h.plot([], [], 'g-', linewidth=2, label='Barrier h(x)')
     
-    ax.set_aspect('equal', adjustable='box')
-    ax.set_xlabel('Robot Y [m]') 
-    ax.set_ylabel('Robot X [m]')  
-    ax.set_title('Conformal Robust Controller (CR-CLF + CR-CBF)')
-    ax.legend(loc='upper right')
-    ax.grid(True)
+    # Draw Safety Limits
+    ax_h.axhline(0, color='r', linestyle='--', linewidth=2, label='Safety Limit (h=0)')
+    ax_h.axhline(1.0, color='k', linestyle=':', label='Center (h=1)')
+    
+    ax_h.set_ylim(-0.2, 1.2)
+    ax_h.set_title('Conformal Safety Metric')
+    ax_h.set_xlabel('Time [s]')
+    ax_h.set_ylabel('h(x)')
+    ax_h.legend(loc='upper right')
+    ax_h.grid(True)
 
     # --- WIDGETS ---
-    ax_hist = plt.axes([0.25, 0.05, 0.65, 0.03])
+    ax_hist = plt.axes([0.25, 0.05, 0.5, 0.03])
     slider_history = Slider(ax_hist, 'Tail Length', 10, 5000, valinit=500, valstep=10)
     
     ax_check = plt.axes([0.05, 0.05, 0.15, 0.1])
-    check = CheckButtons(ax_check, ['Enable\nCR-CBF'], [False])
+    check = CheckButtons(ax_check, ['Activate\nCR-CBF'], [False])
     
     def toggle_cbf(label):
         node.cbf_active = not node.cbf_active
@@ -225,22 +233,32 @@ def main(args=None):
     check.on_clicked(toggle_cbf)
 
     def update(frame):
+        # 1. Update Trajectory Plot
         ty = node.log_target['y']
         tx = node.log_target['x']
         ay = node.log_actual['y']
         ax_data = node.log_actual['x']
         
-        min_t = min(len(ty), len(tx))
-        min_a = min(len(ay), len(ax_data))
-        
         hist_len = int(slider_history.val)
-        start_t = max(0, min_t - hist_len)
-        start_a = max(0, min_a - hist_len)
+        min_len = min(len(ty), len(tx), len(ay), len(ax_data))
+        start_idx = max(0, min_len - hist_len)
         
-        ln_t.set_data(ty[start_t:min_t], tx[start_t:min_t])
-        ln_a.set_data(ay[start_a:min_a], ax_data[start_a:min_a])
+        ln_t.set_data(ty[start_idx:min_len], tx[start_idx:min_len])
+        ln_a.set_data(ay[start_idx:min_len], ax_data[start_idx:min_len])
         
-        return ln_t, ln_a
+        # 2. Update h(x) Plot
+        times = node.log_t
+        h_vals = node.log_h
+        min_h = min(len(times), len(h_vals))
+        
+        ln_h.set_data(times[:min_h], h_vals[:min_h])
+        
+        # Auto-scroll h(x) plot
+        if min_h > 0:
+            current_t = times[min_h-1]
+            ax_h.set_xlim(max(0, current_t - 15), current_t + 1) # Show last 15s
+        
+        return ln_t, ln_a, ln_h
         
     ani = FuncAnimation(fig, update, interval=100)
     plt.show()
