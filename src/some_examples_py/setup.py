@@ -55,6 +55,7 @@ setup(
             'collect_calibration_data = some_examples_py.CRCLF_CRCBF_traj.collect_calibration_data:main',
             'compare_controllers_robust = some_examples_py.CRCLF_CRCBF_traj.compare_controllers_robust:main',
             'main_node = some_examples_py.CLF_CBF.main_node:main',
+            'trajectory_visualizer = some_examples_py.CLF_CBF.trajectory_visualizer:main',
 
         ],
     },
