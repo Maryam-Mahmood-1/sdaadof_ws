@@ -13,7 +13,7 @@ class TrajectoryVisualizer(Node):
         # Ellipse Parameters (Must match your TrajectoryGenerator)
         self.center_z = 0.72
         self.a = 0.15
-        self.b = 0.27
+        self.b = 0.36
         
         self.get_logger().info("Trajectory Visualizer Node Started")
 

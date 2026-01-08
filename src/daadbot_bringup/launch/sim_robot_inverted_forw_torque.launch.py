@@ -32,7 +32,6 @@ def generate_launch_description():
     )
 
     # 4. Robot State Publisher 
-    # (Crucial: Reads URDF and publishes the TF tree so Rviz can display the robot)
     robot_description = ParameterValue(Command(['cat ', xacro_file]), value_type=str)
     
     robot_state_publisher_node = Node(
@@ -47,20 +46,21 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        # If you have a saved config, uncomment the next line:
         arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_ellipse.rviz')]
     )
+
     # 6. Trajectory Visualizer Node (The Red Curve)
-    # REPLACE 'some_examples_py' with the actual package name where you saved the script from Step 1
-    # If the script is just a loose python file, you might need to run it separately or 
-    # register it in your setup.py entry_points.
-    
-    # Assuming you added 'trajectory_visualizer = some_examples_py.trajectory_visualizer:main' 
-    # to your console_scripts in setup.py:
     traj_viz_node = Node(
         package='some_examples_py', 
         executable='trajectory_visualizer',
         name='trajectory_visualizer'
+    )
+
+    # 7. Safety Visualizer Node (The Green Box) <--- ADDED THIS
+    safety_viz_node = Node(
+        package='some_examples_py', 
+        executable='safety_visualizer',
+        name='safety_visualizer'
     )
 
     return LaunchDescription([
@@ -68,5 +68,6 @@ def generate_launch_description():
         controller,
         robot_state_publisher_node,
         rviz_node,
-        traj_viz_node
+        traj_viz_node,
+        safety_viz_node 
     ])

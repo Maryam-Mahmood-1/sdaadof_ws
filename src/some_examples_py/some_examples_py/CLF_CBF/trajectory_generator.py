@@ -6,7 +6,7 @@ class TrajectoryGenerator:
         # --- ELLIPSE PARAMETERS ---
         self.center_pos = np.array([0.0, 0.0, 0.72])
         self.ellipse_a = 0.15 
-        self.ellipse_b = 0.27
+        self.ellipse_b = 0.36
         
         self.period = 12.0     
         # ω = 2π / T

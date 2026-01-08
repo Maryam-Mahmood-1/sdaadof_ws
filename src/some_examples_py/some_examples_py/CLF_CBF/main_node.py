@@ -16,7 +16,8 @@ from some_examples_py.CLF_CBF.qp_solver import solve_optimization
 
 # --- CONFIGURATIONS ---
 URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
-EE_NAME = "endeffector" 
+# EE_NAME = "endeffector" 
+EE_NAMES = ["gear1_claw", "gear2_claw"]
 
 # === [SWITCH] CHANGE THIS VARIABLE TO ENABLE/DISABLE JOINT 1 ===
 USE_JOINT_1 = False  
@@ -39,7 +40,7 @@ class ResclfNode(Node):
         super().__init__('resclf_modular_node')
         
         # 1. Initialize Modules (Standard 7-DOF model)
-        self.robot = RobotDynamics(URDF_PATH, EE_NAME, ALL_JOINTS)
+        self.robot = RobotDynamics(URDF_PATH, EE_NAMES, ALL_JOINTS)
         self.traj_gen = TrajectoryGenerator() 
         self.clf_ctrl = RESCLF_Controller(dim_task=3)
         
@@ -215,6 +216,8 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+
+    
 
 
 """Without joint_1 (base joint) locking - 7 DOF arm dynamics."""

@@ -56,6 +56,7 @@ setup(
             'compare_controllers_robust = some_examples_py.CRCLF_CRCBF_traj.compare_controllers_robust:main',
             'main_node = some_examples_py.CLF_CBF.main_node:main',
             'trajectory_visualizer = some_examples_py.CLF_CBF.trajectory_visualizer:main',
+            'safety_visualizer = some_examples_py.CLF_CBF.safety_visualizer:main',
 
         ],
     },
