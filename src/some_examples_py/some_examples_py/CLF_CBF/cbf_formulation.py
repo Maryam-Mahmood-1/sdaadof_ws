@@ -4,95 +4,91 @@ class CBF_SuperEllipsoid:
     """
     Implements the 'Virtual Cage' Super-Ellipsoid Safety Constraint.
     
-    Paper Ref: "Safety Compliant Control for Robotic Manipulator..."
-    
-    Mathematical Definition (Eq. 24):
-    h(x) = 1 - [|x - x_c|^n]^T A [|x - x_c|^n]
-    
-    where A is the diagonal matrix of inverse dimensions (1/length^2n, etc).
+    Mathematical Definition (from Eq. 24 & 19):
+    -------------------------------------------
+    1. Safe Set: h(x) ≥ 0
+       h(x) = 1 - [|x - x_c|^n]^T A [|x - x_c|^n]
+       (Simplified: h(x) = 1 - Σ ((x_i - c_i)/r_i)^(2n) )
+       
+    2. Constraint (ECBF):
+       L_f^2 h + L_g L_f h Γ + K η ≥ 0
     """
-    def __init__(self, center, lengths, power_n=4, k_pos=10.0, k_vel=5.0):
+    def __init__(self, center, lengths, power_n=4, k_pos=20.0, k_vel=10.0):
         """
         Args:
-            center (list): x_c from Eq. 24
-            lengths (list): Dimensions defining Matrix A in Eq. 21
-            power_n (int): n in Eq. 22 (must be even)
-            k_pos, k_vel: Tuning gains K corresponding to Eq. 19
+            center (list): x_c in Eq. 24 (e.g., [0.0, 0.0, 0.72])
+            lengths (list): Radii corresponding to A matrix (e.g. [0.3, 0.24, 0.4])
+            power_n (int): n in Eq. 24 (Higher = sharper corners, must be >= 2)
+            k_pos, k_vel: Gains for K matrix in Eq. 19
         """
         self.center = np.array(center)
         self.radii = np.array(lengths)
-        self.n = power_n
+        self.n = power_n # Note: The math uses '2n' as total power in summation form
         self.kp = k_pos
         self.kv = k_vel
 
-    def get_constraints(self, x, dx, x_ref_ddot):
+    def get_h_value(self, x):
         """
-        Calculates the linear constraint A*mu <= b for the QP.
-        
-        Constraint (ECBF Eq. 19):
-        L_f^2 h(x) + L_g L_f h(x) Γ + K η >= 0
-        
-        In our acceleration-controlled form (since Γ controls x_ddot):
-        h_ddot(x) + K_v h_dot(x) + K_p h(x) >= 0
-        
-        Returns:
-            A (1x3), b (1x1)
+        Helper to debug which axis is violating the constraint.
         """
-        # 1. Normalized Position vector term: w = (x - x_c) / radii
+        # Calculate normalized vector w = (x - c) / r
         w = (x - self.center) / self.radii
         
-        # ---------------------------------------------------------
-        # Eq. 24: h(x) = 1 - [|x - x_c|^n]^T A [|x - x_c|^n]
-        # ---------------------------------------------------------
-        # Note: We implement this element-wise first
-        term_pow = w ** self.n
-        h = 1.0 - np.sum(term_pow)
+        # Calculate individual contributions
+        # We use the same power term as in get_constraints
+        # If your __init__ has power_n=2, the exponent is 4.
+        power_term = 2 * self.n 
         
-        # ---------------------------------------------------------
-        # Eq. 25: h_dot(x) (First Derivative)
-        # ḣ(x) = -2 [|x - x_c|^n]^T A [sign(x-x_c) ◦ n(x-x_c)^(n-1) ◦ ẋ]
-        # ---------------------------------------------------------
-        # Simplified Implementation:
-        # ∂h/∂x_i = -n * (w_i)^(n-1) * (1/r_i)
-        grad_h = -self.n * (w ** (self.n - 1)) / self.radii
+        contributions = w ** power_term
+        h_val = 1.0 - np.sum(contributions)
         
-        # ḣ = ∇h ⋅ ẋ
+        # --- PRINT DEBUG INFO ---
+        # This will tell you: "Axis 0 is 0.1, Axis 2 is 1.5 (VIOLATION)"
+        if h_val < 0.1:
+            print(f"\n[CBF DEBUG] h(x): {h_val:.3f}")
+            print(f"  X-contribution: {contributions[0]:.3f} (Pos: {x[0]:.2f}, Lim: {self.radii[0]})")
+            print(f"  Y-contribution: {contributions[1]:.3f} (Pos: {x[1]:.2f}, Lim: {self.radii[1]})")
+            print(f"  Z-contribution: {contributions[2]:.3f} (Pos: {x[2]:.2f}, Lim: {self.radii[2]})")
+            
+        return h_val
+
+    def get_constraints(self, x, dx, u_ref_total):
+        """
+        Calculates A_cbf * mu <= b_cbf
+        
+        CRITICAL UPDATE:
+        u_ref_total must be the FULL nominal input (a_des + u_pd).
+        Otherwise, the PD controller fights the safety constraint.
+        """
+        # 1. Normalized State
+        w = (x - self.center) / self.radii
+        power_term = 2 * self.n
+        
+        # 2. Barrier States
+        h = 1.0 - np.sum(w ** power_term)
+        
+        # Gradient ∇h
+        grad_h = -power_term * (w ** (power_term - 1)) / self.radii
+        
+        # h_dot
         h_dot = np.dot(grad_h, dx)
         
-        # ---------------------------------------------------------
-        # Eq. 26: h_ddot(x) (Second Derivative Terms)
-        # ḧ(x) = L_f^2 h(x) + L_g L_f h(x) μ
-        # ---------------------------------------------------------
-        
-        # Calculate time derivative of gradient: d(∇h)/dt
-        # d/dt( w^(n-1) ) = (n-1) * w^(n-2) * ẇ
-        # ẇ = ẋ / r
+        # 3. Second Derivative Drift (L_f^2 h)
         w_dot = dx / self.radii
-        d_grad_dt = -self.n * (self.n - 1) * (w ** (self.n - 2)) * w_dot / self.radii
+        d_grad_dt = -power_term * (power_term - 1) * (w ** (power_term - 2)) * w_dot / self.radii
+        drift_term = np.dot(d_grad_dt, dx)
+
+        # 4. Formulate Constraint: A * mu <= b
+        # Condition: ∇h * (u_ref + mu) >= -drift - K_v h_dot - K_p h
+        # Rearranged: -∇h * mu <= drift + ∇h * u_ref + K_v h_dot + K_p h
         
-        # The "Drift" part: L_f^2 h(x) corresponds to terms independent of input μ
-        # ḧ_drift = (d(∇h)/dt ⋅ ẋ) + (∇h ⋅ ẍ_ref)
-        h_ddot_drift = np.dot(d_grad_dt, dx)
-        
-        # ---------------------------------------------------------
-        # Eq. 19: ECBF Inequality
-        # ḧ + K η >= 0
-        # (L_f^2 h + L_g L_f h μ) + (K_v ḣ + K_p h) >= 0
-        # ---------------------------------------------------------
-        
-        # Lg_h is the term multiplying μ (Control Influence)
-        Lg_h = grad_h 
-        
-        # K η term (PD-like behavior for boundary)
         barrier_term = self.kv * h_dot + self.kp * h
         
-        # Rearranging for QP (A μ <= b):
-        # ∇h ⋅ μ >= - (ḧ_drift + ∇h ⋅ ẍ_ref + K_v ḣ + K_p h)
-        # -∇h ⋅ μ <= (ḧ_drift + ∇h ⋅ ẍ_ref + K_v ḣ + K_p h)
+        # The 'b' vector represents the "Available Safety Budget"
+        # We add (grad_h @ u_ref_total) to account for the nominal controller's intent
+        b_val = drift_term + np.dot(grad_h, u_ref_total) + barrier_term
         
-        upper_bound_accel = -(h_ddot_drift + np.dot(grad_h, x_ref_ddot) + barrier_term)
-        
-        A_cbf = -Lg_h.reshape(1, 3)
-        b_cbf = -upper_bound_accel.reshape(1, 1)
+        A_cbf = -grad_h.reshape(1, 3)
+        b_cbf = np.array([[b_val]])
         
         return A_cbf, b_cbf

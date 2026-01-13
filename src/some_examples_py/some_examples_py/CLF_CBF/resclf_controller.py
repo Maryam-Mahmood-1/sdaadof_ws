@@ -11,7 +11,7 @@ class RESCLF_Controller:
     • Stability:         V̇(η) + γ V(η) ≤ 0
     • QP Constraint:     LfV + LgV μ ≤ -γ V
     """
-    def __init__(self, dim_task=3, kp=400.0, kv=40.0):
+    def __init__(self, dim_task=3, kp=0.0, kv=0.0):
         self.dim = dim_task
         
         # ---------------------------------------------------------
@@ -30,8 +30,16 @@ class RESCLF_Controller:
         #    FᵀP + PF - P G R⁻¹ Gᵀ P + Q = 0
         #    (Optimal solution for LQR -> V(η) is a valid CLF)
         # ---------------------------------------------------------
-        self.Q_mat = np.eye(2 * dim_task) * 10.0
-        R_mat = np.eye(dim_task)
+        # self.Q_mat = np.eye(2 * dim_task) * 10.0
+        q_pos = 100.0
+        
+        # 2. Velocity Weight (LOWER THIS): 10.0
+        #    Was 1000.0. Dropping it prevents the controller from reacting to noise.
+        q_vel = 90.0
+        
+        # Build Diagonal Matrix
+        self.Q_mat = np.diag([q_pos, q_pos, q_pos, q_vel, q_vel, q_vel])
+        R_mat = np.eye(dim_task)*0.01
         
         self.P = solve_continuous_are(self.F, self.G, self.Q_mat, R_mat)
         
@@ -42,7 +50,8 @@ class RESCLF_Controller:
         # ---------------------------------------------------------
         eig_Q = np.min(np.linalg.eigvals(self.Q_mat).real)
         eig_P = np.max(np.linalg.eigvals(self.P).real)
-        self.gamma = eig_Q / eig_P
+        # self.gamma = eig_Q / eig_P
+        self.gamma = 1.8 * (eig_Q / eig_P)
         
         # PD Gains for Nominal Control
         self.kp = kp

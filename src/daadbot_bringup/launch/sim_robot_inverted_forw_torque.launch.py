@@ -46,7 +46,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_ellipse.rviz')]
+        arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_safety.rviz')]
     )
 
     # 6. Trajectory Visualizer Node (The Red Curve)
