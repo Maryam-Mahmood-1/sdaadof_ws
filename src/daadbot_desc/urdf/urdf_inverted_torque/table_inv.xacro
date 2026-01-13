@@ -18,7 +18,7 @@
         <box size="1.0 ${total_width} 0.05" />
       </geometry>
       <material name="grey_base">
-        <color rgba="0.81 0.81 0.63 1" />
+        <color rgba="0.81 0.81 0.63 ${table_alpha}" />
       </material>
     </visual>
     <collision>

@@ -14,13 +14,20 @@ def generate_launch_description():
     pkg_controller = get_package_share_directory("daadbot_controller")
     
     # Path to your URDF (Required for Rviz to see the robot model)
-    xacro_file = os.path.join(pkg_desc, 'urdf/urdf_inverted_torque/daadbot.urdf')
+    xacro_file = os.path.join(pkg_desc, 'urdf/urdf_inverted_torque/daadbot.urdf.xacro')
+
+    transparent_arg = DeclareLaunchArgument(
+        'transparent_top', 
+        default_value='false',
+        description='Set to true to make the table transparent'
+    )
 
     # 2. Gazebo Simulation
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_desc, "launch", "gazebo_inverted_effort.launch.py")
-        )
+        ),
+        launch_arguments={'transparent_top': LaunchConfiguration('transparent_top')}.items()
     )
     
     # 3. Controller Manager
@@ -32,7 +39,13 @@ def generate_launch_description():
     )
 
     # 4. Robot State Publisher 
-    robot_description = ParameterValue(Command(['cat ', xacro_file]), value_type=str)
+    robot_description = ParameterValue(
+        Command([
+            'xacro ', xacro_file, 
+            ' transparent_top:=', LaunchConfiguration('transparent_top')
+        ]), 
+        value_type=str
+    )
     
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -46,7 +59,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_safety.rviz')]
+        arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_safety2.rviz')]
     )
 
     # 6. Trajectory Visualizer Node (The Red Curve)
@@ -64,6 +77,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        transparent_arg,
         gazebo,
         controller,
         robot_state_publisher_node,

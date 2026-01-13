@@ -12,6 +12,13 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     daadbot_desc_dir = get_package_share_directory('daadbot_desc')
 
+    # --- 1. Declare the Transparency Argument ---
+    transparent_arg = DeclareLaunchArgument(
+        'transparent_top',
+        default_value='false',
+        description='Set to true to make the table transparent'
+    )
+
     # Declare Xacro model path
     model_arg = DeclareLaunchArgument(
         name="model",
@@ -32,14 +39,13 @@ def generate_launch_description():
     physics_engine = "" if ros_distro == 'humble' else "--physics-engine gz-physics-bullet-featherstone-plugin"
 
    
-
-
     # Define robot_description parameter
+    # --- 2. Pass the argument to Xacro ---
     robot_description = ParameterValue(Command([
         "xacro ",
         LaunchConfiguration("model"),
-        " is_ignition:=",
-        is_ignition
+        " is_ignition:=", is_ignition,
+        " transparent_top:=", LaunchConfiguration('transparent_top') 
     ]), value_type=str)
 
     # Robot State Publisher
@@ -86,6 +92,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        transparent_arg, # --- 3. Add to Description List ---
         model_arg,
         robot_state_publisher_node,
         gazebo_resource_path,

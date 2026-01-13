@@ -6,10 +6,16 @@
 
   <xacro:arg name = "is_ignition" default="true"/>
 
+  <xacro:arg name="transparent_top" default="false"/>
+
+  <xacro:property name="table_alpha" value="${'0.15' if '$(arg transparent_top)' == 'true' else '1.0'}"/>
+  <xacro:property name="base_link_alpha" value="${'0.27' if '$(arg transparent_top)' == 'true' else '1.0'}"/>
+
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/daadbot_gazebo.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/daadbot_ros2_control.xacro"/>
   <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted_torque/table_inv.xacro"/>
   <!-- <xacro:include filename = "$(find daadbot_desc)/urdf/urdf_inverted/lab_table.xacro"/> -->
+
 
  
   <xacro:property name='PI' value='3.141592653589793'/>
@@ -62,7 +68,7 @@
       <material
         name="">
         <color
-          rgba= "1 1 1 1" />
+          rgba= "1 1 1 ${base_link_alpha}" />
       </material>
     </visual>
     <collision>
