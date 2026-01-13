@@ -30,7 +30,7 @@ def solve_optimization(LfV, LgV, V, gamma, torque_A=None, torque_b=None, cbf_A=N
     
     # Weight 'p' for relaxation variable delta (Paper Eq 29)
     # High value ensures we only relax tracking if absolutely necessary (e.g. Safety conflict)
-    p_relaxation = 1 
+    p_relaxation = 0.5 
 
     # H Matrix: [2*I_3,  0 ]
     #           [ 0 ,  2*p ]

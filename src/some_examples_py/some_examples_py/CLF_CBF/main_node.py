@@ -45,7 +45,7 @@ class ResclfNode(Node):
             lengths=[0.3, 0.24, 0.4], 
             power_n=4,      
             k_pos=87.0,     
-            k_vel=50.0      
+            k_vel=60.0      
         )
         self.cbf_active = False
         
@@ -177,10 +177,27 @@ def main(args=None):
     ln_a, = ax_traj.plot([], [], 'r-', linewidth=2, label='Actual')
     ln_t, = ax_traj.plot([], [], 'b--', linewidth=2, label='Target')
     
-    # Visual Safe Set
-    rx = node.cbf.radii[0]; ry = node.cbf.radii[1]
-    rect = Rectangle((-ry, -rx), 2*ry, 2*rx, linewidth=2, edgecolor='g', facecolor='none', label='Safe Set')
-    ax_traj.add_patch(rect)
+    # --- UPDATED: Visual Safe Set (Superellipsoid) ---
+    # Retrieve parameters from the active CBF
+    rx = node.cbf.radii[0]  # Robot X semi-axis
+    ry = node.cbf.radii[1]  # Robot Y semi-axis
+    cx = node.cbf.center[0]
+    cy = node.cbf.center[1]
+    n  = node.cbf.power_n   # The power (e.g., 4)
+
+    # Generate parametric points for the superellipse
+    # Formula: x = a * sgn(cos t) * |cos t|^(2/n)
+    theta = np.linspace(0, 2*np.pi, 200)
+    st = np.sin(theta)
+    ct = np.cos(theta)
+
+    # Calculate coordinates in Robot Frame
+    x_boundary = cx + rx * np.sign(ct) * (np.abs(ct) ** (2 / n))
+    y_boundary = cy + ry * np.sign(st) * (np.abs(st) ** (2 / n))
+
+    # Plot (Mapping: Plot X-axis = Robot Y, Plot Y-axis = Robot X)
+    # linestyle='-' ensures it is just the outline (not filled)
+    ax_traj.plot(y_boundary, x_boundary, color='g', linewidth=2, linestyle='-', label=f'Safe Set (n={n})')
     
     ax_traj.set_xlim(-0.4, 0.4); ax_traj.set_ylim(-0.4, 0.4)
     ax_traj.set_xlabel('Robot Y [m]'); ax_traj.set_ylabel('Robot X [m]')
@@ -215,66 +232,40 @@ def main(args=None):
 
     def update_plot(frame):
         # --- 1. Thread-Safe Data Retrieval ---
-        # We find the minimum length common to all synchronized lists
-        # to prevent "Shape Mismatch" errors if an update happens mid-plot.
-        
-        # Check lengths of Target lists
         len_tx = len(node.log_target['x'])
         len_ty = len(node.log_target['y'])
-        
-        # Check lengths of Actual lists
         len_ax = len(node.log_actual['x'])
         len_ay = len(node.log_actual['y'])
-        
-        # Check lengths of Metric lists
         len_t = len(node.log_t_clock)
         len_h = len(node.log_h)
         len_mu = len(node.log_mu)
 
-        # Calculate safe minimums
         min_t_len = min(len_tx, len_ty)
         min_a_len = min(len_ax, len_ay)
         min_m_len = min(len_t, len_h, len_mu)
         
-        # If no data, return empty
         if min_m_len == 0: return ln_t, ln_a, ln_h, ln_mu
 
-        # --- 2. Slice Data to Safe Lengths ---
-        # We copy the data up to the safe index
         tx_data = node.log_target['x'][:min_t_len]
         ty_data = node.log_target['y'][:min_t_len]
-        
         ax_data = node.log_actual['x'][:min_a_len]
         ay_data = node.log_actual['y'][:min_a_len]
-        
         time_data = np.array(node.log_t_clock[:min_m_len])
         h_data = node.log_h[:min_m_len]
         mu_data = node.log_mu[:min_m_len]
 
-        # --- 3. Tail Slicing Logic (330 Degrees) ---
         t_current = time_data[-1]
         tail_duration = 11.0 
         t_start = t_current - tail_duration
-        
-        # Find start index in the Time array
         start_idx = np.searchsorted(time_data, t_start)
-
-        # --- 4. Update Plots ---
-        # TARGET (Blue Dashed)
-        # Handle case where target/actual lists might be slightly different lengths than time
-        # by taking the last N elements corresponding to the time tail
         tail_len = len(time_data) - start_idx
         
-        # Safely slice Target/Actual using negative indexing for the tail
-        # (This assumes data is logged roughly synchronously, which is true in your loop)
         if tail_len > 0:
             ln_t.set_data(ty_data[-tail_len:], tx_data[-tail_len:])
             ln_a.set_data(ay_data[-tail_len:], ax_data[-tail_len:])
-            
             ln_h.set_data(time_data[start_idx:], h_data[start_idx:])
             ln_mu.set_data(time_data[start_idx:], mu_data[start_idx:])
         
-        # Auto-scroll X-axis
         t_window = 15.0
         t_min = max(0, t_current - t_window)
         ax_h.set_xlim(t_min, t_current + 0.5)

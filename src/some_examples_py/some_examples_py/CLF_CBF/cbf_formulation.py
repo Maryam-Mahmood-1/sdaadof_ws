@@ -23,7 +23,7 @@ class CBF_SuperEllipsoid:
         """
         self.center = np.array(center)
         self.radii = np.array(lengths)
-        self.n = power_n # Note: The math uses '2n' as total power in summation form
+        self.power_n = power_n # Note: The math uses '2n' as total power in summation form
         self.kp = k_pos
         self.kv = k_vel
 
@@ -37,7 +37,7 @@ class CBF_SuperEllipsoid:
         # Calculate individual contributions
         # We use the same power term as in get_constraints
         # If your __init__ has power_n=2, the exponent is 4.
-        power_term = 2 * self.n 
+        power_term = 2 * self.power_n 
         
         contributions = w ** power_term
         h_val = 1.0 - np.sum(contributions)
@@ -62,7 +62,7 @@ class CBF_SuperEllipsoid:
         """
         # 1. Normalized State
         w = (x - self.center) / self.radii
-        power_term = 2 * self.n
+        power_term = 2 * self.power_n
         
         # 2. Barrier States
         h = 1.0 - np.sum(w ** power_term)
