@@ -44,7 +44,7 @@ class ResclfNode(Node):
             center=[0.0, 0.0, 0.72], 
             lengths=[0.3, 0.24, 0.4], 
             power_n=4,      
-            k_pos=200.0,     
+            k_pos=25.0,     
             k_vel=50.0      
         )
         self.cbf_active = False
