@@ -31,15 +31,15 @@ class RESCLF_Controller:
         #    (Optimal solution for LQR -> V(η) is a valid CLF)
         # ---------------------------------------------------------
         # self.Q_mat = np.eye(2 * dim_task) * 10.0
-        q_pos = 100.0
+        q_pos = 3000.0
         
         # 2. Velocity Weight (LOWER THIS): 10.0
         #    Was 1000.0. Dropping it prevents the controller from reacting to noise.
-        q_vel = 90.0
+        q_vel = 2100.0
         
         # Build Diagonal Matrix
         self.Q_mat = np.diag([q_pos, q_pos, q_pos, q_vel, q_vel, q_vel])
-        R_mat = np.eye(dim_task)*0.01
+        R_mat = np.eye(dim_task)*0.0001
         
         self.P = solve_continuous_are(self.F, self.G, self.Q_mat, R_mat)
         
@@ -51,7 +51,8 @@ class RESCLF_Controller:
         eig_Q = np.min(np.linalg.eigvals(self.Q_mat).real)
         eig_P = np.max(np.linalg.eigvals(self.P).real)
         # self.gamma = eig_Q / eig_P
-        self.gamma = 1.8 * (eig_Q / eig_P)
+        self.gamma = 2.7 * (eig_Q / eig_P)
+        print(f"[RES-CLF] Decay Rate γ: {self.gamma:.3f}")
         
         # PD Gains for Nominal Control
         self.kp = kp
