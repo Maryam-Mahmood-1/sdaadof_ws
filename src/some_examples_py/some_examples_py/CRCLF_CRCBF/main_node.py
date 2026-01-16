@@ -1,6 +1,3 @@
-
-"""The code for main_node usign gazebo sim"""
-
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
@@ -30,7 +27,7 @@ class ResclfNode(Node):
     def __init__(self):
         super().__init__('resclf_modular_node')
         
-        NOISE_LEVEL = 0.0 
+        NOISE_LEVEL = 0.00 
         
         # Pass it to the dynamics module
         self.robot = RobotDynamics(
@@ -282,12 +279,6 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
 
 
 
