@@ -51,7 +51,7 @@ class ResclfNode(Node):
             noise_level=NOISE_LEVEL
         )
         self.traj_gen = TrajectoryGenerator() 
-        self.clf_ctrl = RESCLF_Controller(dim_task=3)
+        self.clf_ctrl = RESCLF_Controller(dim_task=2)
         
         # [cite_start]Initialize CBF (Safety) [cite: 33, 34]
         self.cbf = CBF_SuperEllipsoid(

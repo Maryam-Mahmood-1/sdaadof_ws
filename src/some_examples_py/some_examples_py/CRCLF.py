@@ -99,14 +99,14 @@ def main(args=None):
     
     # --- SETUP PATHS ---
     from ament_index_python.packages import get_package_share_directory
-import os
+    import os
 
-URDF_PATH = os.path.join(
-    get_package_share_directory("daadbot_desc"),
-    "urdf",
-    "urdf_inverted_torque",
-    "daadbot.urdf"
-)
+    URDF_PATH = os.path.join(
+        get_package_share_directory("daadbot_desc"),
+        "urdf",
+        "urdf_inverted_torque",
+        "daadbot.urdf"
+    )
  
     
     # Must match your URDF names exactly!

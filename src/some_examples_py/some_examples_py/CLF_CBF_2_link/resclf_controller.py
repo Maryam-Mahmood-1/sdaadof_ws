@@ -11,7 +11,7 @@ class RESCLF_Controller:
     • Stability:         V̇(η) + γ V(η) ≤ 0
     • QP Constraint:     LfV + LgV μ ≤ -γ V
     """
-    def __init__(self, dim_task=3, kp=0.0, kv=0.0):
+    def __init__(self, dim_task=2, kp=0.0, kv=0.0):
         self.dim = dim_task
         
         # ---------------------------------------------------------
@@ -38,7 +38,7 @@ class RESCLF_Controller:
         q_vel = 1500.0
         
         # Build Diagonal Matrix
-        self.Q_mat = np.diag([q_pos, q_pos, q_pos, q_vel, q_vel, q_vel])
+        self.Q_mat = np.diag([q_pos, q_pos, q_vel, q_vel])
         R_mat = np.eye(dim_task)*0.00001
         
         self.P = solve_continuous_are(self.F, self.G, self.Q_mat, R_mat)

@@ -61,6 +61,8 @@ setup(
             'compare_robust = some_examples_py.CRCLF_CRCBF.compare_robust_models:main',
             'pinocchio_main_node = some_examples_py.CLF_CBF.pinocchio_main_node:main',
             'cr_pinocchio_main = some_examples_py.CRCLF_CRCBF.cr_pinocchio_main:main',
+            'main_2_link = some_examples_py.CLF_CBF_2_link.main_2_link:main',
+            'pinocchio_main_node_2_link = some_examples_py.CLF_CBF_2_link.pinocchio_main_node:main',
 
         ],
     },

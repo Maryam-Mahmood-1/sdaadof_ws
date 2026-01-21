@@ -14,8 +14,7 @@ def generate_launch_description():
     pkg_controller = get_package_share_directory("daadbot_controller")
     
     # Path to your URDF (Required for Rviz to see the robot model)
-    xacro_file = os.path.join(pkg_desc, 'urdf/2_link_urdf/2link_robot.urdf.')
-
+    xacro_file = os.path.join(pkg_desc, 'urdf/2_link_urdf/2link_robot.urdf.xacro')
 
 
     # 2. Gazebo Simulation
@@ -47,14 +46,14 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_description}]
     )
 
-    # 5. Rviz2
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_safety2.rviz')]
-    )
+    # # 5. Rviz2
+    # rviz_node = Node(
+    #     package='rviz2',
+    #     executable='rviz2',
+    #     name='rviz2',
+    #     output='screen',
+    #     arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_safety2.rviz')]
+    # )
 
    
 
@@ -62,5 +61,5 @@ def generate_launch_description():
         gazebo,
         controller,
         robot_state_publisher_node,
-        rviz_node,
+        # rviz_node,
     ])

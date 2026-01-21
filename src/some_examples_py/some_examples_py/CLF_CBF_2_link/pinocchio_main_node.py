@@ -54,8 +54,8 @@ class RealTimePhysicsNode(Node):
         
         # CHANGE 3: Update Safety Barrier to 2D (Center [x,y], Lengths [rx, ry])
         self.cbf = CBF_SuperEllipsoid(
-            center=[0.0, 0.72],     # 2D Center
-            lengths=[0.3, 0.24],    # 2D Radii
+            center=[0.0, 0.0],     # 2D Center
+            lengths=[1.745, 0.9],    # 2D Radii
             power_n=4, k_pos=87.0, k_vel=60.0
         )
         self.cbf_active = False 
@@ -67,7 +67,7 @@ class RealTimePhysicsNode(Node):
 
         # --- 3. STATE INITIALIZATION ---
         # Initial Configuration for 2 active joints
-        q_init = np.array([0.5, -1.0]) # Non-zero start to avoid singularities
+        q_init = np.array([0.0, 0.0]) # Non-zero start to avoid singularities
 
         self.q_sim = pin.neutral(self.model_phys) 
         self.v_sim = np.zeros(self.model_phys.nv)
