@@ -1,5 +1,8 @@
-
-"""The code for main_node usign gazebo sim"""
+"""
+Main Node for Conformally Robust CLF-CBF Control.
+Uses the CR-CLF and CR-CBF modules to guarantee stability and safety 
+under model uncertainty defined by q_quantile.
+"""
 
 import rclpy
 from rclpy.node import Node
@@ -10,59 +13,65 @@ import threading
 import time
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from matplotlib.patches import Rectangle 
 from matplotlib.widgets import CheckButtons 
 # --- CONFIGURATIONS ---
 from ament_index_python.packages import get_package_share_directory
 import os
 
 
-# --- MODULAR IMPORTS ---
-from some_examples_py.CLF_CBF.robot_dynamics import RobotDynamics
-from some_examples_py.CLF_CBF.trajectory_generator import TrajectoryGenerator
-from some_examples_py.CLF_CBF.resclf_controller import RESCLF_Controller
-from some_examples_py.CLF_CBF.qp_solver import solve_optimization
-from some_examples_py.CLF_CBF.cbf_formulation import CBF_SuperEllipsoid 
+# --- MODULAR IMPORTS (Assumes these files are updated with CR logic) ---
+from some_examples_py.CRCLF_CRCBF.robot_dynamics import RobotDynamics
+from some_examples_py.CRCLF_CRCBF.utils.trajectory_generator import TrajectoryGenerator
+from some_examples_py.CRCLF_CRCBF.crclf_formulation import RESCLF_Controller
+from some_examples_py.CRCLF_CRCBF.cr_qp_solver import solve_optimization
+from some_examples_py.CRCLF_CRCBF.crcbf_formulation import CBF_SuperEllipsoid 
 
-
-
+# --- CONFIGURATIONS ---
 URDF_PATH = os.path.join(
     get_package_share_directory("daadbot_desc"),
     "urdf",
     "urdf_inverted_torque",
-    "daadbot.urdf"
+    "daadbot_noisy_.urdf"
 )
+
 
 EE_NAMES = ["gear1_claw", "gear2_claw"]
 USE_JOINT_1 = False  
 ALL_JOINTS = ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6', 'joint_7']
 
+# [IMPORTANT] Set this to the value output by your calibrate_quantile.py script!
+# Example: 0.196 was the quantile for 90% confidence in the paper example.
+CALIBRATED_QUANTILE = 28.6 
+
 class ResclfNode(Node):
     def __init__(self):
         super().__init__('resclf_modular_node')
         
-        NOISE_LEVEL = 0.0 
+        # 1. Initialize Robot Dynamics (Clean Model)
+        self.robot = RobotDynamics(URDF_PATH, EE_NAMES, ALL_JOINTS, noise_level=0.0)
         
-        # Pass it to the dynamics module
-        self.robot = RobotDynamics(
-            URDF_PATH, 
-            EE_NAMES, 
-            ALL_JOINTS, 
-            noise_level=NOISE_LEVEL
-        )
+        # 2. Initialize Trajectory Generator
         self.traj_gen = TrajectoryGenerator() 
+        
+        # 3. Initialize CR-CLF Controller
+        # (Parameters tuned for high precision as discussed previously)
         self.clf_ctrl = RESCLF_Controller(dim_task=3)
         
-        # [cite_start]Initialize CBF (Safety) [cite: 33, 34]
+        # [cite_start]4. Initialize CR-CBF (Safety) [cite: 33, 34]
+        # (Parameters tuned for anti-bounce: low stiffness, high damping)
         self.cbf = CBF_SuperEllipsoid(
             center=[0.0, 0.0, 0.72], 
             lengths=[0.3, 0.24, 0.4], 
             power_n=4,      
-            k_pos=87.0,     
-            k_vel=60.0      
+            k_pos=87.0,     # Soft spring to prevent bounce
+            k_vel=60.0      # Hard damper to absorb momentum
         )
         self.cbf_active = False
         
+        # [NEW] Conformal Robustness Parameter
+        self.q_quantile = CALIBRATED_QUANTILE
+        
+        # ROS Setup
         self.sub = self.create_subscription(JointState, '/joint_states', self.cb_joints, 10)
         self.pub = self.create_publisher(Float64MultiArray, '/effort_arm_controller/commands', 10)
         self.timer = self.create_timer(0.01, self.control_loop) 
@@ -70,16 +79,15 @@ class ResclfNode(Node):
         self.start_time = None
         self.q = np.zeros(7)
         self.dq = np.zeros(7)
-        self.tau_limits = np.array([80.0, 80.0, 60.0, 60.0, 55.0, 15.0, 15.0]) 
+        self.tau_limits = np.array([10.0, 40.0, 20.0, 20.0, 5.0, 5.0, 5.0]) 
         self.kp_lock = 150.0; self.kd_lock = 15.0
 
         # --- LOGGING ---
-        self.log_t_clock = [] # Time
+        self.log_t_clock = []
         self.log_target = {'x':[], 'y':[]} 
         self.log_actual = {'x':[], 'y':[]} 
-        # New Metrics
-        self.log_h = []       # Safety Barrier Value
-        self.log_mu = []      # Norm of Correction Input
+        self.log_h = []       
+        self.log_mu = []      
 
     def cb_joints(self, msg):
         try:
@@ -107,19 +115,23 @@ class ResclfNode(Node):
 
         # C. Nominal Control
         u_nominal = self.clf_ctrl.get_nominal_acceleration(x, dx, xd, vd)
-        u_ref = ad + u_nominal # Full intent [cite: 137]
+        u_ref = ad + u_nominal 
         
-        # D. CLF Constraints
-        LfV, LgV, V, gamma = self.clf_ctrl.get_lyapunov_constraints(x, dx, xd, vd)
+        # D. CR-CLF Constraints
+        # [UPDATED] Now returns 5 values, including robust_term
+        LfV, LgV, V, gamma, robust_term = self.clf_ctrl.get_lyapunov_constraints(
+            x, dx, xd, vd, q_quantile=self.q_quantile
+        )
 
-        # E. CBF Constraints
+        # E. CR-CBF Constraints
         cbf_A, cbf_b = None, None
-        
-        # Calculate h(x) for logging regardless of activation
         h_val = self.cbf.get_h_value(x)
         
         if self.cbf_active:
-            cbf_A, cbf_b = self.cbf.get_constraints(x, dx, u_ref)
+            # [UPDATED] Passes q_quantile to calculate robustness penalty inside cbf class
+            cbf_A, cbf_b = self.cbf.get_constraints(
+                x, dx, u_ref, q_quantile=self.q_quantile
+            )
 
         # F. QP Solver
         J_pinv = self.robot.get_pseudo_inverse(J)
@@ -131,8 +143,10 @@ class ResclfNode(Node):
         b_tau = np.hstack([self.tau_limits - b_tau_bias, self.tau_limits + b_tau_bias])
         b_tau = b_tau.reshape(-1, 1)
 
+        # [UPDATED] Pass robust_clf_term to solver
         mu, feasible = solve_optimization(
             LfV, LgV, V, gamma, 
+            robust_clf_term=robust_term,  # <--- NEW ARGUMENT
             torque_A=A_tau, torque_b=b_tau,
             cbf_A=cbf_A, cbf_b=cbf_b 
         )
@@ -142,7 +156,6 @@ class ResclfNode(Node):
             acc_cmd = u_ref + mu 
             tau_cmd = (M @ J_pinv @ (acc_cmd - (dJ @ self.dq))) + nle
         else:
-            # Fallback
             brake_dir = -np.sign(self.dq)
             brake_dir = np.nan_to_num(brake_dir) 
             tau_cmd = (brake_dir * (0.8 * self.tau_limits)) + nle
@@ -162,7 +175,6 @@ class ResclfNode(Node):
             
         self.log_actual['x'].append(x[0]); self.log_actual['y'].append(x[1])
         self.log_target['x'].append(xd[0]); self.log_target['y'].append(xd[1])
-        
         self.log_t_clock.append(t_clock)
         self.log_h.append(h_val)
         self.log_mu.append(np.linalg.norm(mu))
@@ -191,26 +203,21 @@ def main(args=None):
     ln_a, = ax_traj.plot([], [], 'r-', linewidth=2, label='Actual')
     ln_t, = ax_traj.plot([], [], 'b--', linewidth=2, label='Target')
     
-    # --- UPDATED: Visual Safe Set (Superellipsoid) ---
-    # Retrieve parameters from the active CBF
-    rx = node.cbf.radii[0]  # Robot X semi-axis
-    ry = node.cbf.radii[1]  # Robot Y semi-axis
+    # --- Visual Safe Set (Superellipsoid) ---
+    rx = node.cbf.radii[0] 
+    ry = node.cbf.radii[1] 
     cx = node.cbf.center[0]
     cy = node.cbf.center[1]
-    n  = node.cbf.power_n   # The power (e.g., 4)
+    n  = node.cbf.power_n   
 
-    # Generate parametric points for the superellipse
-    # Formula: x = a * sgn(cos t) * |cos t|^(2/n)
+    # Parametric equations for superellipse
     theta = np.linspace(0, 2*np.pi, 200)
-    st = np.sin(theta)
-    ct = np.cos(theta)
-
-    # Calculate coordinates in Robot Frame
+    st = np.sin(theta); ct = np.cos(theta)
+    
     x_boundary = cx + rx * np.sign(ct) * (np.abs(ct) ** (2 / n))
     y_boundary = cy + ry * np.sign(st) * (np.abs(st) ** (2 / n))
 
-    # Plot (Mapping: Plot X-axis = Robot Y, Plot Y-axis = Robot X)
-    # linestyle='-' ensures it is just the outline (not filled)
+    # Note: Plotted as (y, x) because graph axes are Robot Y vs Robot X
     ax_traj.plot(y_boundary, x_boundary, color='g', linewidth=2, linestyle='-', label=f'Safe Set (n={n})')
     
     ax_traj.set_xlim(-0.4, 0.4); ax_traj.set_ylim(-0.4, 0.4)
@@ -245,7 +252,7 @@ def main(args=None):
     check.on_clicked(toggle_cbf)
 
     def update_plot(frame):
-        # --- 1. Thread-Safe Data Retrieval ---
+        # --- Thread-Safe Data Retrieval ---
         len_tx = len(node.log_target['x'])
         len_ty = len(node.log_target['y'])
         len_ax = len(node.log_actual['x'])

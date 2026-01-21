@@ -70,7 +70,7 @@ class ResclfNode(Node):
         self.start_time = None
         self.q = np.zeros(7)
         self.dq = np.zeros(7)
-        self.tau_limits = np.array([80.0, 80.0, 60.0, 60.0, 55.0, 15.0, 15.0]) 
+        self.tau_limits = np.array([10.0, 40.0, 20.0, 20.0, 5.0, 5.0, 5.0]) 
         self.kp_lock = 150.0; self.kd_lock = 15.0
 
         # --- LOGGING ---
