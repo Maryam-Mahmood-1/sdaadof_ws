@@ -9,7 +9,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     model_arg = DeclareLaunchArgument(
         name = "model", 
-        default_value= os.path.join(get_package_share_directory('daadbot_desc'), 'urdf/2_link_urdf/2link_robot.urdf'),
+        default_value= os.path.join(get_package_share_directory('daadbot_desc'), 'urdf/2_link_urdf/2link_robot.urdf.xacro'),
         description = 'Absolute path to robot urdf file'
         )
     

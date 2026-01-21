@@ -138,7 +138,9 @@
         "vec4ui": "cpp",
         "vec4us": "cpp",
         "viewport": "cpp",
-        "guieventadapter": "cpp"
+        "guieventadapter": "cpp",
+        "*.xacro": "xml",
+        "*.urdf": "xml"
     },
     "ros.distro": "humble",
     "github.copilot.chat.codeGeneration.useInstructionFiles": true,
