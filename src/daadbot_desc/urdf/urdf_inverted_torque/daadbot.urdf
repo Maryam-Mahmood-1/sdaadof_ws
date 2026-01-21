@@ -18,10 +18,16 @@
         </xacro:unless>
     </gazebo> -->
   <gazebo>
-    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-      <parameters>/home/maryammahmood/xdaadbot_ws/install/daadbot_controller/share/daadbot_controller/config/effort_command_controller.yaml</parameters>
+    <plugin filename="ign_ros2_control-system"
+            name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>
+        $(find-pkg-share daadbot_controller)/config/effort_command_controller.yaml
+      </parameters>
     </plugin>
   </gazebo>
+
+
+  
   <ros2_control name="Manipulator" type="system">
     <hardware>
       <plugin>ign_ros2_control/IgnitionSystem</plugin>

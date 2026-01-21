@@ -11,7 +11,16 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 # --- CONFIGURATION ---
-URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
+from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+
 EE_FRAME_NAME = 'endeffector'
 
 # Target setup

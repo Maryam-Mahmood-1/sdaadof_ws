@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Slider, CheckButtons
 from matplotlib.patches import Rectangle
+from ament_index_python.packages import get_package_share_directory
 
 # --- IMPORT NEW ROBUST MODULES ---
 # 1. Robot Dynamics (Shared, unchanged)
@@ -23,8 +24,15 @@ from some_examples_py.CRCLF_CRCBF_traj.crcbf_formulation import CRCBF_Formulatio
 # 4. CR-QP Solver (Accepts robust_term)
 from some_examples_py.CRCLF_CRCBF_traj.crqp_solver import solve_qp
 
-# --- CONFIGURATION ---
-URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot_noisy.urdf"
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot_noisy.urdf"
+)
+
 TARGET_JOINTS = [
     'joint_1', 'joint_2', 'joint_3', 'joint_4', 
     'joint_5', 'joint_6', 'joint_7'

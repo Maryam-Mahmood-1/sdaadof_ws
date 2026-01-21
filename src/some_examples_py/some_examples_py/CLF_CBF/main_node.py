@@ -13,6 +13,10 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.patches import Rectangle 
 from matplotlib.widgets import CheckButtons 
 
+# --- CONFIGURATIONS ---
+from ament_index_python.packages import get_package_share_directory
+import os
+
 # --- MODULAR IMPORTS ---
 from some_examples_py.CLF_CBF.robot_dynamics import RobotDynamics
 from some_examples_py.CLF_CBF.trajectory_generator import TrajectoryGenerator
@@ -20,8 +24,15 @@ from some_examples_py.CLF_CBF.resclf_controller import RESCLF_Controller
 from some_examples_py.CLF_CBF.qp_solver import solve_optimization
 from some_examples_py.CLF_CBF.cbf_formulation import CBF_SuperEllipsoid 
 
-# --- CONFIGURATIONS ---
-URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
+
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+
 EE_NAMES = ["gear1_claw", "gear2_claw"]
 USE_JOINT_1 = False  
 ALL_JOINTS = ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6', 'joint_7']
@@ -313,7 +324,16 @@ if __name__ == '__main__':
 # from some_examples_py.CLF_CBF.cbf_formulation import CBF_SuperEllipsoid 
 
 # # --- CONFIGURATIONS ---
-# URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
+# from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+
 # EE_NAMES = ["gear1_claw", "gear2_claw"]
 # USE_JOINT_1 = False  
 # ALL_JOINTS = ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6', 'joint_7']
@@ -555,7 +575,16 @@ if __name__ == '__main__':
 # from some_examples_py.CLF_CBF.qp_solver import solve_optimization
 
 # # --- CONFIGURATIONS ---
-# URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
+# from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+
 # # EE_NAME = "endeffector" 
 # EE_NAMES = ["gear1_claw", "gear2_claw"]
 
@@ -779,7 +808,16 @@ if __name__ == '__main__':
 # from some_examples_py.CLF_CBF.qp_solver import solve_optimization
 
 # # --- CONFIGURATIONS ---
-# URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
+# from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+
 # EE_NAME = "endeffector" 
 # TARGET_JOINTS = ['joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6', 'joint_7']
 

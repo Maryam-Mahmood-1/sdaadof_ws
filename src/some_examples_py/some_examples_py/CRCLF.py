@@ -98,7 +98,16 @@ def main(args=None):
     pub = node.create_publisher(JointState, 'joint_states', 10)
     
     # --- SETUP PATHS ---
-    urdf_path = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf" 
+    from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+ 
     
     # Must match your URDF names exactly!
     target_joints = [

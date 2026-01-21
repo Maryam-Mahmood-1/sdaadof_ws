@@ -10,6 +10,10 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Slider, CheckButtons # Import UI Widgets
 from matplotlib.patches import Rectangle # For drawing the Safe Set
 
+# --- CONFIGURATIONS ---
+from ament_index_python.packages import get_package_share_directory
+import os
+
 # IMPORT MODULES
 from some_examples_py.CLF_CBF_traj.robot_dynamics import RobotDynamics
 from some_examples_py.CLF_CBF_traj.resclf_formulation import RESCLF_Formulation
@@ -17,7 +21,16 @@ from some_examples_py.CLF_CBF_traj.cbf_formulation import CBF_SuperEllipsoid
 from some_examples_py.CLF_CBF_traj.qp_solver import solve_qp
 
 # --- CONFIGURATION ---
-URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot_noisy.urdf"
+from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot_noisy.urdf"
+)
+
 TARGET_JOINTS = [
     'joint_1', 'joint_2', 'joint_3', 'joint_4', 
     'joint_5', 'joint_6', 'joint_7'
@@ -257,7 +270,16 @@ if __name__ == '__main__':
 # from some_examples_py.qp_solver import solve_qp
 
 # # --- CONFIGURATION ---
-# URDF_PATH = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_inverted_torque/daadbot.urdf"
+# from ament_index_python.packages import get_package_share_directory
+import os
+
+URDF_PATH = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "urdf_inverted_torque",
+    "daadbot.urdf"
+)
+
 # TARGET_JOINTS = [
 #     'joint_1', 'joint_2', 'joint_3', 'joint_4', 
 #     'joint_5', 'joint_6', 'joint_7'
