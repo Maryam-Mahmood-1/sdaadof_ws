@@ -46,14 +46,21 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_description}]
     )
 
-    # # 5. Rviz2
-    # rviz_node = Node(
-    #     package='rviz2',
-    #     executable='rviz2',
-    #     name='rviz2',
-    #     output='screen',
-    #     arguments=['-d', os.path.join(pkg_desc, 'rviz/traj_safety2.rviz')]
-    # )
+    # 5. Rviz2
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', os.path.join(pkg_desc, 'rviz/2_link.rviz')]
+    )
+
+    # 6. Trajectory Visualizer Node (The Red Curve)
+    traj_viz_node = Node(
+        package='some_examples_py', 
+        executable='trajectory_visualizer',
+        name='trajectory_visualizer'
+    )
 
    
 
@@ -61,5 +68,6 @@ def generate_launch_description():
         gazebo,
         controller,
         robot_state_publisher_node,
-        # rviz_node,
+        rviz_node,
+        traj_viz_node,
     ])

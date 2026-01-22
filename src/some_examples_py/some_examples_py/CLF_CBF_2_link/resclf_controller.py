@@ -16,8 +16,7 @@ class RESCLF_Controller:
         
         # ---------------------------------------------------------
         # 1. System Matrices for Error Dynamics
-        #    η̇ = F η + G μ
-        #    F = [[0, I], [0, 0]],  G = [[0], [I]]
+        #    F (System) and G (Input) scale automatically with dim_task
         # ---------------------------------------------------------
         zero = np.zeros((dim_task, dim_task))
         eye  = np.eye(dim_task)
@@ -26,35 +25,30 @@ class RESCLF_Controller:
         self.G = np.block([[zero], [eye]])
 
         # ---------------------------------------------------------
-        # 2. Solve Algebraic Riccati Equation (ARE) for P
-        #    FᵀP + PF - P G R⁻¹ Gᵀ P + Q = 0
-        #    (Optimal solution for LQR -> V(η) is a valid CLF)
+        # 2. Solve Algebraic Riccati Equation (ARE)
         # ---------------------------------------------------------
-        # self.Q_mat = np.eye(2 * dim_task) * 10.0
         q_pos = 3000.0
-        
-        # 2. Velocity Weight (LOWER THIS): 10.0
-        #    Was 1000.0. Dropping it prevents the controller from reacting to noise.
         q_vel = 1500.0
         
-        # Build Diagonal Matrix
-        self.Q_mat = np.diag([q_pos, q_pos, q_vel, q_vel])
-        R_mat = np.eye(dim_task)*0.00001
+        # --- FIX: DYNAMIC Q MATRIX CONSTRUCTION ---
+        # This creates a list of length 2*dim_task automatically.
+        # For dim_task=2, it makes [3000, 3000, 1500, 1500] (4 elements)
+        q_diagonal = [q_pos] * dim_task + [q_vel] * dim_task
         
+        self.Q_mat = np.diag(q_diagonal)
+        R_mat = np.eye(dim_task) * 0.00001
+        
+        # Now F and Q are guaranteed to have the same shape (2*dim x 2*dim)
         self.P = solve_continuous_are(self.F, self.G, self.Q_mat, R_mat)
         
         # ---------------------------------------------------------
         # 3. Compute Decay Rate γ
-        #    γ = min(eig(Q)) / max(eig(P))
-        #    (Ensures exponential convergence rate)
         # ---------------------------------------------------------
         eig_Q = np.min(np.linalg.eigvals(self.Q_mat).real)
         eig_P = np.max(np.linalg.eigvals(self.P).real)
-        # self.gamma = eig_Q / eig_P
-        self.gamma = 3.9 * (eig_Q / eig_P)
+        self.gamma = 1.8 * (eig_Q / eig_P)
         print(f"[RES-CLF] Decay Rate γ: {self.gamma:.3f}")
         
-        # PD Gains for Nominal Control
         self.kp = kp
         self.kv = kv
 

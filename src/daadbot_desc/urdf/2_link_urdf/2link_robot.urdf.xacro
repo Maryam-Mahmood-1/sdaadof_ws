@@ -33,26 +33,27 @@
     <link name="arm1">
         <visual>
             <geometry>
-                <box size="1 .05 .05"/>
+                <box size="0.75 .11 .11"/>
             </geometry>
-            <origin rpy="0 0 0" xyz="0.5 0 0"/>
+            <origin rpy="0 0 0" xyz="0.375 0 0"/>
             <material name="black"/>
         </visual>
         <collision>
             <geometry>
-                <box size="1 .05 .05"/>
+                <box size="0.75 .11 .11"/>
             </geometry>
-            <origin rpy="0 0 0" xyz="0.5 0 0"/>
+            <origin rpy="0 0 0" xyz="0.375 0 0"/>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0.5 0 0"/>
-            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0.375 0 0"/>
+            <mass value="2.0"/>
             <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.08" iyz="0" izz="0.08"/>
         </inertial>
     </link>
 
-    <joint name="baseHinge" type="continuous">
+    <joint name="baseHinge" type="revolute">
         <axis rpy="0 0 0" xyz="0 0 1"/>
+        <limit effort="50.0" velocity="1.0" lower="-3.14159" upper="3.14159"/>
         <parent link="base"/>
         <child link="arm1"/>
     </joint>
@@ -60,29 +61,30 @@
     <link name="arm2">
         <visual>
             <geometry>
-                <box size="1 .05 .05"/>
+                <box size="1 .06 .06"/>
             </geometry>
             <origin rpy="0 0 0" xyz="0.5 0 0"/>
             <material name="black"/>
         </visual>
         <collision>
             <geometry>
-                <box size="1 .05 .05"/>
+                <box size="1 .06 .06"/>
             </geometry>
             <origin rpy="0 0 0" xyz="0.5 0 0"/>
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0.5 0 0"/>
-            <mass value="1.0"/>
+            <mass value="1.5"/>
             <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.08" iyz="0" izz="0.08"/>
         </inertial>
     </link>
 
-    <joint name="interArm" type="continuous">
+    <joint name="interArm" type="revolute">
         <axis rpy="0 0 0" xyz="0 0 1"/>
+        <limit effort="30.0" velocity="1.0" lower="-3.14159" upper="3.14159"/>
         <parent link="arm1"/>
         <child link="arm2"/>
-        <origin rpy="0 0 0" xyz="1 0 0"/>
+        <origin rpy="0 0 0" xyz="0.75 0 0"/>
     </joint>
 
     <link name="endEffector">

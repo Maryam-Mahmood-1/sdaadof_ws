@@ -3,196 +3,106 @@ import cvxopt
 
 def solve_optimization(LfV, LgV, V, gamma, torque_A=None, torque_b=None, cbf_A=None, cbf_b=None):
     """
-    Solves the Unified CLF-CBF-QP as defined in the Paper Eq (29).
+    Universal CLF-CBF-QP Solver (Adaptive Dimension).
     
-    Optimization Variables: x = [μ, δ]  (Size 4: 3 control + 1 relaxation)
-    
+    Optimization Variables: x = [mu, delta]
+      - mu: Control input (End-effector acceleration). Dimension detected automatically (2 or 3).
+      - delta: Relaxation slack variable (Scalar).
+      
     Objective:
-        min (μ, δ)  μᵀμ + p * δ²
+        min  0.5 * muᵀmu + 0.5 * p * delta²
         
     Constraints:
-    1. Relaxed CLF (Tracking):
-       LgV*μ - δ ≤ -γV - LfV
-       
-    2. Input Saturation (Torque):
-       A_torq*μ ≤ b_torq
-       
-    3. Safety (CBF):
-       A_cbf*μ ≤ b_cbf
+    1. CLF: LgV*mu - delta <= -gamma*V - LfV
+    2. Torque: torque_A*mu <= torque_b
+    3. Safety: cbf_A*mu <= cbf_b
     """
     
     # ---------------------------------------------------------
-    # 1. Setup Variables
+    # 1. Automatic Dimension Detection
     # ---------------------------------------------------------
-    n_mu = 3
-    n_delta = 1
-    n_vars = n_mu + n_delta
+    # LgV shape is (1, u_dim).
+    # For 2-link planar, u_dim = 2 (x, y).
+    # For 3-link spatial, u_dim = 3 (x, y, z).
+    u_dim = LgV.shape[1] 
     
-    # Weight 'p' for relaxation variable delta (Paper Eq 29)
-    # High value ensures we only relax tracking if absolutely necessary (e.g. Safety conflict)
-    p_relaxation = 3.6 
-
-    # H Matrix: [2*I_3,  0 ]
-    #           [ 0 ,  2*p ]
-    H = np.zeros((n_vars, n_vars))
-    np.fill_diagonal(H[:n_mu, :n_mu], 2.0)
-    H[n_mu, n_mu] = 2.0 * p_relaxation
+    # Total variables = u_dim (control) + 1 (slack)
+    num_vars = u_dim + 1
     
-    f = np.zeros(n_vars)
+    # ---------------------------------------------------------
+    # 2. Setup Cost Function (P, q)
+    # ---------------------------------------------------------
+    # Minimize: 0.5 * xᵀPx + qᵀx
+    # P = diag([1, ..., 1, p_slack])
+    
+    slack_penalty = 30.0  # Very high penalty to enforce tracking
+    P_diag = np.ones(num_vars)
+    P_diag[-1] = slack_penalty
+    
+    P = cvxopt.matrix(np.diag(P_diag))
+    q = cvxopt.matrix(np.zeros(num_vars))
 
     # ---------------------------------------------------------
-    # 2. Build Constraints (Gx ≤ h)
+    # 3. Build Constraints (Gx <= h)
     # ---------------------------------------------------------
-    A_list = []
-    b_list = []
+    G_list = []
+    h_list = []
 
-    # --- Constraint A: Relaxed CLF (Eq 29 Line 2) ---
-    # LgV*μ ≤ -γV - LfV + δ
-    # Rearranged: LgV*μ - δ ≤ -γV - LfV
-    # Matrix form: [LgV, -1] * [μ, δ]ᵀ ≤ ...
-    if LfV is not None:
-        clf_row = np.hstack([LgV, np.array([[-1.0]])]) 
-        A_list.append(clf_row)
-        b_list.append(np.array([[-gamma * V - LfV]]))
+    # --- A. CLF Constraint (Tracking) ---
+    # LgV*mu - delta <= -gamma*V - LfV
+    # Row: [LgV_1, ..., LgV_n, -1.0]
+    clf_row = np.zeros((1, num_vars))
+    clf_row[0, :u_dim] = LgV
+    clf_row[0, -1] = -1.0
+    
+    G_list.append(clf_row)
+    h_list.append(np.array([[-gamma * V - LfV]]))
 
-    # --- Constraint B: Torque Saturation (Eq 29 Line 4, 5) ---
-    # A_torq*μ ≤ b_torq
-    # Matrix form: [A_torq, 0] * [μ, δ]ᵀ ≤ b_torq
+    # --- B. Torque Constraints (Input Limits) ---
+    # torque_A*mu <= torque_b
+    # Pad with 0 for delta column: [torque_A, 0]
     if torque_A is not None and torque_b is not None:
-        zeros_col = np.zeros((torque_A.shape[0], 1))
-        torque_row = np.hstack([torque_A, zeros_col])
-        A_list.append(torque_row)
-        b_list.append(torque_b)
+        # Verify shapes match u_dim
+        if torque_A.shape[1] != u_dim:
+            raise ValueError(f"Torque Matrix dim {torque_A.shape[1]} does not match LgV dim {u_dim}")
 
-    # --- Constraint C: Safety CBF (Eq 29 Line 7) ---
-    # A_cbf*μ ≤ b_cbf
-    # Matrix form: [A_cbf, 0] * [μ, δ]ᵀ ≤ b_cbf
+        tau_rows = np.hstack([torque_A, np.zeros((torque_A.shape[0], 1))])
+        G_list.append(tau_rows)
+        h_list.append(torque_b)
+
+    # --- C. CBF Constraints (Safety) ---
+    # cbf_A*mu <= cbf_b
+    # Pad with 0 for delta column: [cbf_A, 0]
     if cbf_A is not None and cbf_b is not None:
-        zeros_col = np.zeros((cbf_A.shape[0], 1))
-        cbf_row = np.hstack([cbf_A, zeros_col])
-        A_list.append(cbf_row)
-        b_list.append(cbf_b)
+        # CBF is a hard constraint (usually), but here we allow it to compete via QP
+        cbf_rows = np.hstack([cbf_A, np.zeros((cbf_A.shape[0], 1))])
+        G_list.append(cbf_rows)
+        h_list.append(cbf_b)
 
-    # 3. Stack Matrices
-    if not A_list:
-        return np.zeros(n_mu), True
-
-    G_qp = np.vstack(A_list)
-    h_qp = np.vstack(b_list)
-
+    # ---------------------------------------------------------
     # 4. Solve using CVXOPT
-    cvxopt.solvers.options['show_progress'] = False
-    P_cvx = cvxopt.matrix(H)
-    q_cvx = cvxopt.matrix(f)
-    G_cvx = cvxopt.matrix(G_qp)
-    h_cvx = cvxopt.matrix(h_qp)
+    # ---------------------------------------------------------
+    if not G_list:
+        return np.zeros(u_dim), True
 
+    G_np = np.vstack(G_list)
+    h_np = np.vstack(h_list)
+    
+    G_cvx = cvxopt.matrix(G_np)
+    h_cvx = cvxopt.matrix(h_np)
+    
+    cvxopt.solvers.options['show_progress'] = False
+    
     try:
-        sol = cvxopt.solvers.qp(P_cvx, q_cvx, G_cvx, h_cvx)
+        sol = cvxopt.solvers.qp(P, q, G_cvx, h_cvx)
         
         if sol['status'] == 'optimal':
-            x_sol = np.array(sol['x']).flatten()
-            mu = x_sol[:n_mu]     # Extract μ
-            delta = x_sol[n_mu]   # Extract δ
-            # print(f"Delta: {delta:.4f}") # Debugging relaxation
-            return mu, True
+            res = np.array(sol['x']).flatten()
+            # Return only the control input mu (slice off delta)
+            return res[:u_dim], True
         else:
-            return np.zeros(n_mu), False
+            return np.zeros(u_dim), False
             
-    except ValueError:
-        return np.zeros(n_mu), False
-    
-
-    
-
-
-""""Without CBF constraints - Basic CLF-QP solver."""
-# import numpy as np
-# import cvxopt
-
-# def solve_optimization(LfV, LgV, V, gamma, torque_A=None, torque_b=None, cbf_A=None, cbf_b=None):
-#     """
-#     Solves the CLF-QP (Control Lyapunov Function based Quadratic Program).
-    
-#     Mathematical Formulation:
-#     -------------------------
-#     Optimization Variable: μ (Auxiliary Control Input)
-    
-#     Objective:
-#         min (μ)  ½ μᵀ H μ + fᵀ μ
-        
-#     Subject to:
-    
-#     1. Stability Constraint (CLF):
-#        LgV(x) μ ≤ -γ V(x) - LfV(x)
-       
-#     2. Input Constraints (Torque Saturation):
-#        τ_min ≤ M(q)J†(u_ref + μ - J̇q̇) + n(q,q̇) ≤ τ_max
-#        (Rearranged into linear form A_torq μ ≤ b_torq)
-       
-#     3. Safety Constraints (CBF - Optional):
-#        A_cbf μ ≤ b_cbf
-#     """
-    
-#     # ---------------------------------------------------------
-#     # 1. Objective Function
-#     #    Minimize control deviation energy: ||μ||²
-#     #    Standard Form: min ½ xᵀ P x + qᵀ x
-#     # ---------------------------------------------------------
-#     # 3 variables for μ (x, y, z acceleration correction)
-#     n_vars = 3
-    
-#     # H = 2I  (Factor of 2 because standard form is 1/2 xPx)
-#     H = 2.0 * np.eye(n_vars)
-    
-#     # f = 0
-#     f = np.zeros(n_vars)
-
-#     # ---------------------------------------------------------
-#     # 2. Build Constraints (G x ≤ h)
-#     # ---------------------------------------------------------
-#     A_list = []
-#     b_list = []
-
-#     # --- Constraint A: RES-CLF Stability ---
-#     # Inequality: LgV ⋅ μ ≤ -γ V - LfV
-#     A_list.append(LgV) 
-#     b_list.append(np.array([[-gamma * V - LfV]]))
-
-#     # --- Constraint B: Torque Saturation ---
-#     # Form: A_torq ⋅ μ ≤ b_torq
-#     # (Matrices pre-calculated in main controller to save time here)
-#     if torque_A is not None and torque_b is not None:
-#         A_list.append(torque_A)
-#         b_list.append(torque_b)
-
-#     # --- Constraint C: Control Barrier Function (Safety) ---
-#     # Form: A_cbf ⋅ μ ≤ b_cbf
-#     if cbf_A is not None and cbf_b is not None:
-#         A_list.append(cbf_A)
-#         b_list.append(cbf_b)
-
-#     # 3. Stack Matrices for Solver
-#     if not A_list:
-#         return np.zeros(n_vars), True
-
-#     G_qp = np.vstack(A_list)
-#     h_qp = np.vstack(b_list)
-
-#     # 4. Solve using CVXOPT
-#     # Solves: min ½ xᵀ P x + qᵀ x  s.t.  G x ≤ h
-#     cvxopt.solvers.options['show_progress'] = False
-#     P_cvx = cvxopt.matrix(H)
-#     q_cvx = cvxopt.matrix(f)
-#     G_cvx = cvxopt.matrix(G_qp)
-#     h_cvx = cvxopt.matrix(h_qp)
-
-#     try:
-#         sol = cvxopt.solvers.qp(P_cvx, q_cvx, G_cvx, h_cvx)
-#         mu = np.array(sol['x']).flatten()
-#         return mu, True
-        
-#     except ValueError:
-#         # Infeasible (Constraints conflict, e.g., Safety vs Limits)
-#         # Returns zero correction (Fall back to nominal control)
-#         return np.zeros(n_vars), False
+    except ValueError as e:
+        print(f"[QP Solver Error]: {e}")
+        return np.zeros(u_dim), False
