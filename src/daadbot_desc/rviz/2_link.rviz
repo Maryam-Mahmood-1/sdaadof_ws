@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /RobotModel1
         - /Axes1
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 1803
   - Class: rviz_common/Selection
@@ -118,6 +119,19 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Reference Frame: <Fixed Frame>
       Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        reference_path: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /trajectory_marker
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -171,18 +185,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.3484738767147064
-        Y: -0.1960781216621399
-        Z: 0.11698752641677856
+        X: 0.1673767864704132
+        Y: -0.1844872534275055
+        Z: 0.1204594224691391
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9147971868515015
+      Pitch: 1.2697970867156982
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.5653953552246094
+      Yaw: 4.70858097076416
     Saved: ~
 Window Geometry:
   Displays:

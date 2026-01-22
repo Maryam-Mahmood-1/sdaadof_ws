@@ -58,8 +58,8 @@ def generate_launch_description():
     # 6. Trajectory Visualizer Node (The Red Curve)
     traj_viz_node = Node(
         package='some_examples_py', 
-        executable='trajectory_visualizer',
-        name='trajectory_visualizer'
+        executable='trajectory_visualizer_2_link',
+        name='trajectory_visualizer_2_link'
     )
 
    
