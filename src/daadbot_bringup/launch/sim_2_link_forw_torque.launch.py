@@ -62,6 +62,13 @@ def generate_launch_description():
         name='trajectory_visualizer_2_link'
     )
 
+    # 7. Safety Visualizer Node (The Safety Zones)
+    safety_viz_node = Node(
+        package='some_examples_py', 
+        executable='safety_visualizer_2_link',
+        name='safety_visualizer_2_link'
+    )
+
    
 
     return LaunchDescription([
@@ -70,4 +77,5 @@ def generate_launch_description():
         robot_state_publisher_node,
         rviz_node,
         traj_viz_node,
+        safety_viz_node
     ])

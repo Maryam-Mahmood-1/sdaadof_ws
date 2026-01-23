@@ -9,6 +9,7 @@ Panels:
         - /RobotModel1
         - /Axes1
         - /Marker1
+        - /Marker2
       Splitter Ratio: 0.5
     Tree Height: 1803
   - Class: rviz_common/Selection
@@ -132,6 +133,19 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /trajectory_marker
       Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: false
+      Name: Marker
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /safety_marker
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

@@ -64,7 +64,7 @@ setup(
             'main_2_link = some_examples_py.CLF_CBF_2_link.main_node:main',
             'pinocchio_main_node_2_link = some_examples_py.CLF_CBF_2_link.pinocchio_main_node:main',
             'trajectory_visualizer_2_link = some_examples_py.CLF_CBF_2_link.trajectory_visualizer:main',
-
+            'safety_visualizer_2_link = some_examples_py.CLF_CBF_2_link.safety_visualizer:main',
         ],
     },
 )
