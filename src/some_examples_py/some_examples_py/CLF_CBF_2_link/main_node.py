@@ -43,33 +43,29 @@ class GazeboResclfNode(Node):
         self.traj_gen = TrajectoryGenerator() 
         self.clf_ctrl = RESCLF_Controller(dim_task=2) 
         
-        # Safety Barrier
+        # Safety Barrier (Planar Ellipse)
         self.cbf = CBF_SuperEllipsoid(
             center=[0.0, 0.0, 0.0], 
-            lengths=[1.6, 0.9, 1.0], 
-            power_n=4, k_pos=10.0, k_vel=10.0
+            lengths=[1.2, 1.2, 3.0], # Matched with previous good values
+            power_n=4, k_pos=21.0, k_vel=12.0
         )
-        self.cbf_active = False 
+        self.cbf_active = False # Default OFF 
 
         # --- 2. ROS INTERFACE ---
         self.sub = self.create_subscription(JointState, '/joint_states', self.cb_joints, 10)
         self.pub = self.create_publisher(Float64MultiArray, '/arm_controller/commands', 10)
-        self.timer = self.create_timer(0.01, self.control_loop) 
+        self.timer = self.create_timer(1.0/100.0, self.control_loop) # 100Hz Control Rate
         
         # --- 3. STATE ---
         self.start_time = None
-        self.q = np.zeros(2)
+        self.q = np.array([0.0, 0.1]) # Avoiding singularity assumption
         self.dq = np.zeros(2)
         
         # INCREASED LIMITS to prevent QP failure
-        self.tau_limits = np.array([80.0, 80.0]) 
+        self.tau_limits = np.array([50.0, 30.0]) 
 
-        # --- 4. LOGGING ---
-        self.log_t = []
-        self.log_target = {'x':[], 'y':[]} 
-        self.log_actual = {'x':[], 'y':[]} 
-        self.log_h = []       
-        self.log_mu = []      
+        # --- 4. LOGGING (Sliding Window Configured) ---
+        self.log = {'t':[], 'x':[], 'y':[], 'xd':[], 'yd':[], 'h':[], 'mu':[]}
 
     def cb_joints(self, msg):
         try:
@@ -110,10 +106,7 @@ class GazeboResclfNode(Node):
         x_3d = np.array([x_2d[0], x_2d[1], 0.0])
         h_val = self.cbf.get_h_value(x_3d)
 
-        if self.cbf_active and h_val < 0.0:
-            # print(f"[WARN] Robot unsafe (h={h_val:.2f}). Disabling CBF.")
-            self.cbf_active = False
-        
+        # Safety is OFF by default until you click the button
         if self.cbf_active:
             dx_3d = np.array([dx_2d[0], dx_2d[1], 0.0])
             u_ref_3d = np.array([u_ref[0], u_ref[1], 0.0])
@@ -138,25 +131,21 @@ class GazeboResclfNode(Node):
             acc_cmd = u_ref + mu 
             tau_cmd = (M @ J_pinv @ (acc_cmd - (dJ @ self.dq))) + nle
         else:
-            # If this prints, your robot is stuck because it can't find a valid torque
-            print("!!! QP INFEASIBLE: Braking !!!") 
-            tau_cmd = -10.0 * self.dq + nle 
+            # Fallback to damping if QP fails
+            tau_cmd = -5.0 * self.dq + nle 
 
         tau_cmd = np.clip(tau_cmd, -self.tau_limits, self.tau_limits)
         msg = Float64MultiArray(); msg.data = tau_cmd.tolist(); self.pub.publish(msg)
 
-        # G. LOGGING
-        # Keep buffer small (only needed for recent history)
-        if len(self.log_actual['x']) > 2000: 
-            self.log_actual['x'].pop(0); self.log_actual['y'].pop(0)
-            self.log_target['x'].pop(0); self.log_target['y'].pop(0)
-            self.log_h.pop(0); self.log_mu.pop(0); self.log_t.pop(0)
+        # G. LOGGING (Optimized Sliding Window)
+        if len(self.log['t']) > 500: # Maintain a 500 point history buffer
+            for k in self.log: self.log[k].pop(0)
             
-        self.log_actual['x'].append(x_2d[0]); self.log_actual['y'].append(x_2d[1])
-        self.log_target['x'].append(xd[0]); self.log_target['y'].append(xd[1])
-        self.log_t.append(t_clock)
-        self.log_h.append(h_val)
-        self.log_mu.append(np.linalg.norm(mu))
+        self.log['t'].append(t_clock)
+        self.log['x'].append(x_2d[0]); self.log['y'].append(x_2d[1])
+        self.log['xd'].append(xd[0]); self.log['yd'].append(xd[1])
+        self.log['h'].append(h_val)
+        self.log['mu'].append(np.linalg.norm(mu))
 
     def stop_robot(self):
         msg = Float64MultiArray(data=[0.0]*2); self.pub.publish(msg)
@@ -174,71 +163,59 @@ def main(args=None):
     ax_traj = fig.add_subplot(gs[:, 0]) 
     ax_h = fig.add_subplot(gs[0, 1])    
     ax_mu = fig.add_subplot(gs[1, 1])   
-    plt.subplots_adjust(bottom=0.15, wspace=0.3, hspace=0.3)
+    plt.subplots_adjust(bottom=0.15)
     
     # Init Lines
     ln_a, = ax_traj.plot([], [], 'r-', linewidth=2, label='Actual')
-    ln_t, = ax_traj.plot([], [], 'b--', linewidth=2, label='Target')
+    ln_t, = ax_traj.plot([], [], 'b--', linewidth=1, label='Target')
     
     # Safe Set
     theta = np.linspace(0, 2*np.pi, 200)
     rx, ry = node.cbf.radii[0], node.cbf.radii[1]
     n  = node.cbf.power_n
-    x_bound = rx * np.sign(np.cos(theta)) * (np.abs(np.cos(theta)) ** (2/n))
-    y_bound = ry * np.sign(np.sin(theta)) * (np.abs(np.sin(theta)) ** (2/n))
-    ax_traj.plot(x_bound, y_bound, color='g', linewidth=2, label='Safe Set')
+    x_b = rx * np.sign(np.cos(theta)) * (np.abs(np.cos(theta)) ** (2/n))
+    y_b = ry * np.sign(np.sin(theta)) * (np.abs(np.sin(theta)) ** (2/n))
+    ax_traj.plot(x_b, y_b, 'g-', label='Safe Set')
     
     ax_traj.set_xlim(-2.0, 2.0); ax_traj.set_ylim(-2.0, 2.0)
-    ax_traj.set_title('Trajectory (Sliding Window)')
-    ax_traj.set_aspect('equal'); ax_traj.legend(loc='upper right'); ax_traj.grid(True)
+    ax_traj.set_aspect('equal', adjustable='box')
+    ax_traj.grid(True)
+    ax_traj.legend()
 
-    ln_h, = ax_h.plot([], [], 'g-', linewidth=1.5)
-    ax_h.set_title('Safety Barrier h(x)'); ax_h.set_ylim(-1.0, 2.0); ax_h.grid(True)
-
-    ln_mu, = ax_mu.plot([], [], 'k-', linewidth=1.5)
-    ax_mu.set_title('Correction ||μ||'); ax_mu.set_ylim(0, 20.0); ax_mu.grid(True)
+    ln_h, = ax_h.plot([], [], 'g-'); ax_h.axhline(0, color='r', linestyle='--'); ax_h.set_title("Safety h(x)"); ax_h.grid(True)
+    ln_mu, = ax_mu.plot([], [], 'k-'); ax_mu.set_title("Correction ||μ||"); ax_mu.grid(True)
 
     # Checkbutton
-    ax_check = plt.axes([0.05, 0.02, 0.15, 0.08]) 
-    check = CheckButtons(ax_check, ['Activate Safety'], [False])
-    def toggle_cbf(label): node.cbf_active = not node.cbf_active
-    check.on_clicked(toggle_cbf)
+    ax_check = plt.axes([0.05, 0.02, 0.15, 0.05]) 
+    check = CheckButtons(ax_check, ['Safety On'], [False])
+    def toggle(label): node.cbf_active = not node.cbf_active
+    check.on_clicked(toggle)
 
-    def update_plot(frame):
-        # 1. READ DATA
-        len_data = len(node.log_t)
-        if len_data == 0: return ln_t, ln_a, ln_h, ln_mu
+    def update(frame):
+        # Retrieve the unified log
+        if len(node.log['t']) == 0: return ln_a, ln_t, ln_h, ln_mu
+        t_d = list(node.log['t'])
+        x_d = list(node.log['x']); y_d = list(node.log['y'])
+        xd_d = list(node.log['xd']); yd_d = list(node.log['yd'])
+        h_d = list(node.log['h']); mu_d = list(node.log['mu'])
+
+        # UPDATE LINES
+        ln_a.set_data(x_d, y_d); ln_t.set_data(xd_d, yd_d)
+        ln_h.set_data(t_d, h_d); ln_mu.set_data(t_d, mu_d)
         
-        # 2. SLIDING WINDOW LOGIC (Show last 300 points)
-        WINDOW = 300 
-        start_idx = max(0, len_data - WINDOW)
+        # SCROLL X-AXIS
+        if len(t_d) > 0:
+            ax_h.set_xlim(t_d[0], t_d[-1])
+            ax_mu.set_xlim(t_d[0], t_d[-1])
+            ax_h.set_ylim(-1.0, 1.0)
+            ax_mu.set_ylim(-10.0, 20.0)
 
-        tx = node.log_target['x'][start_idx:]
-        ty = node.log_target['y'][start_idx:]
-        ax = node.log_actual['x'][start_idx:]
-        ay = node.log_actual['y'][start_idx:]
-        
-        t = node.log_t[start_idx:]
-        h = node.log_h[start_idx:]
-        mu = node.log_mu[start_idx:]
+        return ln_a, ln_t, ln_h, ln_mu
 
-        # 3. UPDATE LINES
-        ln_t.set_data(tx, ty)
-        ln_a.set_data(ax, ay)
-        ln_h.set_data(t, h)
-        ln_mu.set_data(t, mu)
-        
-        # 4. SCROLL X-AXIS
-        if len(t) > 0:
-            ax_h.set_xlim(t[0], t[-1] + 0.5)
-            ax_mu.set_xlim(t[0], t[-1] + 0.5)
-
-        return ln_t, ln_a, ln_h, ln_mu
-
-    ani = FuncAnimation(fig, update_plot, interval=50, blit=False)
+    ani = FuncAnimation(fig, update, interval=50)
     plt.show()
     
-    node.stop_robot(); node.destroy_node(); rclpy.shutdown()
+    node.stop_robot(); node.destroy_node(); rclpy.shutdown(); t_ros.join()
 
 if __name__ == '__main__':
     main()

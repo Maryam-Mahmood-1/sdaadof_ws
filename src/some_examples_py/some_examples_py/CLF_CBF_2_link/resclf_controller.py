@@ -27,8 +27,8 @@ class RESCLF_Controller:
         # ---------------------------------------------------------
         # 2. Solve Algebraic Riccati Equation (ARE)
         # ---------------------------------------------------------
-        q_pos = 3000.0
-        q_vel = 1500.0
+        q_pos = 1000.0
+        q_vel = 500.0
         
         # --- FIX: DYNAMIC Q MATRIX CONSTRUCTION ---
         # This creates a list of length 2*dim_task automatically.

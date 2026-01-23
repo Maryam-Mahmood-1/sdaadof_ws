@@ -66,7 +66,7 @@ class RealTimePhysicsNode(Node):
 
         # --- 3. STATE INITIALIZATION ---
         # Initial config to start inside the safe zone (1.2m radius)
-        q_init = np.array([0.02, 0.0]) 
+        q_init = np.array([0.0, 0.0]) 
         # q_init = np.array([0.0, -3.14159])
 
         self.q_sim = pin.neutral(self.model_phys) 

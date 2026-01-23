@@ -35,7 +35,7 @@ def solve_optimization(LfV, LgV, V, gamma, torque_A=None, torque_b=None, cbf_A=N
     # Minimize: 0.5 * xᵀPx + qᵀx
     # P = diag([1, ..., 1, p_slack])
     
-    slack_penalty = 30.0  # Very high penalty to enforce tracking
+    slack_penalty = 3.6  # Very high penalty to enforce tracking
     P_diag = np.ones(num_vars)
     P_diag[-1] = slack_penalty
     
