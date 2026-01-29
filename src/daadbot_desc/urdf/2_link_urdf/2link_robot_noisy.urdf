@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="2link_robot">
+  <gazebo>
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>/home/maryammahmood/xdaadbot_ws/install/daadbot_controller/share/daadbot_controller/config/effort_command_controller_2link.yaml</parameters>
+    </plugin>
+  </gazebo>
+  <ros2_control name="TwoLinkRobotSystem" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+    <joint name="baseHinge">
+      <command_interface name="effort">
+        <param name="min">-50</param>
+        <param name="max">50</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+    <joint name="interArm">
+      <command_interface name="effort">
+        <param name="min">-30</param>
+        <param name="max">30</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+  </ros2_control>
+  <material name="black">
+    <color rgba="0 0 0 0.7" />
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 0.7" />
+  </material>
+  <link name="world" />
+  <joint name="base_joint" type="fixed">
+    <parent link="world" />
+    <child link="base" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="base">
+    <inertial>
+      <mass value="1.0" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1" />
+    </inertial>
+  </link>
+  <link name="arm1">
+    <visual>
+      <geometry>
+        <box size="0.75 .11 .11" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.375 0 0" />
+      <material name="black" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.75 .11 .11" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.375 0 0" />
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.375 0 0" />
+      <mass value="0.020000" />
+      <inertia ixx="0.000010" ixy="0.000000" ixz="0.000000" iyy="0.000800" iyz="0.000000" izz="0.000800" />
+    </inertial>
+  </link>
+  <joint name="baseHinge" type="revolute">
+    <axis rpy="0 0 0" xyz="0 0 1" />
+    <limit effort="50.0" lower="-1000.0" upper="1000.0" velocity="1.0" />
+    <parent link="base" />
+    <child link="arm1" />
+  </joint>
+  <link name="arm2">
+    <visual>
+      <geometry>
+        <box size="1 .06 .06" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.5 0 0" />
+      <material name="black" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1 .06 .06" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.5 0 0" />
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.5 0 0" />
+      <mass value="0.015000" />
+      <inertia ixx="0.000010" ixy="0.000000" ixz="0.000000" iyy="0.000800" iyz="0.000000" izz="0.000800" />
+    </inertial>
+  </link>
+  <joint name="interArm" type="revolute">
+    <axis rpy="0 0 0" xyz="0 0 1" />
+    <limit effort="30.0" lower="-1000.0" upper="1000.0" velocity="1.0" />
+    <parent link="arm1" />
+    <child link="arm2" />
+    <origin rpy="0 0 0" xyz="0.75 0 0" />
+  </joint>
+  <link name="endEffector">
+    <inertial>
+      <mass value="0.01" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
+    </inertial>
+  </link>
+  <joint name="ee_joint" type="fixed">
+    <parent link="arm2" />
+    <child link="endEffector" />
+    <origin rpy="0 0 0" xyz="1 0 0" />
+  </joint>
+</robot>

@@ -65,6 +65,10 @@ setup(
             'pinocchio_main_node_2_link = some_examples_py.CLF_CBF_2_link.pinocchio_main_node:main',
             'trajectory_visualizer_2_link = some_examples_py.CLF_CBF_2_link.trajectory_visualizer:main',
             'safety_visualizer_2_link = some_examples_py.CLF_CBF_2_link.safety_visualizer:main',
+            'cr_main_2_link = some_examples_py.CRCLF_CRCBF_2_link.main_node:main',
+            'cr_pinocchio_main_2_link = some_examples_py.CRCLF_CRCBF_2_link.pinocchio_main_node:main',
+            'pinocchio_main_2_link = some_examples_py.CLF_CBF_2_link.pinocchio_main_node:main',
+            'quantile_data = some_examples_py.CRCLF_CRCBF_2_link.quantile_data:run_pipeline'
         ],
     },
 )
