@@ -225,6 +225,7 @@ def run_pipeline():
     axs1[1].legend(loc="upper right"); axs1[1].grid(True, alpha=0.5)
 
     # === STEP 5: VERIFY ON ACTUAL ELLIPSE TRAJECTORY ===
+    # === STEP 5: VERIFY ON ACTUAL ELLIPSE TRAJECTORY ===
     print("\n=== STEP 5: VERIFYING ON ELLIPTICAL TRAJECTORY (Closed-Loop) ===")
     
     traj_gen = TrajectoryGenerator()
@@ -232,7 +233,11 @@ def run_pipeline():
     v = np.zeros(model_phys.nv)
     
     X_ell, Y_ell = [], []
-    pos_history = [] # For Trajectory Plot
+    
+    # [FIX 1] Create separate lists for Actual and Desired paths
+    pos_actual = []
+    pos_desired = []
+    
     Kp, Kd = 100.0, 20.0
     
     for i in range(int(20.0 / DT)):
@@ -240,13 +245,17 @@ def run_pipeline():
         
         pin.forwardKinematics(model_phys, data_phys, q, v)
         pin.updateFramePlacements(model_phys, data_phys)
-        x_curr = data_phys.oMf[ee_id].translation
-        pos_history.append(x_curr[:2]) # Save X,Y
-
+        x_curr = data_phys.oMf[ee_id].translation.copy() # [FIX] Add .copy()
+        
         J = pin.computeFrameJacobian(model_phys, data_phys, q, ee_id, pin.LOCAL_WORLD_ALIGNED)[:3, :2]
         dx_curr = J @ v[:2]
         
         xd, vd, _ = traj_gen.get_ref(t, x_curr)
+        
+        # [FIX 2] Store position data for plotting
+        pos_actual.append(x_curr[:2]) 
+        pos_desired.append(xd[:2])
+
         ep = xd - x_curr
         ev = vd - dx_curr
         F_task = Kp * ep + Kd * ev
@@ -254,7 +263,6 @@ def run_pipeline():
         
         tau_cmd = np.clip(tau_cmd, -MAX_TORQUE, MAX_TORQUE)
         
-        # NOTE: Using consistent friction=0.1*v to match Step 1 for fair equation comparison
         friction = 0.1 * v 
         tau_real = tau_cmd[:2] - friction
         ddq = pin.aba(model_phys, data_phys, q, v, tau_real)
@@ -270,14 +278,22 @@ def run_pipeline():
 
     X_test_ell = np.array(X_ell)
     Y_test_ell = np.array(Y_ell)
-    pos_arr = np.array(pos_history)
     t_test_ell = np.arange(len(Y_test_ell)) * DT
+    
+    # [FIX 3] Convert lists to arrays for plotting
+    path_act = np.array(pos_actual)
+    path_des = np.array(pos_desired)
 
     Phi_test_ell = build_feature_matrix(X_test_ell)
     Y_pred_ell = model.predict(Phi_test_ell)
     
     rmse_ell = np.sqrt(np.mean((Y_test_ell - Y_pred_ell)**2, axis=0))
     print(f"Ellipse Test RMSE: X={rmse_ell[0]:.4f}, Y={rmse_ell[1]:.4f}")
+
+    # --- PLOTTING ---
+    
+    # [FIGURE 1] Standard Random Test Set
+    # ... (Keep existing code for Fig 1) ...
 
     # [FIGURE 2] Ellipse Acceleration
     fig2, axs2 = plt.subplots(2, 1, figsize=(10, 8))
@@ -294,16 +310,19 @@ def run_pipeline():
     axs2[1].fill_between(t_test_ell, Y_pred_ell[:, 1] - q_hat_y, Y_pred_ell[:, 1] + q_hat_y, color='red', alpha=0.2)
     axs2[1].set_title(f"Y-Axis Acceleration (RMSE: {rmse_ell[1]:.3f})")
     
-    # [FIGURE 3] Trajectory (Position X-Y)
+    # [FIGURE 3] Trajectory (Position X-Y) - FIXED
     fig3, ax3 = plt.subplots(figsize=(8, 8))
     fig3.canvas.manager.set_window_title('Figure 3: End-Effector Trajectory')
     
-    ax3.plot(pos_arr[:, 0], pos_arr[:, 1], 'b-', linewidth=2, label='Actual Path')
+    # Plot Target (Red Dashed) vs Actual (Blue Solid)
+    ax3.plot(path_des[:, 0], path_des[:, 1], 'r--', linewidth=2, label='Target Ellipse')
+    ax3.plot(path_act[:, 0], path_act[:, 1], 'b-', linewidth=2, label='Actual Path', alpha=0.7)
+    
     ax3.set_title("Robot End-Effector Trajectory")
     ax3.set_xlabel("X Position (m)")
     ax3.set_ylabel("Y Position (m)")
     ax3.grid(True)
-    ax3.axis('equal') # Important for visualizing ellipse shape correctly
+    ax3.axis('equal') 
     ax3.legend()
 
     plt.show()
