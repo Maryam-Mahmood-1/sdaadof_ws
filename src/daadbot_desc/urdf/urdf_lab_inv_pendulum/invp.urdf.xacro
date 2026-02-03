@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="invp">
+
+  <xacro:arg name="is_sim" default="true"/>
+  <xacro:arg name="is_ignition" default="true"/>
+
+  <xacro:include filename="$(find daadbot_desc)/urdf/urdf_lab_inv_pendulum/pendulum_gazebo.xacro"/>
+  <xacro:include filename="$(find daadbot_desc)/urdf/urdf_lab_inv_pendulum/pendulum_ros2_control.xacro"/>
+
+  <link name="world"/>
+  <joint name="world_fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0424276411286307 0.0567910364332896 0.46191289123658"
+        rpy="0 0 0" />
+      <mass
+        value="29.3179302727825" />
+      <inertia
+        ixx="2.38654267757386"
+        ixy="0.129600208089517"
+        ixz="0.145842634468341"
+        iyy="5.21779752090626"
+        iyz="0.121504725996307"
+        izz="3.98293176780281" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes_pend/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes_pend/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="link1">
+    <inertial>
+      <origin
+        xyz="1.7618E-05 -0.24624 0.026965"
+        rpy="0 0 0" />
+      <mass
+        value="0.6567" />
+      <inertia
+        ixx="0.0033346"
+        ixy="1.4837E-07"
+        ixz="-3.285E-08"
+        iyy="0.00043616"
+        iyz="4.6005E-06"
+        izz="0.0037416" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes_pend/link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 0.81" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://daadbot_desc/meshes_pend/link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint1"
+    type="revolute">
+    <origin
+      xyz="-0.50873 -0.01 0.871"
+      rpy="1.5708 0 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="link1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="13"
+      velocity="16.76" />
+  </joint>
+</robot>

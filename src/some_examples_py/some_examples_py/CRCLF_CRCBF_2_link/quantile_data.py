@@ -19,7 +19,7 @@ URDF_PATH = os.path.join(
 )
 DT = 0.002              # 500 Hz
 DURATION = 4500.0       # Long duration
-NOISE_LEVEL = 0.9     # Low noise
+NOISE_LEVEL = 0.002     # Low noise
 CONFIDENCE = 0.1        # 90% Confidence
 
 # Safety Limits

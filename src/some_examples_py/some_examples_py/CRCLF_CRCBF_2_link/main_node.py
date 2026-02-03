@@ -32,7 +32,7 @@ URDF_CTRL = os.path.join(
     "urdf", "2_link_urdf", "2link_robot.urdf.xacro" 
 )
 
-MODEL_PATH = os.path.join(os.path.expanduser("~"), "xdaadbot_ws", "my_learned_robot.pkl")
+MODEL_PATH = os.path.join(os.path.expanduser("~"), "xdaadbot_ws", "my_learned_robot2.pkl")
 EE_NAMES = ["endEffector"]
 ALL_JOINTS = ["baseHinge", "interArm"]
 
