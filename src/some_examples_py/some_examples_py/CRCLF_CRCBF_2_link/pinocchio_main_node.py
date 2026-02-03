@@ -1,314 +1,200 @@
 """
-Main Node for 2-DOF Robot using Adaptive QP Solver
+Main Node for 2-DOF Robot: Parallel Comparison (Regular vs Robust)
+FEATURE: Simultaneous simulation and dual-plotting
 """
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import Float64MultiArray
 import numpy as np
+import pinocchio as pin
 import threading
 import time
-import pinocchio as pin
+import pickle
+import os
+import sys
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import CheckButtons 
 
-# --- CONFIGURATIONS ---
-from ament_index_python.packages import get_package_share_directory
-import os
-
 # --- MODULAR IMPORTS ---
-# Ensure these match your folder structure
-from some_examples_py.CLF_CBF_2_link.robot_dynamics import RobotDynamics
-from some_examples_py.CLF_CBF_2_link.trajectory_generator import TrajectoryGenerator
-from some_examples_py.CLF_CBF_2_link.resclf_controller import RESCLF_Controller
-from some_examples_py.CLF_CBF_2_link.cbf_formulation import CBF_SuperEllipsoid 
-from some_examples_py.CLF_CBF_2_link.qp_solver import solve_optimization  # IMPORTING NEW SOLVER
+from some_examples_py.CRCLF_CRCBF_2_link.trajectory_generator import TrajectoryGenerator
+from some_examples_py.CRCLF_CRCBF_2_link.resclf_controller import RESCLF_Controller
+from some_examples_py.CRCLF_CRCBF_2_link.cbf_formulation import CBF_SuperEllipsoid 
+from some_examples_py.CRCLF_CRCBF_2_link.qp_solver import solve_optimization
 
-URDF_PHYSICS = os.path.join(
-    get_package_share_directory("daadbot_desc"),
-    "urdf",
-    "2_link_urdf", 
-    "2link_robot.urdf.xacro" 
-)
+URDF_PATH = os.path.expanduser("~/xdaadbot_ws/src/daadbot_desc/urdf/2_link_urdf/2link_robot.urdf")
+MODEL_PATH = os.path.join(os.path.expanduser("~"), "xdaadbot_ws", "my_learned_robot2.pkl")
 
-URDF_CTRL = os.path.join(
-    get_package_share_directory("daadbot_desc"),
-    "urdf",
-    "2_link_urdf",
-    "2link_robot.urdf.xacro" 
-)
+class PinocchioRobotWrapper:
+    def __init__(self, urdf_path):
+        self.model = pin.buildModelFromUrdf(urdf_path)
+        self.data = self.model.createData()
+        self.ee_id = self.model.getFrameId("endEffector")
 
-EE_NAMES = ["endEffector"]
-ALL_JOINTS = ["baseHinge", "interArm"]
+    def get_state_and_kinematics(self, q, dq):
+        pin.forwardKinematics(self.model, self.data, q, dq)
+        pin.updateFramePlacements(self.model, self.data)
+        x = self.data.oMf[self.ee_id].translation
+        J = pin.computeFrameJacobian(self.model, self.data, q, self.ee_id, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)
+        return x[0:2], (J @ dq)[0:2]
 
-class RealTimePhysicsNode(Node):
+class LearnedModelWrapper:
+    def __init__(self, model_path):
+        try:
+            with open(model_path, "rb") as f:
+                data = pickle.load(f)
+                self.model = data["model"]
+                self.safety_bounds = data["safety_bounds"]
+        except Exception as e:
+            print(f"[Error] {e}"); sys.exit(1)
+
+    def build_features(self, q, dq, tau):
+        s1, c1, s2, c2 = np.sin(q[0]), np.cos(q[0]), np.sin(q[1]), np.cos(q[1])
+        s12, c12 = np.sin(q[0] + q[1]), np.cos(q[0] + q[1])
+        return np.array([[tau[0], tau[1], dq[0], dq[1], s1, c1, s2, c2, s12, c12, dq[0]**2, dq[1]**2]])
+
+    def get_inverse_dynamics(self, q, dq):
+        feat_0 = self.build_features(q, dq, np.zeros(2))
+        b = self.model.predict(feat_0)[0]
+        feat_1 = self.build_features(q, dq, np.array([1.0, 0.0]))
+        col_1 = self.model.predict(feat_1)[0] - b
+        feat_2 = self.build_features(q, dq, np.array([0.0, 1.0]))
+        col_2 = self.model.predict(feat_2)[0] - b
+        return np.linalg.pinv(np.column_stack([col_1, col_2])), b
+
+class PinocchioSimNode:
     def __init__(self):
-        super().__init__('rt_physics_sim_node')
-        
-        # --- 1. CONTROLLER SETUP ---
-        self.robot_ctrl = RobotDynamics(URDF_CTRL, EE_NAMES, ALL_JOINTS, noise_level=0.0)
-        self.traj_gen = TrajectoryGenerator() # Ensure this has your ellipse parameters (1.6, 0.9)
+        self.robot = PinocchioRobotWrapper(URDF_PATH)
+        self.learned_model = LearnedModelWrapper(MODEL_PATH)
+        self.traj_gen = TrajectoryGenerator() 
         self.clf_ctrl = RESCLF_Controller(dim_task=2) 
+        self.cbf = CBF_SuperEllipsoid(center=[0.0, 0.0, 0.0], lengths=[1.2, 1.2, 3.0])
         
-        # Safety Barrier (Planar Ellipse)
-        # We define it in 3D but will check slices.
-        self.cbf = CBF_SuperEllipsoid(
-            center=[0.0, 0.0, 0.0], 
-            lengths=[1.2, 1.2, 3.0], 
-            power_n=4, k_pos=10.0, k_vel=10.0
-        )
+        # Parallel States: [0] is Regular, [1] is Robust (Quantile)
+        self.q = [np.array([0.0, 0.1]), np.array([0.0, 0.1])]
+        self.dq = [np.zeros(2), np.zeros(2)]
+        
+        self.dt = 0.008
+        self.t_clock = 0.0
+        self.tau_limits = np.array([50.0, 30.0])
         self.cbf_active = False 
-
-        # --- 2. PHYSICS ENGINE SETUP ---
-        self.model_phys = pin.buildModelFromUrdf(URDF_PHYSICS)
-        self.data_phys = self.model_phys.createData()
-        self.phys_joint_ids = [self.model_phys.getJointId(name) for name in ALL_JOINTS]
-
-        # --- 3. STATE INITIALIZATION ---
-        # Initial config to start inside the safe zone (1.2m radius)
-        q_init = np.array([0.0, 0.0]) 
-        # q_init = np.array([0.0, -3.14159])
-
-        self.q_sim = pin.neutral(self.model_phys) 
-        self.v_sim = np.zeros(self.model_phys.nv)
+        self.learned_quantile_val = self.learned_model.safety_bounds['x']
         
-        for i, jid in enumerate(self.phys_joint_ids):
-             idx_q = self.model_phys.joints[jid].idx_q
-             self.q_sim[idx_q] = q_init[i]
-
         self.lock = threading.Lock()
-        self.q_read = q_init.copy()
-        self.dq_read = np.zeros(2)
-        self.tau_command = np.zeros(2)
-        self.tau_limits = np.array([15.0, 15.0]) 
+        # Log keys now store tuples or separate lists for (Regular, Robust)
+        self.log = {'t':[], 'xd':[], 'yd':[], 
+                    'x0':[], 'y0':[], 'h0':[], 'mu0':[], 'V0':[], 'err0':[],
+                    'x1':[], 'y1':[], 'h1':[], 'mu1':[], 'V1':[], 'err1':[]}
 
-        # --- 4. THREADING & ROS ---
-        self.running = True
-        self.dt_phys = 0.001 
-        self.phys_thread = threading.Thread(target=self.physics_loop, daemon=True)
-        self.phys_thread.start()
+    def physics_step(self):
+        # 1. Get Trajectory (Shared reference)
+        # Using state from Regular robot to drive trajectory generator logic
+        x_ref_sense, _ = self.robot.get_state_and_kinematics(self.q[0], self.dq[0])
+        xd_full, vd_full, ad_full = self.traj_gen.get_ref(self.t_clock, current_actual_pos=np.pad(x_ref_sense, (0,1)))
+        xd, vd, ad = xd_full[:2], vd_full[:2], ad_full[:2]
 
-        self.control_rate = 100.0
-        self.timer = self.create_timer(1.0/self.control_rate, self.control_loop)
-        self.start_time = None
-        
-        self.log = {'t':[], 'x':[], 'y':[], 'xd':[], 'yd':[], 'h':[], 'mu':[]}
+        results = []
 
-    def physics_loop(self):
-        """ The Physics Engine Thread (Simulating the Hardware) """
-        print("--- Physics Engine Started ---")
-        next_tick = time.time()
-        
-        while self.running:
-            with self.lock:
-                current_tau = self.tau_command.copy()
-
-            tau_full = np.zeros(self.model_phys.nv)
-            damping = 0.1 * self.v_sim 
+        # 2. Compute for both Regular (q=0) and Robust (q=quantile)
+        for i in range(2):
+            q_val = self.learned_quantile_val if i == 1 else 0.0
+            qi, dqi = self.q[i], self.dq[i]
             
-            for i, jid in enumerate(self.phys_joint_ids):
-                idx_v = self.model_phys.joints[jid].idx_v
-                tau_full[idx_v] = current_tau[i] - damping[idx_v]
+            x_2d, dx_2d = self.robot.get_state_and_kinematics(qi, dqi)
+            u_ref = ad + self.clf_ctrl.get_nominal_acceleration(x_2d, dx_2d, xd, vd)
+            LfV, LgV, V, gamma, robust_term = self.clf_ctrl.get_lyapunov_constraints(x_2d, dx_2d, xd, vd, q_quantile=q_val*15.0)
 
-            try:
-                ddq = pin.aba(self.model_phys, self.data_phys, self.q_sim, self.v_sim, tau_full)
-                self.v_sim += ddq * self.dt_phys
-                self.q_sim = pin.integrate(self.model_phys, self.q_sim, self.v_sim * self.dt_phys)
-            except Exception as e:
-                print(f"Physics Error: {e}")
+            cbf_A, cbf_b = None, None
+            h_val = self.cbf.get_h_value(np.pad(x_2d, (0,1)))
+            if self.cbf_active:
+                A_t, b_t = self.cbf.get_constraints(np.pad(x_2d, (0,1)), np.pad(dx_2d, (0,1)), np.pad(u_ref, (0,1)), q_quantile=q_val)
+                cbf_A, cbf_b = A_t[:, :2], b_t
 
-            q_sys = np.zeros(2)
-            dq_sys = np.zeros(2)
-            for i, jid in enumerate(self.phys_joint_ids):
-                q_sys[i] = self.q_sim[self.model_phys.joints[jid].idx_q]
-                dq_sys[i] = self.v_sim[self.model_phys.joints[jid].idx_v]
+            A_inv, b_learned = self.learned_model.get_inverse_dynamics(qi, dqi)
+            bias = A_inv @ (u_ref - b_learned)
+            A_tau = np.vstack([A_inv, -A_inv])
+            b_tau = np.hstack([self.tau_limits - bias, self.tau_limits + bias]).reshape(-1, 1)
 
-            with self.lock:
-                self.q_read = q_sys
-                self.dq_read = dq_sys
+            mu, feasible = solve_optimization(LfV, LgV, V, gamma, robust_term, A_tau, b_tau, cbf_A, cbf_b)
 
-            next_tick += self.dt_phys
-            sleep_time = next_tick - time.time()
-            if sleep_time > 0: time.sleep(sleep_time)
+            tau_cmd = A_inv @ (u_ref + mu - b_learned) if feasible else -5.0 * dqi
+            tau_cmd = np.clip(tau_cmd, -self.tau_limits, self.tau_limits)
 
-    def control_loop(self):
-        """ The Control Brain """
-        if self.start_time is None: self.start_time = time.time()
-        t_clock = time.time() - self.start_time
+            # Integrate
+            ddq = pin.aba(self.robot.model, self.robot.data, qi, dqi, tau_cmd)
+            self.dq[i] += ddq * self.dt
+            self.q[i] = pin.integrate(self.robot.model, qi, self.dq[i] * self.dt)
+            
+            results.append((x_2d, h_val, np.linalg.norm(mu), V, np.linalg.norm(x_2d - xd)))
 
+        # 3. Logging
         with self.lock:
-            q_c = self.q_read.copy()
-            dq_c = self.dq_read.copy()
-
-        # 1. DYNAMICS (Full from Robot)
-        M, nle, J, dJ, x, dx = self.robot_ctrl.compute_dynamics(q_c, dq_c)
-        
-        # --- DATA SLICING (Crucial Step) ---
-        # The robot is planar. We MUST slice 3D/6D vectors to 2D (x, y) 
-        # so the solver receives consistent dimensions.
-        
-        # J is (6, 2). Take top 2 rows (linear x, y)
-        J = J[0:2, :]   
-        dJ = dJ[0:2, :]
-        
-        # State is (3,). Take first 2.
-        x_2d = x[0:2]
-        dx_2d = dx[0:2]
-
-        # 2. TRAJECTORY GENERATION
-        # Pass 3D padded state to generator, receive 3D ref
-        xd_full, vd_full, ad_full = self.traj_gen.get_ref(t_clock, current_actual_pos=np.pad(x_2d, (0,1)))
-        
-        # Slice Reference to 2D
-        xd = xd_full[:2]
-        vd = vd_full[:2]
-        ad = ad_full[:2]
-
-        # 3. NOMINAL CONTROL (CLF)
-        # Everything here is 2D
-        u_nominal = self.clf_ctrl.get_nominal_acceleration(x_2d, dx_2d, xd, vd)
-        u_ref = ad + u_nominal 
-        LfV, LgV, V, gamma = self.clf_ctrl.get_lyapunov_constraints(x_2d, dx_2d, xd, vd)
-        
-        # 4. SAFETY BARRIER (CBF)
-        cbf_A, cbf_b = None, None
-        
-        # Evaluation requires 3D point (append z=0)
-        x_3d = np.array([x_2d[0], x_2d[1], 0.0])
-        h_val = self.cbf.get_h_value(x_3d)
-
-        # Safety Check: Don't activate if we spawn inside the wall
-        if self.cbf_active and h_val < 0.0:
-            print(f"[WARN] Robot unsafe (h={h_val:.2f}). Disabling CBF.")
-            self.cbf_active = False
-
-        if self.cbf_active:
-            dx_3d = np.array([dx_2d[0], dx_2d[1], 0.0])
-            u_ref_3d = np.array([u_ref[0], u_ref[1], 0.0])
-            
-            # Get 3D constraints
-            A_temp, b_temp = self.cbf.get_constraints(x_3d, dx_3d, u_ref_3d)
-            
-            # Slice to 2D columns (ignore Z influence)
-            cbf_A = A_temp[:, :2] 
-            cbf_b = b_temp
-
-        # 5. TORQUE MAPPING
-        J_pinv = np.linalg.pinv(J)
-        drift_acc = u_ref - (dJ @ dq_c)
-        b_tau_bias = (M @ J_pinv @ drift_acc) + nle
-        
-        A_tau_base = M @ J_pinv
-        
-        # Torque Limits Constraint: A_tau * mu <= b_tau
-        # This maps task acc (mu) to joint torques
-        A_tau = np.vstack([A_tau_base, -A_tau_base])
-        b_tau = np.hstack([self.tau_limits - b_tau_bias, self.tau_limits + b_tau_bias]).reshape(-1, 1)
-
-        # 6. SOLVE QP (EXTERNAL FILE)
-        # LgV is (1,2). The solver will detect this and solve for mu in R^2.
-        mu, feasible = solve_optimization(LfV, LgV, V, gamma, torque_A=A_tau, torque_b=b_tau, cbf_A=cbf_A, cbf_b=cbf_b)
-
-        # 7. APPLY RESULT
-        if feasible:
-            # Reconstruct Torque: tau = M * J_inv * (u_ref + mu - drift) + nle
-            acc_cmd = u_ref + mu 
-            tau_out = (M @ J_pinv @ (acc_cmd - (dJ @ dq_c))) + nle
-        else:
-            # Fallback: Simple braking
-            tau_out = -5.0 * dq_c + nle 
-
-        tau_out = np.clip(tau_out, -self.tau_limits, self.tau_limits)
-        mu_norm = np.linalg.norm(mu)
-
-        with self.lock:
-            self.tau_command = tau_out
-            
-            if len(self.log['t']) > 500:
+            if len(self.log['t']) > 500: 
                 for k in self.log: self.log[k].pop(0)
-            self.log['t'].append(t_clock)
-            self.log['x'].append(x_2d[0]); self.log['y'].append(x_2d[1])
+            self.log['t'].append(self.t_clock)
             self.log['xd'].append(xd[0]); self.log['yd'].append(xd[1])
-            self.log['h'].append(h_val)
-            self.log['mu'].append(mu_norm)
+            for i, res in enumerate(results):
+                self.log[f'x{i}'].append(res[0][0]); self.log[f'y{i}'].append(res[0][1])
+                self.log[f'h{i}'].append(res[1]); self.log[f'mu{i}'].append(res[2])
+                self.log[f'V{i}'].append(res[3]); self.log[f'err{i}'].append(res[4])
 
-def main(args=None):
-    rclpy.init(args=args)
-    node = RealTimePhysicsNode()
-    t_ros = threading.Thread(target=rclpy.spin, args=(node,), daemon=True)
-    t_ros.start()
+        self.t_clock += self.dt
+
+def main():
+    sim = PinocchioSimNode()
+    threading.Thread(target=lambda: [sim.physics_step() or time.sleep(sim.dt) for _ in iter(int, 1)], daemon=True).start()
+
+    fig = plt.figure(figsize=(14, 10))
+    gs = fig.add_gridspec(4, 2, width_ratios=[1.6, 1])
+    ax_traj = fig.add_subplot(gs[:, 0])
+    axes_side = [fig.add_subplot(gs[i, 1]) for i in range(4)]
     
-    # PLOTTING
-    fig = plt.figure(figsize=(10, 8))
-    gs = fig.add_gridspec(2, 2, width_ratios=[1.5, 1])
+    # Trajectory Lines
+    ln_reg_traj, = ax_traj.plot([], [], 'r-', label='Regular (q=0)', alpha=0.6)
+    ln_rob_traj, = ax_traj.plot([], [], 'b-', label='Robust (q=learned)', alpha=0.8)
+    ln_ref_traj, = ax_traj.plot([], [], 'k--', label='Reference', linewidth=1)
     
-    ax_traj = fig.add_subplot(gs[:, 0]) 
-    ax_h = fig.add_subplot(gs[0, 1])
-    ax_mu = fig.add_subplot(gs[1, 1])
-    
-    plt.subplots_adjust(bottom=0.15, wspace=0.3, hspace=0.3)
-    
-    ln_a, = ax_traj.plot([], [], 'r-', linewidth=2, label='Actual') 
-    ln_t, = ax_traj.plot([], [], 'b--', linewidth=1, label='Target')
-    
+    # Boundary Plotting
     theta = np.linspace(0, 2*np.pi, 200)
-    rx, ry = node.cbf.radii[0], node.cbf.radii[1]
-    cx, cy = node.cbf.center[0], node.cbf.center[1]
-    n = node.cbf.power_n
-    x_bound = cx + rx * np.sign(np.cos(theta)) * (np.abs(np.cos(theta)) ** (2/n))
-    y_bound = cy + ry * np.sign(np.sin(theta)) * (np.abs(np.sin(theta)) ** (2/n))
+    rx, ry, n = sim.cbf.radii[0], sim.cbf.radii[1], sim.cbf.power_n
+    xb = rx * np.sign(np.cos(theta)) * (np.abs(np.cos(theta))**(2/n))
+    yb = ry * np.sign(np.sin(theta)) * (np.abs(np.sin(theta))**(2/n))
+    ax_traj.plot(xb, yb, 'g-', label='Safe Set', linewidth=2)
     
-    ax_traj.plot(x_bound, y_bound, 'g-', label='Safe Set')
-    ax_traj.set_xlim(-2.0, 2.0); ax_traj.set_ylim(-2.0, 2.0)
-    ax_traj.set_aspect('equal')
-    ax_traj.legend(loc='upper right')
-    ax_traj.grid(True)
+    ax_traj.set_xlim(-1.8, 1.8); ax_traj.set_ylim(-1.8, 1.8)
+    ax_traj.set_aspect('equal'); ax_traj.grid(True); ax_traj.legend(loc='upper right')
 
-    ln_h, = ax_h.plot([], [], 'g-', linewidth=1.5)
-    ax_h.set_title("Safety h(x)")
-    ax_h.set_ylim(-1.0, 2.0)
-    ax_h.axhline(0, color='r', linestyle='--')
-    ax_h.grid(True)
+    # Side Plots Lines
+    side_keys = ['h', 'mu', 'V', 'err']
+    side_titles = ["Safety h(x)", "Correction ||μ||", "Lyapunov V(x)", "Tracking Error"]
+    side_lines = []
+    for i, ax in enumerate(axes_side):
+        l_reg, = ax.plot([], [], 'r-', alpha=0.5)
+        l_rob, = ax.plot([], [], 'b-', alpha=0.8)
+        side_lines.append((l_reg, l_rob))
+        ax.set_title(side_titles[i]); ax.grid(True)
+    axes_side[0].axhline(0, color='grey', linestyle='--')
 
-    ln_mu, = ax_mu.plot([], [], 'k-', linewidth=1.5)
-    ax_mu.set_title("Correction ||μ||")
-    ax_mu.set_ylim(0, 20.0) 
-    ax_mu.grid(True)
-
-    ax_check = plt.axes([0.05, 0.02, 0.15, 0.05]) 
-    check = CheckButtons(ax_check, ['Safety On'], [False])
-    def toggle(label): node.cbf_active = not node.cbf_active
+    ax_check = plt.axes([0.7, 0.02, 0.2, 0.05])
+    check = CheckButtons(ax_check, ['Safety Active'], [False])
+    def toggle(label): sim.cbf_active = not sim.cbf_active
     check.on_clicked(toggle)
 
     def update(frame):
-        with node.lock:
-            if len(node.log['t']) == 0: return ln_a, ln_t, ln_h, ln_mu
-            t_d = list(node.log['t'])
-            x_d = list(node.log['x']); y_d = list(node.log['y'])
-            xd_d = list(node.log['xd']); yd_d = list(node.log['yd'])
-            h_d = list(node.log['h']); mu_d = list(node.log['mu'])
+        with sim.lock:
+            if not sim.log['t']: return
+            t = sim.log['t']
+            ln_reg_traj.set_data(sim.log['x0'], sim.log['y0'])
+            ln_rob_traj.set_data(sim.log['x1'], sim.log['y1'])
+            ln_ref_traj.set_data(sim.log['xd'], sim.log['yd'])
+            
+            for i, (l_reg, l_rob) in enumerate(side_lines):
+                key = side_keys[i]
+                dr, db = sim.log[f'{key}0'], sim.log[f'{key}1']
+                l_reg.set_data(t, dr); l_rob.set_data(t, db)
+                axes_side[i].set_xlim(t[0], t[-1])
+                axes_side[i].set_ylim(min(min(dr), min(db))-0.1, max(max(dr), max(db))*1.1+0.1)
 
-        ln_a.set_data(x_d, y_d) 
-        ln_t.set_data(xd_d, yd_d)
-        ln_h.set_data(t_d, h_d)
-        ln_mu.set_data(t_d, mu_d)
-        
-        if len(t_d) > 0:
-            window_start = max(0, t_d[-1] - 10)
-            window_end = t_d[-1] + 1
-            ax_h.set_xlim(window_start, window_end)
-            ax_mu.set_xlim(window_start, window_end)
-        
-        return ln_a, ln_t, ln_h, ln_mu
-
-    ani = FuncAnimation(fig, update, interval=50)
+    ani = FuncAnimation(fig, update, interval=50, cache_frame_data=False)
+    plt.tight_layout()
     plt.show()
-    
-    node.running = False
-    node.phys_thread.join()
-    node.destroy_node()
-    rclpy.shutdown()
-    t_ros.join()
 
 if __name__ == '__main__':
     main()

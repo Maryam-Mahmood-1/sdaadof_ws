@@ -19,7 +19,7 @@ URDF_PATH = os.path.join(
 )
 DT = 0.002              # 500 Hz
 DURATION = 4500.0       # Long duration
-NOISE_LEVEL = 0.002     # Low noise
+NOISE_LEVEL = 0.9     # Low noise
 CONFIDENCE = 0.1        # 90% Confidence
 
 # Safety Limits
@@ -89,7 +89,7 @@ def build_feature_matrix(X):
     
     return np.stack([tau1, tau2, dq1, dq2, s1, c1, s2, c2, s12, c12, dq1_sq, dq2_sq], axis=1)
 
-def save_model(model, q_hat_x, q_hat_y, filename="my_learned_robot.pkl"):
+def save_model(model, q_hat_x, q_hat_y, filename="my_learned_robot2.pkl"):
     abs_path = os.path.abspath(filename)
     data = {"model": model, "safety_bounds": {"x": q_hat_x, "y": q_hat_y}}
     try:
@@ -111,9 +111,9 @@ def run_pipeline():
         print(f"Error loading URDF: {e}")
         return
 
-    # Add Mass Mismatch (+20%)
+    # Add Mass Mismatch (-20%)
     for i in range(1, len(model_phys.inertias)):
-        model_phys.inertias[i].mass *= 1.20 
+        model_phys.inertias[i].mass *= 0.80 
 
     # --- SIMULATION LOOP ---
     q = pin.neutral(model_phys)
