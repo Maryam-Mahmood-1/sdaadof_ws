@@ -11,7 +11,7 @@ class RESCLF_Controller:
     • Stability:         V̇(η) + γ V(η) ≤ 0
     • QP Constraint:     LfV + LgV μ ≤ -γ V
     """
-    def __init__(self, dim_task=2, kp=0.0, kv=0.0):
+    def __init__(self, dim_task=2, kp=10.0, kv=10.0):
         self.dim = dim_task
         
         # ---------------------------------------------------------

@@ -129,6 +129,7 @@ class GazeboResclfNode(Node):
 
         if feasible:
             acc_cmd = u_ref + mu 
+            #acc_cmd = u_ref + 0.0 
             tau_cmd = (M @ J_pinv @ (acc_cmd - (dJ @ self.dq))) + nle
         else:
             # Fallback to damping if QP fails
