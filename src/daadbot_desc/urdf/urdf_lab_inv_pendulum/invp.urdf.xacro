@@ -112,4 +112,26 @@
       effort="13"
       velocity="16.76" />
   </joint>
+  <link name="end_effector">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1" />
+      </material>
+    </visual>
+    <inertial>
+      <mass value="0.01" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="ee_joint" type="fixed">
+    <origin xyz="0.0 -0.3604 0.0377" rpy="0 0 0" />
+    <parent link="link1" />
+    <child link="end_effector" />
+  </joint>
 </robot>
