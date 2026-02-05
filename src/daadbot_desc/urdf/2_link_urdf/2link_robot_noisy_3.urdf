@@ -62,9 +62,9 @@
       <origin rpy="0 0 0" xyz="0.375 0 0" />
     </collision>
     <inertial>
-      <origin rpy="0 0 0" xyz="0.018750 0.000000 0.000000" />
-      <mass value="2.0" />
-      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.08" iyz="0" izz="0.08" />
+      <origin rpy="0 0 0" xyz="1.136250 0.000000 0.000000" />
+      <mass value="3.000000" />
+      <inertia ixx="0.001500" ixy="0.000000" ixz="0.000000" iyy="0.120000" iyz="0.000000" izz="0.120000" />
     </inertial>
   </link>
   <joint name="baseHinge" type="revolute">
@@ -89,8 +89,8 @@
     </collision>
     <inertial>
       <origin rpy="0 0 0" xyz="0.025000 0.000000 0.000000" />
-      <mass value="1.5" />
-      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.08" iyz="0" izz="0.08" />
+      <mass value="0.750000" />
+      <inertia ixx="0.000500" ixy="0.000000" ixz="0.000000" iyy="0.040000" iyz="0.000000" izz="0.040000" />
     </inertial>
   </link>
   <joint name="interArm" type="revolute">

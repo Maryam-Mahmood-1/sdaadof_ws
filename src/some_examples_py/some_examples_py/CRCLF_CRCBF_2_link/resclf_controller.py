@@ -14,7 +14,7 @@ class RESCLF_Controller:
     Rearranged for QP (Ax ≤ b):
         LgV μ ≤ -γ V - LfV - (||∂V/∂x|| * q)
     """
-    def __init__(self, dim_task=3, kp=10.0, kv=10.0):
+    def __init__(self, dim_task=3, kp=3.0, kv=3.0):
         self.dim = dim_task
         
         # 1. System Matrices for Error Dynamics
@@ -82,6 +82,7 @@ class RESCLF_Controller:
         # We return the cost separately so the QP setup can subtract it from 'b'
         # b_clf = -gamma*V - LfV - robustness_cost
         print("Robustness cost in CLF:", robustness_cost)
+        print("quantile in CLF:", q_quantile)
         print("Gradient V in CLF:", grad_V_actuated)
         
         return LfV, LgV, V, self.gamma, robustness_cost

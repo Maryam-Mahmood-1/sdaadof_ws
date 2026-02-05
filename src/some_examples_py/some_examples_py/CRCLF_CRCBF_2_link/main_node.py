@@ -62,7 +62,7 @@ class GazeboConformalRobustNode(Node):
         self.dq = np.zeros(2)
         
         # Torque limits remain high to allow the QP to find feasible solutions [cite: 602]
-        self.tau_limits = np.array([60.0, 40.0]) 
+        self.tau_limits = np.array([20.0, 15.0]) 
 
         # --- 5. LOGGING ---
         self.log = {'t':[], 'x':[], 'y':[], 'xd':[], 'yd':[], 'h':[], 'mu':[]}
@@ -109,7 +109,7 @@ class GazeboConformalRobustNode(Node):
             
             # Penalizes safety margin by uncertainty: ||dh/dx|| * q_{1-delta} [cite: 170, 188]
             A_temp, b_temp = self.cbf.get_constraints(
-                x_3d, dx_3d, u_ref_3d, q_quantile=self.q_quantile
+                x_3d, dx_3d, u_ref_3d, q_quantile=2.4
             )
             cbf_A = A_temp[:, :2] 
             cbf_b = b_temp
