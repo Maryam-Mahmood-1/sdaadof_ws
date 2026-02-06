@@ -3,51 +3,46 @@ import math
 
 class TrajectoryGenerator:
     def __init__(self):
-        # --- ELLIPSE PARAMETERS ---
-        self.center_pos = np.array([0.0, 0.0, 0.0])
+        # --- PATH PARAMETERS ---
+        # The path is in the YZ plane at a fixed X
+        self.fixed_x = -0.546
+        self.center_z = 0.758
+        self.center_y = -0.01  # Midpoint of 0.332 and -0.352
         
-        # Target Ellipse: 1.6m x 0.9m
-        self.ellipse_a = 1.6 
-        self.ellipse_b = 0.9
-        
-        self.period = 12.0     
+        self.radius = 0.356
+        self.period = 10.0      # Time for one full back-and-forth loop
         self.omega = 2 * np.pi / self.period
         
-        # --- APPROACH PHASE (0 to 5 seconds) ---
-        self.approach_duration = 5.0
-        self.start_pos = None  # Will capture robot's actual start pos
+        # --- APPROACH PHASE ---
+        self.approach_duration = 4.0
+        self.start_pos = None  
         
-        # The goal is to reach the ellipse start point [1.6, 0, 0] at t=5s
-        self.orbit_start_pos = self.center_pos + np.array([self.ellipse_a, 0.0, 0.0])
+        # Target start point of the circle (where t_orbit = 0)
+        # Starting at the first translation point provided
+        self.orbit_start_pos = np.array([self.fixed_x, 0.332, self.center_z])
 
     def get_ref(self, t, current_actual_pos=None):
         """
-        Computes desired trajectory state: p_d, v_d, a_d.
+        Computes desired trajectory state: pd, vd, ad.
         """
         
         # =========================================================
-        # PHASE 1: Smooth Approach (0 < t < 5)
-        # Moves from Robot_Start (approx 1.75) -> Ellipse_Start (1.6)
+        # PHASE 1: Smooth Approach (0 < t < approach_duration)
+        # Moves from robot's current position to the start of the loop
         # =========================================================
         if t < self.approach_duration:
-            # Capture the robot's position at the very first timestep
             if self.start_pos is None:
                 if current_actual_pos is None:
+                    # Return zeros if we don't know where we are yet
                     return np.zeros(3), np.zeros(3), np.zeros(3)
                 self.start_pos = current_actual_pos
 
-            # Normalized Time: τ goes from 0.0 to 1.0
             tau = t / self.approach_duration
-            
-            # Cosine Interpolation for smooth velocity
-            # s(0) = 0, s(1) = 1
+            # Smooth S-curve (Cosine Interpolation)
             s = (1.0 - math.cos(tau * math.pi)) / 2.0
-            
-            # Derivatives (Chain Rule)
             ds = (math.pi / (2.0 * self.approach_duration)) * math.sin(tau * math.pi)
             dds = ((math.pi**2) / (2.0 * self.approach_duration**2)) * math.cos(tau * math.pi)
 
-            # Interpolate
             vector_diff = self.orbit_start_pos - self.start_pos
             
             pd = self.start_pos + (vector_diff * s)
@@ -57,24 +52,38 @@ class TrajectoryGenerator:
             return pd, vd, ad
 
         # =========================================================
-        # PHASE 2: Elliptical Orbit (t > 5)
+        # PHASE 2: Circular Loop (t > approach_duration)
+        # Swings in YZ plane: y = R*cos(θ), z = R*sin(θ)
         # =========================================================
         else:
             t_orbit = t - self.approach_duration
             
+            # θ starts at an offset to align with y = 0.332
+            # 0.332 = center_y + radius * cos(theta_offset)
+            # cos(theta_offset) = (0.332 - (-0.01)) / 0.356 ≈ 0.96
+            theta_offset = math.acos((0.332 - self.center_y) / self.radius)
+            
+            theta = theta_offset + self.omega * t_orbit
+
             # Position
-            x_des = self.center_pos.copy()
-            x_des[0] += self.ellipse_a * np.cos(self.omega * t_orbit)
-            x_des[1] += self.ellipse_b * np.sin(self.omega * t_orbit)
+            pd = np.array([
+                self.fixed_x,
+                self.center_y + self.radius * np.cos(theta),
+                self.center_z + self.radius * np.sin(theta)
+            ])
 
             # Velocity
-            dx_des = np.zeros(3)
-            dx_des[0] = -self.ellipse_a * self.omega * np.sin(self.omega * t_orbit)
-            dx_des[1] =  self.ellipse_b * self.omega * np.cos(self.omega * t_orbit)
+            vd = np.array([
+                0.0,
+                -self.radius * self.omega * np.sin(theta),
+                self.radius * self.omega * np.cos(theta)
+            ])
 
             # Acceleration
-            ddx_des = np.zeros(3)
-            ddx_des[0] = -self.ellipse_a * (self.omega**2) * np.cos(self.omega * t_orbit)
-            ddx_des[1] = -self.ellipse_b * (self.omega**2) * np.sin(self.omega * t_orbit)
+            ad = np.array([
+                0.0,
+                -self.radius * (self.omega**2) * np.cos(theta),
+                -self.radius * (self.omega**2) * np.sin(theta)
+            ])
 
-            return x_des, dx_des, ddx_des
+            return pd, vd, ad
