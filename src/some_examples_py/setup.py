@@ -71,6 +71,9 @@ setup(
             'pinocchio_main_2_link = some_examples_py.CLF_CBF_2_link.pinocchio_main_node:main',
             'quantile_data = some_examples_py.CRCLF_CRCBF_2_link.quantile_data:run_pipeline',
             'compare_2_link_models = some_examples_py.CRCLF_CRCBF_2_link.compare_models:main',
+            'compare_2_link_robust = some_examples_py.CRCLF_CRCBF_2_link.compare_models:main',
+            'compare_models_fbl_crclf = some_examples_py.CRCLF_CRCBF_2_link.compare_models_fbl_crclf:main',
+            'pend_main_node = some_examples_py.CLF_CBF_pend.main_node:main',
         ],
     },
 )

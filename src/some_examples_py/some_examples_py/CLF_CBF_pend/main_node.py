@@ -13,8 +13,12 @@ from matplotlib.widgets import CheckButtons
 
 # --- IMPORT YOUR HELPER CLASSES ---
 # (Ensure these are in your PYTHONPATH or the same directory)
-from your_module_name import solve_optimization, RESCLF_Controller, RobotDynamics, TrajectoryGenerator, CBF_SuperEllipsoid
-
+# --- MODULAR IMPORTS ---
+from some_examples_py.CLF_CBF_pend.robot_dynamics import RobotDynamics
+from some_examples_py.CLF_CBF_pend.trajectory_generator import TrajectoryGenerator
+from some_examples_py.CLF_CBF_pend.resclf_controller import RESCLF_Controller
+from some_examples_py.CLF_CBF_pend.cbf_formulation import CBF_SuperEllipsoid 
+from some_examples_py.CLF_CBF_pend.qp_solver import solve_optimization
 # --- CONFIGURATIONS ---
 URDF_CTRL = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/urdf_lab_inv_pendulum/invp.urdf.xacro"
 EE_NAMES = ["end_effector"]
