@@ -42,7 +42,7 @@ class GazeboConformalRobustNode(Node):
         # --- 1. CONFORMAL PARAMETERS ---
         # Statistical quantile derived from prediction error rank statistics [cite: 9, 102]
         # This quantile q_{1-delta} quantifies model uncertainty [cite: 131, 139]
-        self.q_quantile = 30000.0  # Example: Cartpole benchmark quantile [cite: 286]
+        self.q_quantile = 0.0  # Example: Cartpole benchmark quantile [cite: 286]
         
         # --- 2. CONTROLLER SETUP ---
         # Initialize internal model with NOISY URDF to represent data-driven uncertainty [cite: 128]
@@ -142,7 +142,7 @@ class GazeboConformalRobustNode(Node):
 
         if feasible:
             tau_cmd = (M @ J_pinv @ (u_ref + mu - (dJ @ self.dq))) + nle
-            tau_cmd = (M @ J_pinv @ (u_ref + 0.0 - (dJ @ self.dq))) + nle
+            #tau_cmd = (M @ J_pinv @ (u_ref + 0.0 - (dJ @ self.dq))) + nle
         else:
             tau_cmd = -10.0 * self.dq + nle # Fallback damping [cite: 406]
 
