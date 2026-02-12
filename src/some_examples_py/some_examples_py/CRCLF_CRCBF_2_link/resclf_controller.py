@@ -25,8 +25,8 @@ class RESCLF_Controller:
         self.G = np.block([[zero], [eye]])
 
         # 2. Optimal Control Weights (LQR)
-        q_pos = 10.0
-        q_vel = 5.0
+        q_pos = 1000.0
+        q_vel = 500.0
         # --- FIX: DYNAMIC Q MATRIX CONSTRUCTION ---
         q_diagonal = [q_pos] * dim_task + [q_vel] * dim_task
 

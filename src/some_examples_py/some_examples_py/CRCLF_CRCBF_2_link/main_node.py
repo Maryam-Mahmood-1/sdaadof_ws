@@ -21,7 +21,7 @@ URDF_NOISY = os.path.join(
     get_package_share_directory("daadbot_desc"),
     "urdf",
     "2_link_urdf",
-    "2link_robot.urdf"
+    "2link_robot_noisy_3.urdf"
 )
 # The true URDF is assumed to be running in the Gazebo simulation environment
 
@@ -42,7 +42,7 @@ class GazeboConformalRobustNode(Node):
         # --- 1. CONFORMAL PARAMETERS ---
         # Statistical quantile derived from prediction error rank statistics [cite: 9, 102]
         # This quantile q_{1-delta} quantifies model uncertainty [cite: 131, 139]
-        self.q_quantile = 0.0  # Example: Cartpole benchmark quantile [cite: 286]
+        self.q_quantile = 6000.0  # Example: Cartpole benchmark quantile [cite: 286]
         
         # --- 2. CONTROLLER SETUP ---
         # Initialize internal model with NOISY URDF to represent data-driven uncertainty [cite: 128]
@@ -54,7 +54,7 @@ class GazeboConformalRobustNode(Node):
         self.cbf = CBF_SuperEllipsoid(
             center=[0.0, 0.0, 0.0], 
             lengths=[1.1, 1.1, 3.0], # Reduced margin for safety robustness
-            power_n=4, k_pos=21.0, k_vel=12.0
+            power_n=4, k_pos=45.0, k_vel=30.0
         )
         self.cbf_active = False 
 
