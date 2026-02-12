@@ -12,10 +12,17 @@ import time
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import CheckButtons 
+import os
+from ament_index_python.packages import get_package_share_directory
 
 # --- PATHS ---
 # Noisy URDF for the Controller (Simulating unknown true dynamics)
-URDF_NOISY = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/2_link_urdf/2link_robot.urdf"
+URDF_NOISY = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "2_link_urdf",
+    "2link_robot.urdf"
+)
 # The true URDF is assumed to be running in the Gazebo simulation environment
 
 # --- MODULAR IMPORTS ---

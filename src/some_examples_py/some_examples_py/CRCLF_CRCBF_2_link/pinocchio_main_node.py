@@ -19,12 +19,24 @@ from some_examples_py.CRCLF_CRCBF_2_link.resclf_controller import RESCLF_Control
 from some_examples_py.CRCLF_CRCBF_2_link.cbf_formulation import CBF_SuperEllipsoid 
 from some_examples_py.CRCLF_CRCBF_2_link.qp_solver import solve_optimization
 
-# --- PATHS ---
-# INTERNAL MODEL: Noisy URDF (The robot's imperfect guess)
-URDF_NOISY = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/2_link_urdf/2link_robot_noisy_3.urdf"
-# TRUE PHYSICS: The original URDF (The ground truth)
-URDF_TRUE = "/home/maryammahmood/xdaadbot_ws/src/daadbot_desc/urdf/2_link_urdf/2link_robot.urdf"
+import os
+from ament_index_python.packages import get_package_share_directory
 
+# NOISY PHYSICS: Points to the noisy URDF version
+URDF_NOISY = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "2_link_urdf",
+    "2link_robot_noisy_3.urdf"
+)
+
+# TRUE PHYSICS: Points to the original URDF (The ground truth)
+URDF_TRUE = os.path.join(
+    get_package_share_directory("daadbot_desc"),
+    "urdf",
+    "2_link_urdf",
+    "2link_robot.urdf"
+)
 EE_NAMES = ["endEffector"]
 ALL_JOINTS = ["baseHinge", "interArm"]
 
