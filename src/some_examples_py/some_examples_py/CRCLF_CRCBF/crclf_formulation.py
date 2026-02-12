@@ -14,7 +14,7 @@ class RESCLF_Controller:
     Rearranged for QP (Ax ≤ b):
         LgV μ ≤ -γ V - LfV - (||∂V/∂x|| * q)
     """
-    def __init__(self, dim_task=3, kp=0.0, kv=0.0):
+    def __init__(self, dim_task=3, kp=3.0, kv=3.0):
         self.dim = dim_task
         
         # 1. System Matrices for Error Dynamics
